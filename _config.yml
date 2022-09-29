@@ -104,5 +104,5 @@ theme: landscape
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://gitee.com/DamnTime/picture-bed.git #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io
+  repo: https://github.com/DamnTime/blogs.git #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io
   branch: master
