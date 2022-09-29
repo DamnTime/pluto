@@ -13,9 +13,9 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY.GITEE_RSA_PRIVATE_KEY }}
         with:
           # 注意替换为你的 GitHub 源仓库地址
-          source-repo: https://github.com/DamnTime/blogs.git
+          source-repo: git@github.com:DamnTime/blogs.git
           # 注意替换为你的 Gitee 目标仓库地址
-          destination-repo: https://gitee.com/DamnTime/picture-bed.git
+          destination-repo: git@gitee.com:DamnTime/picture-bed.git
 
       - name: Build Gitee Pages
         uses: yanglbme/gitee-pages-action@main
