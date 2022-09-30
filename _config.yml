@@ -104,12 +104,13 @@ theme: bamboo
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: git@gitee.com:DamnTime/pluto.git #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io
-  token: 93dcce2c33294b2a63a885cb62468c66
-  name: DamnTime
-  email: 386484304@qq.com
-  branch: master
-  ignore_hidden: false
+  repo:
+    gitee:
+      url: https://gitee.com/DamnTime/pluto.git
+      token: 93dcce2c33294b2a63a885cb62468c66
+      name: DamnTime
+      email: 386484304@qq.com
+      branch: master
 
 search:
   path: search.xml
