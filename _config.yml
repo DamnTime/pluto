@@ -3,18 +3,18 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: 冥王星
 subtitle: ""
 description: "冥王星个人博客"
 keywords:
-author: John Doe
-language: en
+author: 拾壹
+language: zh-CN
 timezone: "Asia/Shanghai"
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://damntime.gitee.io/
-root: https://damntime.gitee.io/picture-bed/
+# url: https://damntime.gitee.io/
+# root: https://damntime.gitee.io/picture-bed/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -52,7 +52,7 @@ highlight:
   wrap: true
   hljs: false
 prismjs:
-  enable: false
+  enable: true
   preprocess: true
   line_number: true
   tab_replace: ""
@@ -98,7 +98,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: volantis
+theme: bamboo
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
@@ -106,3 +106,7 @@ deploy:
   type: git
   repo: https://github.com/DamnTime/blogs.git #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io
   branch: master
+
+search:
+  path: search.xml
+  field: post
