@@ -105,6 +105,8 @@ theme: bamboo
 deploy:
   type: git
   repo: https://gitee.com/DamnTime/pluto.git #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io
+  name: DamnTime
+  email: 386484304@qq.com
   branch: master
   ignore_hidden: false
 
