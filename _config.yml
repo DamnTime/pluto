@@ -29,7 +29,7 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+skip_render: ".github/**/*"
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -91,7 +91,7 @@ pagination_dir: page
 
 # Include / Exclude file(s)
 ## include:/exclude: options only apply to the 'source/' folder
-include:
+include: ".github/**/*"
 exclude:
 ignore:
 
@@ -106,6 +106,7 @@ deploy:
   type: git
   repo: https://gitee.com/DamnTime/pluto.git #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io
   branch: master
+  ignore_hidden: false
 
 search:
   path: search.xml
