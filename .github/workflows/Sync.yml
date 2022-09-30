@@ -33,7 +33,6 @@ jobs:
         run: npm run build
 
       - name: Sync to Gitee
-        on: [push, delete, create]
         uses: wearerequired/git-mirror-action@master
         env:
           SSH_PRIVATE_KEY: ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
