@@ -29,7 +29,8 @@ logo: /images/ayer-side.svg
 # enable-是否启用封面；path-封面背景图；logo-封面logo
 cover:
   enable: true
-  path: /images/cover1.jpg # /source/images目录下附送多张精美壁纸，可任意更换
+  # path: /images/cover1.jpg # /source/images目录下附送多张精美壁纸，可任意更换
+  path: //gitee.com/DamnTime/picture-bed/raw/master/404.jpg
   logo: /images/ayer.svg # 如果不要直接设置成false
 
 # 页面顶部进度条
