@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 冥王星
+title: Pluto
 subtitle: ""
-description: "冥王星个人博客"
+description: "个人博客"
 keywords:
-author: 拾壹
+author: 拾壹baby
 language: zh-CN
 timezone: "Asia/Shanghai"
 
@@ -98,7 +98,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: ayer
+theme: butterfly
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

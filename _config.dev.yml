@@ -1,2 +1,11 @@
+menu:
+  主页: /
+  归档: /archives
+  分类: /categories
+  标签: /tags
+  # 摄影: http://shenyu-vip.lofter.com
+  # 旅行: /tags/旅行/
+  关于我: /2019/about
+
 url: http://127.0.0.1
 root: /
