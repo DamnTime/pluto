@@ -1,5 +1,5 @@
 ---
-title: 【真免费】完美实现基于hexo的博客网站自动化部署
+title: 【超实用】完美实现基于hexo的博客网站自动化部署
 date: 2022-10-19 14:20:58
 tags:
 cover: http://cdn.pluto1811.com/20221020140348.png
