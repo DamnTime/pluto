@@ -2,6 +2,7 @@
 title: 浅析 valueOf & toString & toPrimitive
 date: 2022-10-08 17:18:26
 tags:
+cover: http://cdn.pluto1811.com/cover2.jpg
 ---
 
 ### 基本概念
