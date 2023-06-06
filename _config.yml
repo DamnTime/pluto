@@ -13,8 +13,8 @@ timezone: "Asia/Shanghai"
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://cdn.pluto1811.com/pluto/
-root: /pluto/
+url: https://github.com/DamnTime/pluto
+root:
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -102,14 +102,14 @@ theme: butterfly
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
-deploy:
-  type: git
-  repo: https://gitee.com/DamnTime/pluto.git #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io
-  token: 93dcce2c33294b2a63a885cb62468c66
-  name: DamnTime
-  email: 386484304@qq.com
-  branch: master
-  ignore_hidden: false
+# deploy:
+#   type: git
+#   repo: https://gitee.com/DamnTime/pluto.git
+#   token: 93dcce2c33294b2a63a885cb62468c66
+#   name: DamnTime
+#   email: 386484304@qq.com
+#   branch: master
+#   ignore_hidden: false
 
 search:
   path: search.xml
