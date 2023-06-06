@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Pluto</title>
+  
+  
+  <link href="https://github.com/DamnTime/pluto/atom.xml" rel="self"/>
+  
+  <link href="https://github.com/DamnTime/pluto/"/>
+  <updated>2023-06-06T07:11:10.434Z</updated>
+  <id>https://github.com/DamnTime/pluto/</id>
+  
+  <author>
+    <name>拾壹baby</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>嗯，这两三年...2022年中总结</title>
+    <link href="https://github.com/DamnTime/pluto/2022/10/25/me2022-10/"/>
+    <id>https://github.com/DamnTime/pluto/2022/10/25/me2022-10/</id>
+    <published>2022-10-25T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;关于我&quot;&gt;&lt;a href=&quot;#关于我&quot; class=&quot;headerlink&quot; title=&quot;关于我&quot;&gt;&lt;/a&gt;关于我&lt;/h3&gt;&lt;p&gt;四川人，慢热型，喜欢吃辣，一个非典型程序员，喜欢跟 bug 死缠烂打。^o^&lt;/p&gt;
+&lt;h3 id=&quot;写在前面&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Promise里的代码为什么比setTimeout先执行？</title>
+    <link href="https://github.com/DamnTime/pluto/2022/10/25/promise/"/>
+    <id>https://github.com/DamnTime/pluto/2022/10/25/promise/</id>
+    <published>2022-10-25T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;首先我们考虑一下，如果我们是浏览器或者 Node 的开发者，我们该如何使用 JavaScript 引擎。&lt;/p&gt;
+&lt;p&gt;当拿到一段 JavaScript 代码时，浏览器或者 Node 环境首先要做的就是；传递给 JavaScript</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript对象：啥？对象还有分类？</title>
+    <link href="https://github.com/DamnTime/pluto/2022/10/23/jsobject/"/>
+    <id>https://github.com/DamnTime/pluto/2022/10/23/jsobject/</id>
+    <published>2022-10-23T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;http://cdn.pluto1811.com/forEditor/1615185161742/551bc581-28f0-4827-989c-287048566569.jpeg&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>【超实用】完美实现基于hexo的博客网站自动化部署</title>
+    <link href="https://github.com/DamnTime/pluto/2022/10/19/hexo-ci/"/>
+    <id>https://github.com/DamnTime/pluto/2022/10/19/hexo-ci/</id>
+    <published>2022-10-19T06:20:58.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript类型，有可能你不知道这些细节</title>
+    <link href="https://github.com/DamnTime/pluto/2022/10/16/jstyping/"/>
+    <id>https://github.com/DamnTime/pluto/2022/10/16/jstyping/</id>
+    <published>2022-10-16T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;http://cdn.pluto1811.com/forEditor/1615174445221/article-5.png&quot; alt=&quot;article-5.png&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;JavaScript-类型，有可能你不知道这些细节&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>gerrit代码审查工具</title>
+    <link href="https://github.com/DamnTime/pluto/2022/10/15/gerrit/"/>
+    <id>https://github.com/DamnTime/pluto/2022/10/15/gerrit/</id>
+    <published>2022-10-15T06:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;img src=&quot;http://cdn.pluto1811.com/20221027100713.png&quot;/&gt;
+
+&lt;img src=&quot;http://cdn.pluto1811.com/20221027101028.png&quot;/&gt;
+
+&lt;img</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>浅析 webpack5 重点是联邦模块实现微前端</title>
+    <link href="https://github.com/DamnTime/pluto/2022/10/08/webpack5/"/>
+    <id>https://github.com/DamnTime/pluto/2022/10/08/webpack5/</id>
+    <published>2022-10-08T09:26:58.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;webpack5-新特性：&quot;&gt;&lt;a href=&quot;#webpack5-新特性：&quot; class=&quot;headerlink&quot; title=&quot;webpack5 新特性：&quot;&gt;&lt;/a&gt;webpack5 新特性：&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;启动命令&lt;br&gt;开发环境：webpack serve&lt;br&gt;生产环境：webpack&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;持久化缓存&lt;br&gt;会缓存生成的 webpack 模块合 chunk，来改善构建速度&lt;br&gt;默认开启，默认缓存在内存中，但可以对 cache 进行设置&lt;br&gt;webpack 追踪了每个模块的依赖，并创建了文件快照，与真实的文件系统进行对比，当发生差异时，触发对应的模块重新构建&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>浅析 valueOf &amp; toString &amp; toPrimitive</title>
+    <link href="https://github.com/DamnTime/pluto/2022/10/08/valueOf/"/>
+    <id>https://github.com/DamnTime/pluto/2022/10/08/valueOf/</id>
+    <published>2022-10-08T09:18:26.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;基本概念&quot;&gt;&lt;a href=&quot;#基本概念&quot; class=&quot;headerlink&quot; title=&quot;基本概念&quot;&gt;&lt;/a&gt;基本概念&lt;/h3&gt;&lt;p&gt;valueOf: 返回对象的原始值表示&lt;br&gt;toString: 返回对象的字符串表示&lt;br&gt;toPrimitive: 一个内置的 Symbol 值，它是作为对象的函数值属性存在的，如果对象中存在个属性时，当一个对象转换为对应的原始值时，会优先调用此函数&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>一个细节：try里面放return，finally还会执行吗？</title>
+    <link href="https://github.com/DamnTime/pluto/2022/09/24/trycatch/"/>
+    <id>https://github.com/DamnTime/pluto/2022/09/24/trycatch/</id>
+    <published>2022-09-24T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;http://cdn.pluto1811.com/forEditor/1615281494461/1615281460255.jpg&quot; alt=&quot;1615281460255.jpg&quot;&gt;&lt;br&gt;JavaScript</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>闭包和执行上下文到底是怎么回事？</title>
+    <link href="https://github.com/DamnTime/pluto/2022/09/22/clusure/"/>
+    <id>https://github.com/DamnTime/pluto/2022/09/22/clusure/</id>
+    <published>2022-09-22T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;show-me-the-code：&quot;&gt;&lt;a href=&quot;#show-me-the-code：&quot; class=&quot;headerlink&quot; title=&quot;show me the code：&quot;&gt;&lt;/a&gt;show me the code：&lt;/h1&gt;&lt;pre</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>在script标签写export为什么会抛错？</title>
+    <link href="https://github.com/DamnTime/pluto/2022/09/21/scripttag/"/>
+    <id>https://github.com/DamnTime/pluto/2022/09/21/scripttag/</id>
+    <published>2022-09-21T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;脚本和模块&quot;&gt;&lt;a href=&quot;#脚本和模块&quot; class=&quot;headerlink&quot; title=&quot;脚本和模块&quot;&gt;&lt;/a&gt;脚本和模块&lt;/h1&gt;&lt;p&gt;首先，JavaScript 有两种源文件，一种叫做脚本，一种叫做模块。这个区分是在 ES6</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>除了属性和选择器，你还需要知道这些带@的规则</title>
+    <link href="https://github.com/DamnTime/pluto/2022/09/15/css-selector/"/>
+    <id>https://github.com/DamnTime/pluto/2022/09/15/css-selector/</id>
+    <published>2022-09-15T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;CSS 是前端工程师几乎每天都要用的技术了，不过 CSS 的学习资料却是最糟糕的，这是因为 CSS 并没有像 HTML 和 JavaScript 那样的一份标准文档。&lt;/p&gt;
+&lt;p&gt;如果我们到 W3C 的网站上搜索看看，可以得到一些信息：&lt;/p&gt;
+&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>你知道head里一共能写哪几种标签吗？</title>
+    <link href="https://github.com/DamnTime/pluto/2022/09/09/headtag/"/>
+    <id>https://github.com/DamnTime/pluto/2022/09/09/headtag/</id>
+    <published>2022-09-09T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;先来了解一下什么是元信息类标签。所谓元信息，是指描述自身的信息，元信息类标签，就是 HTML 用于描述文档自身的一类标签，它们通常出现在 head</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>qiankun源码解读-示例篇</title>
+    <link href="https://github.com/DamnTime/pluto/2022/09/05/qiankun01/"/>
+    <id>https://github.com/DamnTime/pluto/2022/09/05/qiankun01/</id>
+    <published>2022-09-05T05:10:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;&lt;font color=&quot;#ec5d3&quot; bgcolor=&quot;#fdf5f5&quot;&gt;qiankun&lt;/font&gt; 是基于 single-spa</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>qiankun源码解读-框架源码篇</title>
+    <link href="https://github.com/DamnTime/pluto/2022/09/02/qiankun02/"/>
+    <id>https://github.com/DamnTime/pluto/2022/09/02/qiankun02/</id>
+    <published>2022-09-02T02:10:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;框架源码&quot;&gt;&lt;a href=&quot;#框架源码&quot; class=&quot;headerlink&quot; title=&quot;框架源码&quot;&gt;&lt;/a&gt;框架源码&lt;/h1&gt;&lt;p&gt;整个框架的源码目录是 src，入口文件是 &lt;font color=&quot;#ec5d3c&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>babel 探秘系列-基础篇</title>
+    <link href="https://github.com/DamnTime/pluto/2022/08/10/babel01/"/>
+    <id>https://github.com/DamnTime/pluto/2022/08/10/babel01/</id>
+    <published>2022-08-10T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;babel-探秘-基础篇&quot;&gt;&lt;a href=&quot;#babel-探秘-基础篇&quot; class=&quot;headerlink&quot; title=&quot;babel 探秘-基础篇&quot;&gt;&lt;/a&gt;babel 探秘-基础篇&lt;/h1&gt;&lt;p&gt;在现代前端开发中，babel</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>关于jest的TDD与BDD开发模式</title>
+    <link href="https://github.com/DamnTime/pluto/2022/08/10/jest/"/>
+    <id>https://github.com/DamnTime/pluto/2022/08/10/jest/</id>
+    <published>2022-08-10T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;在-react-项目中运用-jest-自动化测试框架的探索&quot;&gt;&lt;a href=&quot;#在-react-项目中运用-jest-自动化测试框架的探索&quot; class=&quot;headerlink&quot; title=&quot;在 react 项目中运用 jest</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>从零实现Vue3.x-工程&amp;架构篇</title>
+    <link href="https://github.com/DamnTime/pluto/2022/08/10/vue3-01/"/>
+    <id>https://github.com/DamnTime/pluto/2022/08/10/vue3-01/</id>
+    <published>2022-08-10T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;温故而知新，虽然 vue3.x 已经发布很久了，但对于源码的分析总能让我们每次都有收获，因此决定写一个 vue3.x</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>从零实现vue3.x-ref、computed、watch的实现</title>
+    <link href="https://github.com/DamnTime/pluto/2022/08/06/vue3-04/"/>
+    <id>https://github.com/DamnTime/pluto/2022/08/06/vue3-04/</id>
+    <published>2022-08-06T07:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这是从零实现 Vue3.x 系列的第四篇，上一篇我们基本实现了 Vue3 的整个响应式系统，并将部分的实现逻辑进行了封装。本章我们继续实现几个主要的 api&lt;/p&gt;
+&lt;h3 id=&quot;一、ref-的实现&quot;&gt;&lt;a href=&quot;#一、ref-的实现&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>从零实现vue3.x-响应式系统</title>
+    <link href="https://github.com/DamnTime/pluto/2022/08/02/vue3-03/"/>
+    <id>https://github.com/DamnTime/pluto/2022/08/02/vue3-03/</id>
+    <published>2022-08-02T05:20:55.000Z</published>
+    <updated>2023-06-06T07:11:10.434Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这是-从零实现 Vue3.x 系列的第三篇。&lt;/p&gt;
+&lt;p&gt;这一章节来实现 Vue3.x 的响应式系统，在此之前得先搞懂一个基础知识：&lt;br&gt;Vue3.x 采用的是 es5+ 的 Proxy 的方式来生成一个代理对象，并重新定义了 getter、setter 方法，这与</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>

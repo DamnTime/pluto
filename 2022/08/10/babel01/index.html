@@ -1,0 +1,264 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>babel 探秘系列-基础篇 | Pluto</title><meta name="author" content="拾壹baby"><meta name="copyright" content="拾壹baby"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="babel 探秘-基础篇在现代前端开发中，babel 可以说是一道绕不过去的坎，它让我们可以尽情的使用 esnext 语法（装逼）。当然，我们可以不去关心 babel 的配置吗？毕竟有那么多，毕竟搜索引擎在手天下我有。。。能给你找一大堆理由出来，你信不信。 不过为了技术水平的提升（还嫌不够卷吗？？），还是想去了解下。 babel 是什么  Babel 是一个 Javascript 转译器 （Tra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="babel 探秘系列-基础篇">
+<meta property="og:url" content="https://github.com/DamnTime/pluto/2022/08/10/babel01/">
+<meta property="og:site_name" content="Pluto">
+<meta property="og:description" content="babel 探秘-基础篇在现代前端开发中，babel 可以说是一道绕不过去的坎，它让我们可以尽情的使用 esnext 语法（装逼）。当然，我们可以不去关心 babel 的配置吗？毕竟有那么多，毕竟搜索引擎在手天下我有。。。能给你找一大堆理由出来，你信不信。 不过为了技术水平的提升（还嫌不够卷吗？？），还是想去了解下。 babel 是什么  Babel 是一个 Javascript 转译器 （Tra">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.pluto1811.com/goodsImage/1626858229328/1626858211842.jpg">
+<meta property="article:published_time" content="2022-08-10T05:20:55.000Z">
+<meta property="article:modified_time" content="2023-06-06T07:11:10.434Z">
+<meta property="article:author" content="拾壹baby">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.pluto1811.com/goodsImage/1626858229328/1626858211842.jpg"><link rel="shortcut icon" href="/DamnTime/pluto/img/favicon.png"><link rel="canonical" href="https://github.com/DamnTime/pluto/2022/08/10/babel01/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/DamnTime/pluto/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/DamnTime/pluto/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'babel 探秘系列-基础篇',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-06 15:11:10'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/DamnTime/pluto/atom.xml" title="Pluto" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/DamnTime/pluto/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/DamnTime/pluto/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/DamnTime/pluto/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('http://cdn.pluto1811.com/goodsImage/1626858229328/1626858211842.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/DamnTime/pluto/">Pluto</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">babel 探秘系列-基础篇</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-10T05:20:55.000Z" title="发表于 2022-08-10 13:20:55">2022-08-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-06T07:11:10.434Z" title="更新于 2023-06-06 15:11:10">2023-06-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="babel 探秘系列-基础篇"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="babel-探秘-基础篇"><a href="#babel-探秘-基础篇" class="headerlink" title="babel 探秘-基础篇"></a>babel 探秘-基础篇</h1><p>在现代前端开发中，babel 可以说是一道绕不过去的坎，它让我们可以尽情的使用 esnext 语法（装逼）。当然，我们可以不去关心 babel 的配置吗？毕竟有那么多，毕竟搜索引擎在手天下我有。。。能给你找一大堆理由出来，你信不信。</p>
+<p>不过为了技术水平的提升（还嫌不够卷吗？？），还是想去了解下。</p>
+<h2 id="babel-是什么"><a href="#babel-是什么" class="headerlink" title="babel 是什么"></a>babel 是什么</h2><blockquote>
+<ul>
+<li>Babel 是一个 Javascript 转译器 （Transpiler）</li>
+<li>babel 最开始叫 6to5，顾名思义是 es6 转 es5，但是后来随着 es 标准的演进，有了 es7、es8 等， 6to5 的名字已经不合适了，所以改名为了 babel。</li>
+<li>babel 是巴别塔的意思，来自圣经中的典故：<br>当时人类联合起来兴建希望能通往天堂的高塔，为了阻止人类的计划，上帝让人类说不同的语言，使人类相互之间不能沟通，计划因此失败，人类自此各散东西。于是世上出现不同语言和种族提供解释。这座塔就是巴别塔。（取名字的艺术之高超啊。。。）</li>
+</ul>
+</blockquote>
+<h2 id="babel-有什么用"><a href="#babel-有什么用" class="headerlink" title="babel 有什么用"></a>babel 有什么用</h2><blockquote>
+<ul>
+<li>把代码中的 esnext 的新的语法、typescript 和 flow 的语法转成基于目标环境支持的语法</li>
+<li>通过 Polyfill 方式在目标环境中添加缺失的特性(@babel&#x2F;polyfill 模块)</li>
+</ul>
+</blockquote>
+<h2 id="babel-怎么配置"><a href="#babel-怎么配置" class="headerlink" title="babel 怎么配置"></a>babel 怎么配置</h2><p>可分为两个层面：</p>
+<h3 id="一：语法层面："><a href="#一：语法层面：" class="headerlink" title="一：语法层面："></a>一：语法层面：</h3><p>比如箭头函数、let、const、展开运算符等；<br>需要转译箭头函数时：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">//.babelrc</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token string-property property">"plugins"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"@babel/plugin-transform-arrow-functions"</span><span class="token punctuation">]</span>
+     <span class="token comment">// 当然也可以相对路径引入</span>
+    <span class="token string-property property">"plugins"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"./node_modules/@babel/plugin-transform-arrow-functions"</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>此时会发现如果一个个配置的话，会非常繁琐，可能需要配置几十个插件，因此就引出我们第一个配置重点：preset。从字面我们可以理解到这是“预设”的意思。</p>
+<h2 id="官方-Preset"><a href="#官方-Preset" class="headerlink" title="官方 Preset"></a>官方 Preset</h2><h4 id="babel-x2F-preset-env"><a href="#babel-x2F-preset-env" class="headerlink" title="@babel&#x2F;preset-env"></a>@babel&#x2F;preset-env</h4><ul>
+<li>一篮子的 es next plugins 的集合, 主要是针对最新的 js 语法特性作 es5 语法的转换</li>
+</ul>
+<h4 id="babel-x2F-preset-flow"><a href="#babel-x2F-preset-flow" class="headerlink" title="@babel&#x2F;preset-flow"></a>@babel&#x2F;preset-flow</h4><ul>
+<li>主要包含@babel&#x2F;plugin-transform-flow-strip-types 插件，针对 flow 语法的转换</li>
+</ul>
+<h4 id="babel-x2F-preset-react"><a href="#babel-x2F-preset-react" class="headerlink" title="@babel&#x2F;preset-react"></a>@babel&#x2F;preset-react</h4><ul>
+<li>主要包含@babel&#x2F;plugin-syntax-jsx、@babel&#x2F;plugin-transform-react-jsx、@babel&#x2F;plugin-transform-react-display-name，针对 jsx 语法的转换</li>
+</ul>
+<h4 id="babel-x2F-preset-typescript"><a href="#babel-x2F-preset-typescript" class="headerlink" title="@babel&#x2F;preset-typescript"></a>@babel&#x2F;preset-typescript</h4><ul>
+<li>主要包含@babel&#x2F;plugin-transform-flow-strip-types 插件，对 ts 语法的转换</li>
+</ul>
+<h2 id="这里主要介绍-babel-x2F-preset-env"><a href="#这里主要介绍-babel-x2F-preset-env" class="headerlink" title="这里主要介绍 @babel&#x2F;preset-env"></a>这里主要介绍 @babel&#x2F;preset-env</h2><p>在不进行任何配置的情况下，@babel&#x2F;preset-env 所包含的插件将支持所有最新的 JS 特性(ES2015,ES2016 等，不包含 stage 阶段)，将其转换成 ES5 代码，如果没有在 Babel 配置文件中(如 .babelrc)设置 targets 或 ignoreBrowserslistConfig，@babel&#x2F;preset-env 会使用 <a href="https://github.com/browserslist/browserslist">browserslist</a> 配置源，显然如果指定了<a href="https://github.com/browserslist/browserslist">browserslist</a>配置源会减少我们编译后的代码体积<br>配置 browserslist 有三种方法：</p>
+<ol>
+<li>在 babel 配置文件中 指定 target；</li>
+<li>在项目根目录添加 .browserslistrc 文件；</li>
+<li>在 package.json 文件中指定 browserslist 属性；</li>
+</ol>
+<p>例如：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// babel.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">presets</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span>
+      <span class="token string">"@babel/preset-env"</span><span class="token punctuation">,</span>
+      <span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">targets</span><span class="token operator">:</span> <span class="token string">"last 2 Chrome versions"</span><span class="token punctuation">,</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="二、babel-用法-api-层面"><a href="#二、babel-用法-api-层面" class="headerlink" title="二、babel 用法-api 层面"></a>二、babel 用法-api 层面</h2><p>刚刚我们说到了 @babel&#x2F;preset-env 主要是针对语法层面的转译，但这还不够，还需要对 api 层面进行转换，比如 includes、Array.from 等等。此时我们的@babel-polyfill 便派上用场了；<br>polyfill 的使用同样可以分为两种：</p>
+<ol>
+<li>babel-polyfill<br>会污染全局适合在业务项目中使用。（Babel7.4.0 版本开始，babel&#x2F;polyfill 已经被废弃，推荐直接使用 core-js）;</li>
+<li>babel-runtime<br>不污染全局适合在组件或类库项目中使用。</li>
+</ol>
+<h3 id="第一种（babel-polyfill）方式："><a href="#第一种（babel-polyfill）方式：" class="headerlink" title="第一种（babel-polyfill）方式："></a>第一种（babel-polyfill）方式：</h3><p>两种引入方式：</p>
+<ol>
+<li>简单粗暴，直接在项目入口文件或 webpack 中配置 entry 属性;<br>这种是方式全量引入，缺点也很明显，最终打包体积势必会增大</li>
+<li>在 babel 的配置文件中设置 useBuiltIns 参数为 usage（按需引入），同时设置 corejs (如果不设置，会给出警告，默认使用的是”corejs”: 2)，这里建议安装 core-js@3，因为 core-js@2 分支中已经不会再添加新特性，新特性都会添加到 core-js@3，此时可以将之前全量引入的 @babel&#x2F;polyfill 删除了，因为会直接从 core-js 中引入 polyfill</li>
+</ol>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// babel.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">presets</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span>
+      <span class="token string">"@babel/preset-env"</span><span class="token punctuation">,</span>
+      <span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">useBuiltIns</span><span class="token operator">:</span> <span class="token string">"usage"</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">corejs</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="第二种方式（babel-runtime）的方式："><a href="#第二种方式（babel-runtime）的方式：" class="headerlink" title="第二种方式（babel-runtime）的方式："></a>第二种方式（babel-runtime）的方式：</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">npm install <span class="token operator">--</span>save<span class="token operator">-</span>dev @babel<span class="token operator">/</span>plugin<span class="token operator">-</span>transform<span class="token operator">-</span>runtime
+npm install <span class="token operator">--</span>save @babel<span class="token operator">/</span>runtime <span class="token comment">// 注意这里是 --save 表示会在生产环境中作为依赖被安装</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这两个插件需要配合使用，于是像这样配置：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// babel.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">presets</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span>
+      <span class="token string">"@babel/preset-env"</span><span class="token punctuation">,</span>
+      <span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">useBuiltIns</span><span class="token operator">:</span> <span class="token string">"usage"</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">corejs</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">"@babel/plugin-transform-runtime"</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果这样配置，并不能解决问题，polyfill 的方法依然会污染全局，此时需要再引入 @babel&#x2F;runtime-corejs3<br>npm install @babel&#x2F;runtime-corejs3 –save<br>摘自官方的一段话，我们就知道为什么更推荐使用 core3 了<br><img src="http://cdn.pluto1811.com/1626857604731.jpg"></p>
+<p>最终配置：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// babel.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">presets</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">"@babel/preset-env"</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span>
+      <span class="token string">"@babel/plugin-transform-runtime"</span><span class="token punctuation">,</span>
+      <span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">corejs</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+        <span class="token comment">// useBuiltIns: 'usage' 在babel7.x 版本被废除 已经默认配置了</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h2><ol>
+<li><p><strong>Q:</strong> 如果同时配置 presets 中 corejs：3 和 @babel&#x2F;plugin-transform-runtime 中的 corejs：3 有什么影响？<br><strong>A:</strong> 几乎没什么影响，猜测与 babel 转译顺序有关，babel 的 plugin 比 prset 要先执行，preset-env 得到的是 @babel&#x2F;runtime 使用帮助函数包装后的代码，里面已经什么需要转译的部分了。</p>
+</li>
+<li><p><strong>Q:</strong> 给 @babel&#x2F;plugin-transform-runtime 配置 corejs 是否真的如此的完美，既可以将帮助函数变成引用的形式，又可以动态引入 polyfill，并且不会污染全局环境。<br><strong>A:</strong> @babel&#x2F;plugin-transform-runtime 包本身 体积会比 @babel&#x2F;preset-env 要大</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://github.com/DamnTime/pluto">拾壹baby</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://github.com/DamnTime/pluto/2022/08/10/babel01/">https://github.com/DamnTime/pluto/2022/08/10/babel01/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://github.com/DamnTime/pluto" target="_blank">Pluto</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="http://cdn.pluto1811.com/goodsImage/1626858229328/1626858211842.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/DamnTime/pluto/2022/09/02/qiankun02/"><img class="prev-cover" src="http://cdn.pluto1811.com/goodsImage/1615971759919/1615971739665.jpg" onerror="onerror=null;src='/DamnTime/pluto/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">qiankun源码解读-框架源码篇</div></div></a></div><div class="next-post pull-right"><a href="/DamnTime/pluto/2022/08/10/jest/"><img class="next-cover" src="http://cdn.pluto1811.com/goodsImage/1619772970467/1619772941918.jpg" onerror="onerror=null;src='/DamnTime/pluto/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">关于jest的TDD与BDD开发模式</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">拾壹baby</div><div class="author-info__description">个人博客</div></div><div class="card-info-data site-data is-center"><a href="/DamnTime/pluto/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/DamnTime/pluto/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/DamnTime/pluto/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#babel-%E6%8E%A2%E7%A7%98-%E5%9F%BA%E7%A1%80%E7%AF%87"><span class="toc-number">1.</span> <span class="toc-text">babel 探秘-基础篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#babel-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.1.</span> <span class="toc-text">babel 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#babel-%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">babel 有什么用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#babel-%E6%80%8E%E4%B9%88%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.</span> <span class="toc-text">babel 怎么配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%EF%BC%9A%E8%AF%AD%E6%B3%95%E5%B1%82%E9%9D%A2%EF%BC%9A"><span class="toc-number">1.3.1.</span> <span class="toc-text">一：语法层面：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E6%96%B9-Preset"><span class="toc-number">1.4.</span> <span class="toc-text">官方 Preset</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#babel-x2F-preset-env"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">@babel&#x2F;preset-env</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#babel-x2F-preset-flow"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">@babel&#x2F;preset-flow</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#babel-x2F-preset-react"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">@babel&#x2F;preset-react</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#babel-x2F-preset-typescript"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">@babel&#x2F;preset-typescript</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E9%87%8C%E4%B8%BB%E8%A6%81%E4%BB%8B%E7%BB%8D-babel-x2F-preset-env"><span class="toc-number">1.5.</span> <span class="toc-text">这里主要介绍 @babel&#x2F;preset-env</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81babel-%E7%94%A8%E6%B3%95-api-%E5%B1%82%E9%9D%A2"><span class="toc-number">1.6.</span> <span class="toc-text">二、babel 用法-api 层面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%EF%BC%88babel-polyfill%EF%BC%89%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="toc-number">1.6.1.</span> <span class="toc-text">第一种（babel-polyfill）方式：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%88babel-runtime%EF%BC%89%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="toc-number">1.6.2.</span> <span class="toc-text">第二种方式（babel-runtime）的方式：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q-amp-A"><span class="toc-number">1.7.</span> <span class="toc-text">Q&amp;A</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/25/me2022-10/" title="嗯，这两三年...2022年中总结"><img src="http://cdn.pluto1811.com/goodsImage/1650448154299/1650448126499.jpg" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="嗯，这两三年...2022年中总结"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/25/me2022-10/" title="嗯，这两三年...2022年中总结">嗯，这两三年...2022年中总结</a><time datetime="2022-10-25T05:20:55.000Z" title="发表于 2022-10-25 13:20:55">2022-10-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/25/promise/" title="Promise里的代码为什么比setTimeout先执行？"><img src="http://cdn.pluto1811.com/goodsImage/1615188358809/376997778.jpg" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="Promise里的代码为什么比setTimeout先执行？"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/25/promise/" title="Promise里的代码为什么比setTimeout先执行？">Promise里的代码为什么比setTimeout先执行？</a><time datetime="2022-10-25T05:20:55.000Z" title="发表于 2022-10-25 13:20:55">2022-10-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/23/jsobject/" title="JavaScript对象：啥？对象还有分类？"><img src="http://cdn.pluto1811.com/goodsImage/1615184906664/374751567.jpg" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="JavaScript对象：啥？对象还有分类？"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/23/jsobject/" title="JavaScript对象：啥？对象还有分类？">JavaScript对象：啥？对象还有分类？</a><time datetime="2022-10-23T05:20:55.000Z" title="发表于 2022-10-23 13:20:55">2022-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/19/hexo-ci/" title="【超实用】完美实现基于hexo的博客网站自动化部署"><img src="http://cdn.pluto1811.com/20221020140348.png" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="【超实用】完美实现基于hexo的博客网站自动化部署"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/19/hexo-ci/" title="【超实用】完美实现基于hexo的博客网站自动化部署">【超实用】完美实现基于hexo的博客网站自动化部署</a><time datetime="2022-10-19T06:20:58.000Z" title="发表于 2022-10-19 14:20:58">2022-10-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/16/jstyping/" title="JavaScript类型，有可能你不知道这些细节"><img src="http://cdn.pluto1811.com/20221020140348.png" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="JavaScript类型，有可能你不知道这些细节"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/16/jstyping/" title="JavaScript类型，有可能你不知道这些细节">JavaScript类型，有可能你不知道这些细节</a><time datetime="2022-10-16T05:20:55.000Z" title="发表于 2022-10-16 13:20:55">2022-10-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 拾壹baby</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/DamnTime/pluto/js/utils.js"></script><script src="/DamnTime/pluto/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

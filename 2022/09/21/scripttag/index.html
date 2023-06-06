@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>在script标签写export为什么会抛错？ | Pluto</title><meta name="author" content="拾壹baby"><meta name="copyright" content="拾壹baby"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="脚本和模块首先，JavaScript 有两种源文件，一种叫做脚本，一种叫做模块。这个区分是在 ES6 引入了模块机制开始的，在 ES5 和之前的版本中，就只有一种源文件类型（就只有脚本）。 脚本是可以由浏览器或者 node 环境引入执行的，而模块只能由 JavaScript 代码用 import 引入执行。 从概念上，我们可以认为脚本具有主动性的 JavaScript 代码段，是控制宿主完成一定任">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在script标签写export为什么会抛错？">
+<meta property="og:url" content="https://github.com/DamnTime/pluto/2022/09/21/scripttag/">
+<meta property="og:site_name" content="Pluto">
+<meta property="og:description" content="脚本和模块首先，JavaScript 有两种源文件，一种叫做脚本，一种叫做模块。这个区分是在 ES6 引入了模块机制开始的，在 ES5 和之前的版本中，就只有一种源文件类型（就只有脚本）。 脚本是可以由浏览器或者 node 环境引入执行的，而模块只能由 JavaScript 代码用 import 引入执行。 从概念上，我们可以认为脚本具有主动性的 JavaScript 代码段，是控制宿主完成一定任">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.pluto1811.com/goodsImage/1615289042307/1615289019850.jpg">
+<meta property="article:published_time" content="2022-09-21T05:20:55.000Z">
+<meta property="article:modified_time" content="2023-06-06T07:11:10.434Z">
+<meta property="article:author" content="拾壹baby">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.pluto1811.com/goodsImage/1615289042307/1615289019850.jpg"><link rel="shortcut icon" href="/DamnTime/pluto/img/favicon.png"><link rel="canonical" href="https://github.com/DamnTime/pluto/2022/09/21/scripttag/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/DamnTime/pluto/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/DamnTime/pluto/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '在script标签写export为什么会抛错？',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-06 15:11:10'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/DamnTime/pluto/atom.xml" title="Pluto" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/DamnTime/pluto/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/DamnTime/pluto/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/DamnTime/pluto/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('http://cdn.pluto1811.com/goodsImage/1615289042307/1615289019850.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/DamnTime/pluto/">Pluto</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">在script标签写export为什么会抛错？</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-09-21T05:20:55.000Z" title="发表于 2022-09-21 13:20:55">2022-09-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-06T07:11:10.434Z" title="更新于 2023-06-06 15:11:10">2023-06-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="在script标签写export为什么会抛错？"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="脚本和模块"><a href="#脚本和模块" class="headerlink" title="脚本和模块"></a>脚本和模块</h1><p>首先，JavaScript 有两种源文件，一种叫做脚本，一种叫做模块。这个区分是在 ES6 引入了模块机制开始的，在 ES5 和之前的版本中，就只有一种源文件类型（就只有脚本）。</p>
+<p>脚本是可以由浏览器或者 node 环境引入执行的，而模块只能由 JavaScript 代码用 import 引入执行。</p>
+<p>从概念上，我们可以认为脚本具有主动性的 JavaScript 代码段，是控制宿主完成一定任务的代码；而模块是被动性的 JavaScript 代码段，是等待被调用的库。</p>
+<p>我们对标准中的语法产生式做一些对比，不难发现，实际上模块和脚本之间的区别仅仅在于是否包含 import 和 export。</p>
+<p>脚本是一种兼容之前的版本的定义，在这个模式下，没有 import 就不需要处理加载“.js”文件问题。</p>
+<p>现代浏览器可以支持用 script 标签引入模块或者脚本，如果要引入模块，必须给 script 标签添加 type&#x3D;“module”。如果引入脚本，则不需要 type。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"module"</span> src<span class="token operator">=</span><span class="token string">"xxxxx.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这样，就回答了我们标题中的问题，script 标签如果不加 type&#x3D;“module”，默认认为我们加载的文件是脚本而非模块，如果我们在脚本中写了 export，当然会抛错。</p>
+<p>脚本中可以包含语句。模块中可以包含三种内容：import 声明，export 声明和语句。先聊聊 import 声明和 export 声明吧。<br><img src="http://cdn.pluto1811.com/forEditor/1615289889189/article-15.jpeg" alt="article-15.jpeg"></p>
+<h3 id="import-声明"><a href="#import-声明" class="headerlink" title="import 声明"></a>import 声明</h3><p>我们首先来介绍一下 import 声明，import 声明有两种用法，一个是直接 import 一个模块，另一个是带 from 的 import，它能引入模块里的一些信息。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token string">"mod"</span><span class="token punctuation">;</span> <span class="token comment">// 引入一个模块</span>
+<span class="token keyword">import</span> v <span class="token keyword">from</span> <span class="token string">"mod"</span><span class="token punctuation">;</span> <span class="token comment">// 把模块默认的导出值放入变量 v</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>直接 import 一个模块，只是保证了这个模块代码被执行，引用它的模块是无法获得它的任何信息的。</p>
+<p>带 from 的 import 意思是引入模块中的一部分信息，可以把它们变成本地的变量。</p>
+<p>带 from 的 import 细分又有三种用法，可以分别看下例子：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> x <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span> <span class="token comment">// 引入模块中导出的默认值。</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> a <span class="token keyword">as</span> x<span class="token punctuation">,</span> modify <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span> <span class="token comment">// 引入模块中的变量。</span>
+<span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> x <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span> <span class="token comment">// 把模块中所有的变量以类似对象属性的方式引入。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>第一种方式还可以跟后两种组合使用。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> d<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span> a <span class="token keyword">as</span> x<span class="token punctuation">,</span> modify <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> d<span class="token punctuation">,</span> <span class="token operator">*</span> <span class="token keyword">as</span> x <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>语法要求不带 as 的默认值永远在最前。注意，这里的变量实际上仍然可以受到原来模块的控制。</p>
+<p>我们看一个例子，假设有两个模块 a 和 b。我们在模块 a 中声明了变量和一个修改变量的函数，并且把它们导出。我们用 b 模块导入了变量和修改变量的函数。</p>
+<h4 id="模块-a："><a href="#模块-a：" class="headerlink" title="模块 a："></a>模块 a：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">export</span> <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">modify</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="模块-b："><a href="#模块-b：" class="headerlink" title="模块 b："></a>模块 b：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span> a<span class="token punctuation">,</span> modify <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">modify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>当我们调用修改变量的函数后，b 模块变量也跟着发生了改变。这说明导入与一般的赋值不同，导入后的变量只是改变了名字，它仍然与原来的变量是同一个。</p>
+<h3 id="export-声明"><a href="#export-声明" class="headerlink" title="export 声明"></a>export 声明</h3><p>我们再来说说 export 声明。与 import 相对，export 声明承担的是导出的任务。</p>
+<p>模块中导出变量的方式有两种，一种是独立使用 export 声明，另一种是直接在声明型语句前添加 export 关键字。</p>
+<p>独立使用 export 声明就是一个 export 关键字加上变量名列表，例如：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">export</span> <span class="token punctuation">&#123;</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>我们也可以直接在声明型语句前添加 export 关键字，这里的 export 可以加在任何声明性质的语句之前，整理如下：</p>
+<ul>
+<li>var</li>
+<li>function (含 async 和 generator)</li>
+<li>class</li>
+<li>let</li>
+<li>const</li>
+</ul>
+<p>export 还有一种特殊的用法，就是跟 default 联合使用。export default 表示导出一个默认变量值，它可以用于 function 和 class。这里导出的变量是没有名称的，可以使用 import x from “.&#x2F;a.js”这样的语法，在模块中引入。</p>
+<p>export default 还支持一种语法，后面跟一个表达式，例如：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> a<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>但是，这里的行为跟导出变量是不一致的，这里导出的是值，导出的就是普通变量 a 的值，以后 a 的变化与导出的值就无关了，修改变量 a，<strong>不会使得其他模块中引入的 default 值发生改变</strong>。</p>
+<p>在 import 语句前无法加入 export，但是我们可以直接使用 export from 语法。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">export</span> a <span class="token keyword">from</span> <span class="token string">"a.js"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>JavaScript 引擎除了执行脚本和模块之外，还可以执行函数。而函数体跟脚本和模块有一定的相似之处。</p>
+<h3 id="函数体"><a href="#函数体" class="headerlink" title="函数体"></a>函数体</h3><p>执行函数的行为通常是在 JavaScript 代码执行时，注册宿主环境的某些事件触发的，而执行的过程，就是执行函数体（函数的花括号中间的部分）。</p>
+<p>我们先看一个例子，感性地理解一下：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"go go go"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码通过 setTimeout 函数注册了一个函数给宿主，当一定时间之后，宿主就会执行这个函数。宿主会为这样的函数创建宏任务。</p>
+<p>当我们学习了语法之后，我们可以认为，宏任务中可能会执行的代码包括“脚本 (script)”“模块（module）”和“函数体（function body）”。</p>
+<p>函数体其实也是一个语句的列表。跟脚本和模块比起来，函数体中的语句列表中多了 return 语句可以用。</p>
+<p>函数体实际上有四种：</p>
+<h4 id="1-普通函数体，例如："><a href="#1-普通函数体，例如：" class="headerlink" title="1. 普通函数体，例如："></a>1. 普通函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//Function body</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="2-异步函数体，例如："><a href="#2-异步函数体，例如：" class="headerlink" title="2. 异步函数体，例如："></a>2. 异步函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//Function body</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="3-生成器函数体，例如："><a href="#3-生成器函数体，例如：" class="headerlink" title="3. 生成器函数体，例如："></a>3. 生成器函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span><span class="token operator">*</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//Function body</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="4-异步生成器函数体，例如："><a href="#4-异步生成器函数体，例如：" class="headerlink" title="4. 异步生成器函数体，例如："></a>4. 异步生成器函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">async</span> <span class="token keyword">function</span><span class="token operator">*</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//Function body</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>上面四种函数体的区别在于：能否使用 await 或者 yield 语句。<br><img src="http://cdn.pluto1811.com/forEditor/1615290998961/article-17.jpeg" alt="article-17.jpeg"></p>
+<p>下面聊聊两个 JavaScript 语法的全局机制：预处理（变量提升）和指令序言。</p>
+<h4 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h4><p>JavaScript 执行前，会对脚本、模块和函数体中的语句进行预处理。预处理过程将会提前处理 var、函数声明、class、const 和 let 这些语句，以确定其中变量的意义。</p>
+<p>因为一些历史包袱，这一部分内容非常复杂，首先我们看一下 var 声明。</p>
+<h4 id="var-声明"><a href="#var-声明" class="headerlink" title="var 声明"></a>var 声明</h4><p>var 声明永远作用于脚本、模块和函数体这个级别，在预处理阶段，不关心赋值的部分，只管在当前作用域声明这个变量。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码声明了一个脚本级别的 a，又声明了 foo 函数体级别的 a，我们注意到，函数体级的 var 出现在 console.log 语句之后。</p>
+<p>但是预处理过程在执行之前，<strong>所以有函数体级的变量 a，就不会去访问外层作用域中的变量 a 了，而函数体级的变量 a 此时还没有赋值，所以是 undefined</strong>。我们再看一个情况：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码比上一段代码在 var a &#x3D; 2 之外多了一段 if，我们知道 if(false) 中的代码永远不会被执行，但是预处理阶段并不管这个，var 的作用能够穿透一切语句结构，它只认脚本、模块和函数体三种语法结构。所以这里结果跟前一段代码完全一样，我们会得到 undefined。</p>
+<p>因为早年 JavaScript 没有 let 和 const，只能用 var，又因为 var 除了脚本和函数体都会穿透，人民群众发明了“立即执行的函数表达式（IIFE）”这一用法，用来产生作用域，例如：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">i</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> div <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"div"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    div<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> i<span class="token punctuation">;</span>
+    div<span class="token punctuation">.</span><span class="token function-variable function">onclick</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>div<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="function-声明"><a href="#function-声明" class="headerlink" title="function 声明"></a>function 声明</h4><p>function 声明的行为原本跟 var 非常相似，但是在最新的 JavaScript 标准中，对它进行了一定的修改，这让情况变得更加复杂了。</p>
+<p>在全局（脚本、模块和函数体），function 声明表现跟 var 相似，不同之处在于，function 声明不但在作用域中加入变量，还会给它赋值。</p>
+<p>我们看一下 function 声明的例子</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这里声明了函数 foo，在声明之前，我们用 console.log 打印函数 foo，我们可以发现，已经是函数 foo 的值了。</p>
+<p>function 声明出现在 if 等语句中的情况有点复杂，它仍然作用于脚本、模块和函数体级别，在预处理阶段，仍然会产生变量，它不再被提前赋值：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码得到 undefined。如果没有函数声明，则会抛出错误。</p>
+<p>这说明 function 在预处理阶段仍然发生了作用，在作用域中产生了变量，没有产生赋值，赋值行为发生在了执行阶段。</p>
+<p>出现在 if 等语句中的 function，在 if 创建的作用域中仍然会被提前，产生赋值效果。</p>
+<h4 id="class-声明"><a href="#class-声明" class="headerlink" title="class 声明"></a>class 声明</h4><p>class 声明在全局的行为跟 function 和 var 都不一样。</p>
+<p>在 class 声明之前使用 class 名，会抛错：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name">c</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这段代码我们试图在 class 前打印变量 c，我们得到了个错误，这个行为很像是 class 没有预处理，但是实际上并非如此。</p>
+<p>我们看个复杂一点的例子：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> c <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">class</span> <span class="token class-name">c</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这个例子中，我们把 class 放进了一个函数体中，在外层作用域中有变量 c。然后试图在 class 之前打印 c。</p>
+<p>执行后，我们看到，仍然抛出了错误，如果去掉 class 声明，则会正常打印出 1，也就是说，出现在后面的 class 声明影响了前面语句的结果。</p>
+<p>这说明，class 声明也是会被预处理的，它会在作用域中创建变量，并且要求访问它时抛出错误。</p>
+<p>class 的声明作用不会穿透 if 等语句结构，所以只有写在全局环境才会有声明作用。</p>
+<p>这样的 class 设计比 function 和 var 更符合直觉，而且在遇到一些比较奇怪的用法时，倾向于抛出错误。</p>
+<p>按照现代语言设计的评价标准，及早抛错是好事，它能够帮助我们尽量在开发阶段就发现代码的可能问题。</p>
+<h3 id="指令序言机制"><a href="#指令序言机制" class="headerlink" title="指令序言机制"></a>指令序言机制</h3><p>脚本和模块都支持一种特别的语法，叫做指令序言（Directive Prologs）。</p>
+<p>这里的指令序言最早是为了 use strict 设计的，它规定了一种给 JavaScript 代码添加元信息的方式。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token string">"use strict"</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">f</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码展示了严格模式的用法，我这里定义了函数 f，f 中打印 this 值，然后用 call 的方法调用 f，传入 null 作为 this 值，我们可以看到最终结果是 null 原封不动地被当做 this 值打印了出来，这是严格模式的特征。</p>
+<p>如果我们去掉严格模式的指令需要，打印的结果将会变成 global。</p>
+<p>“use strict”是 JavaScript 标准中规定的唯一一种指令序言，但是设计指令序言的目的是，留给 JS 的引擎和实现者一些统一的表达方式，在静态扫描时指定 JS 代码的一些特性。</p>
+<p>例如，假设我们要设计一种声明本文件不需要进行 lint 检查的指令，我们可以这样设计：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token string">"no lint"</span><span class="token punctuation">;</span>
+<span class="token string">"use strict"</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">doSth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//......</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//......</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>JavaScript 的指令序言是只有一个字符串直接量的表达式语句，它只能出现在脚本、模块和函数体的最前面。</p>
+<p>我们看两个例子：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">doSth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//......</span>
+<span class="token punctuation">&#125;</span>
+<span class="token punctuation">(</span><span class="token string">"use strict"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token comment">//......</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这个例子中，”use strict”没有出现在最前，所以不是指令序言。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token string">"use strict"</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">doSth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//......</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token comment">//......</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这个例子中，’use strict’是单引号，这不妨碍它仍然是指令序言。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://github.com/DamnTime/pluto">拾壹baby</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://github.com/DamnTime/pluto/2022/09/21/scripttag/">https://github.com/DamnTime/pluto/2022/09/21/scripttag/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://github.com/DamnTime/pluto" target="_blank">Pluto</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="http://cdn.pluto1811.com/goodsImage/1615289042307/1615289019850.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/DamnTime/pluto/2022/09/22/clusure/"><img class="prev-cover" src="http://cdn.pluto1811.com/goodsImage/1615190740385/316773783.jpg" onerror="onerror=null;src='/DamnTime/pluto/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">闭包和执行上下文到底是怎么回事？</div></div></a></div><div class="next-post pull-right"><a href="/DamnTime/pluto/2022/09/15/css-selector/"><img class="next-cover" src="http://cdn.pluto1811.com/goodsImage/1615430191758/1615430172196.jpg" onerror="onerror=null;src='/DamnTime/pluto/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">除了属性和选择器，你还需要知道这些带@的规则</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">拾壹baby</div><div class="author-info__description">个人博客</div></div><div class="card-info-data site-data is-center"><a href="/DamnTime/pluto/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/DamnTime/pluto/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/DamnTime/pluto/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%84%9A%E6%9C%AC%E5%92%8C%E6%A8%A1%E5%9D%97"><span class="toc-number">1.</span> <span class="toc-text">脚本和模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#import-%E5%A3%B0%E6%98%8E"><span class="toc-number">1.0.1.</span> <span class="toc-text">import 声明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-a%EF%BC%9A"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">模块 a：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-b%EF%BC%9A"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">模块 b：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#export-%E5%A3%B0%E6%98%8E"><span class="toc-number">1.0.2.</span> <span class="toc-text">export 声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%BD%93"><span class="toc-number">1.0.3.</span> <span class="toc-text">函数体</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E4%BD%93%EF%BC%8C%E4%BE%8B%E5%A6%82%EF%BC%9A"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">1. 普通函数体，例如：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%BC%82%E6%AD%A5%E5%87%BD%E6%95%B0%E4%BD%93%EF%BC%8C%E4%BE%8B%E5%A6%82%EF%BC%9A"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">2. 异步函数体，例如：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%94%9F%E6%88%90%E5%99%A8%E5%87%BD%E6%95%B0%E4%BD%93%EF%BC%8C%E4%BE%8B%E5%A6%82%EF%BC%9A"><span class="toc-number">1.0.3.3.</span> <span class="toc-text">3. 生成器函数体，例如：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%BC%82%E6%AD%A5%E7%94%9F%E6%88%90%E5%99%A8%E5%87%BD%E6%95%B0%E4%BD%93%EF%BC%8C%E4%BE%8B%E5%A6%82%EF%BC%9A"><span class="toc-number">1.0.3.4.</span> <span class="toc-text">4. 异步生成器函数体，例如：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-number">1.0.3.5.</span> <span class="toc-text">预处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var-%E5%A3%B0%E6%98%8E"><span class="toc-number">1.0.3.6.</span> <span class="toc-text">var 声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#function-%E5%A3%B0%E6%98%8E"><span class="toc-number">1.0.3.7.</span> <span class="toc-text">function 声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#class-%E5%A3%B0%E6%98%8E"><span class="toc-number">1.0.3.8.</span> <span class="toc-text">class 声明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E5%BA%8F%E8%A8%80%E6%9C%BA%E5%88%B6"><span class="toc-number">1.0.4.</span> <span class="toc-text">指令序言机制</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/25/me2022-10/" title="嗯，这两三年...2022年中总结"><img src="http://cdn.pluto1811.com/goodsImage/1650448154299/1650448126499.jpg" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="嗯，这两三年...2022年中总结"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/25/me2022-10/" title="嗯，这两三年...2022年中总结">嗯，这两三年...2022年中总结</a><time datetime="2022-10-25T05:20:55.000Z" title="发表于 2022-10-25 13:20:55">2022-10-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/25/promise/" title="Promise里的代码为什么比setTimeout先执行？"><img src="http://cdn.pluto1811.com/goodsImage/1615188358809/376997778.jpg" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="Promise里的代码为什么比setTimeout先执行？"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/25/promise/" title="Promise里的代码为什么比setTimeout先执行？">Promise里的代码为什么比setTimeout先执行？</a><time datetime="2022-10-25T05:20:55.000Z" title="发表于 2022-10-25 13:20:55">2022-10-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/23/jsobject/" title="JavaScript对象：啥？对象还有分类？"><img src="http://cdn.pluto1811.com/goodsImage/1615184906664/374751567.jpg" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="JavaScript对象：啥？对象还有分类？"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/23/jsobject/" title="JavaScript对象：啥？对象还有分类？">JavaScript对象：啥？对象还有分类？</a><time datetime="2022-10-23T05:20:55.000Z" title="发表于 2022-10-23 13:20:55">2022-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/19/hexo-ci/" title="【超实用】完美实现基于hexo的博客网站自动化部署"><img src="http://cdn.pluto1811.com/20221020140348.png" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="【超实用】完美实现基于hexo的博客网站自动化部署"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/19/hexo-ci/" title="【超实用】完美实现基于hexo的博客网站自动化部署">【超实用】完美实现基于hexo的博客网站自动化部署</a><time datetime="2022-10-19T06:20:58.000Z" title="发表于 2022-10-19 14:20:58">2022-10-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/16/jstyping/" title="JavaScript类型，有可能你不知道这些细节"><img src="http://cdn.pluto1811.com/20221020140348.png" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="JavaScript类型，有可能你不知道这些细节"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/16/jstyping/" title="JavaScript类型，有可能你不知道这些细节">JavaScript类型，有可能你不知道这些细节</a><time datetime="2022-10-16T05:20:55.000Z" title="发表于 2022-10-16 13:20:55">2022-10-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 拾壹baby</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/DamnTime/pluto/js/utils.js"></script><script src="/DamnTime/pluto/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

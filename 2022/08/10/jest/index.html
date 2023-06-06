@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>关于jest的TDD与BDD开发模式 | Pluto</title><meta name="author" content="拾壹baby"><meta name="copyright" content="拾壹baby"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在 react 项目中运用 jest 自动化测试框架的探索1. 项目日益庞大后的痛点：牵一发动全身，日常开发就像是在猴子掰包谷，顾此失彼。 2. 编写的代码无理可依自己写的都不放心 。。。 因此引入自动化测试框架无疑可以给自己一剂“安心药”。 目前流行的自动化测试框架的对比   框架 优点 缺点    Mocha 主要用于单元测试 集成测试方面较弱   jest 单元、集成测试都 ok，丰富的 a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于jest的TDD与BDD开发模式">
+<meta property="og:url" content="https://github.com/DamnTime/pluto/2022/08/10/jest/">
+<meta property="og:site_name" content="Pluto">
+<meta property="og:description" content="在 react 项目中运用 jest 自动化测试框架的探索1. 项目日益庞大后的痛点：牵一发动全身，日常开发就像是在猴子掰包谷，顾此失彼。 2. 编写的代码无理可依自己写的都不放心 。。。 因此引入自动化测试框架无疑可以给自己一剂“安心药”。 目前流行的自动化测试框架的对比   框架 优点 缺点    Mocha 主要用于单元测试 集成测试方面较弱   jest 单元、集成测试都 ok，丰富的 a">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.pluto1811.com/goodsImage/1619772970467/1619772941918.jpg">
+<meta property="article:published_time" content="2022-08-10T05:20:55.000Z">
+<meta property="article:modified_time" content="2023-06-06T07:11:10.434Z">
+<meta property="article:author" content="拾壹baby">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.pluto1811.com/goodsImage/1619772970467/1619772941918.jpg"><link rel="shortcut icon" href="/DamnTime/pluto/img/favicon.png"><link rel="canonical" href="https://github.com/DamnTime/pluto/2022/08/10/jest/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/DamnTime/pluto/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/DamnTime/pluto/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '关于jest的TDD与BDD开发模式',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-06 15:11:10'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/DamnTime/pluto/atom.xml" title="Pluto" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/DamnTime/pluto/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/DamnTime/pluto/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/DamnTime/pluto/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('http://cdn.pluto1811.com/goodsImage/1619772970467/1619772941918.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/DamnTime/pluto/">Pluto</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/DamnTime/pluto/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">关于jest的TDD与BDD开发模式</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-10T05:20:55.000Z" title="发表于 2022-08-10 13:20:55">2022-08-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-06T07:11:10.434Z" title="更新于 2023-06-06 15:11:10">2023-06-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="关于jest的TDD与BDD开发模式"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="在-react-项目中运用-jest-自动化测试框架的探索"><a href="#在-react-项目中运用-jest-自动化测试框架的探索" class="headerlink" title="在 react 项目中运用 jest 自动化测试框架的探索"></a>在 react 项目中运用 jest 自动化测试框架的探索</h1><h3 id="1-项目日益庞大后的痛点："><a href="#1-项目日益庞大后的痛点：" class="headerlink" title="1. 项目日益庞大后的痛点："></a>1. 项目日益庞大后的痛点：</h3><p>牵一发动全身，日常开发就像是在猴子掰包谷，顾此失彼。</p>
+<h3 id="2-编写的代码无理可依"><a href="#2-编写的代码无理可依" class="headerlink" title="2. 编写的代码无理可依"></a>2. 编写的代码无理可依</h3><p>自己写的都不放心</p>
+<p>。。。</p>
+<p>因此引入自动化测试框架无疑可以给自己一剂“安心药”。</p>
+<h1 id="目前流行的自动化测试框架的对比"><a href="#目前流行的自动化测试框架的对比" class="headerlink" title="目前流行的自动化测试框架的对比"></a>目前流行的自动化测试框架的对比</h1><table>
+<thead>
+<tr>
+<th>框架</th>
+<th align="left">优点</th>
+<th align="left">缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Mocha</td>
+<td align="left">主要用于单元测试</td>
+<td align="left">集成测试方面较弱</td>
+</tr>
+<tr>
+<td>jest</td>
+<td align="left">单元、集成测试都 ok，丰富的 api</td>
+<td align="left">暂未发现明显缺点</td>
+</tr>
+</tbody></table>
+<h1 id="本文主要介绍-jest"><a href="#本文主要介绍-jest" class="headerlink" title="本文主要介绍 jest"></a>本文主要介绍 jest</h1><h3 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">yarn add <span class="token operator">--</span>dev jest 或 npm install <span class="token operator">--</span>save<span class="token operator">-</span>dev jest<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>注意：用 create-react-app myApp 或 npx create-react-app myApp 快速创建的 react 项目 自动集成 jest；</p>
+<h3 id="2-如果是-react-项目建议集成-enzyme（airbnb-出品-与-react-项目配合天衣无缝）"><a href="#2-如果是-react-项目建议集成-enzyme（airbnb-出品-与-react-项目配合天衣无缝）" class="headerlink" title="2. 如果是 react 项目建议集成 enzyme（airbnb 出品 与 react 项目配合天衣无缝）"></a>2. 如果是 react 项目建议集成 enzyme（airbnb 出品 与 react 项目配合天衣无缝）</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">yarn add <span class="token operator">--</span>dev enzyme enzyme<span class="token operator">-</span>adapter<span class="token operator">-</span>react<span class="token operator">-</span><span class="token number">16</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="3-项目配置"><a href="#3-项目配置" class="headerlink" title="3. 项目配置"></a>3. 项目配置</h3><p>可在项目根目录新建 jest.config.js</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json">module.exports = <span class="token punctuation">&#123;</span>
+  roots<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"&lt;rootDir>/src"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 源文件</span>
+  collectCoverageFrom<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"src/**/*.&#123;js,jsx,ts,tsx&#125;"</span><span class="token punctuation">,</span> <span class="token string">"!src/**/*.d.ts"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment">// 生成测试报告需要收集的文件</span>
+  setupFiles<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"react-app-polyfill/jsdom"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  setupFilesAfterEnv<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"&lt;rootDir>/enzyme.config.js"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment">// 环境加载完后执行的文件，这里代表的意思是环境加载完后执行在根目录下的enzyme.config.js文件，如下：</span>
+  testMatch<span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token comment">// 测试的文件</span>
+    <span class="token string">"&lt;rootDir>/src/**/__tests__/**/*.&#123;js,jsx,ts,tsx&#125;"</span><span class="token punctuation">,</span>
+    <span class="token string">"&lt;rootDir>/src/**/*.&#123;spec,test&#125;.&#123;js,jsx,ts,tsx&#125;"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  testEnvironment<span class="token operator">:</span> <span class="token string">"jsdom"</span><span class="token punctuation">,</span> <span class="token comment">// 运行的环境</span>
+  testRunner<span class="token operator">:</span>
+    <span class="token string">"/Users/huanglei/工作/test/react-demo/node_modules/jest-circus/runner.js"</span><span class="token punctuation">,</span>
+  transform<span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 转换的文件</span>
+    <span class="token property">"^.+\\.(js|jsx|mjs|cjs|ts|tsx)$"</span><span class="token operator">:</span> <span class="token string">"&lt;rootDir>/config/jest/babelTransform.js"</span><span class="token punctuation">,</span>
+    <span class="token property">"^.+\\.css$"</span><span class="token operator">:</span> <span class="token string">"&lt;rootDir>/config/jest/cssTransform.js"</span><span class="token punctuation">,</span>
+    <span class="token property">"^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)"</span><span class="token operator">:</span>
+      <span class="token string">"&lt;rootDir>/config/jest/fileTransform.js"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  transformIgnorePatterns<span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token comment">// 忽略文件</span>
+    <span class="token string">"[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$"</span><span class="token punctuation">,</span>
+    <span class="token string">"^.+\\.module\\.(css|sass|scss)$"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  modulePaths<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  moduleNameMapper<span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"^react-native$"</span><span class="token operator">:</span> <span class="token string">"react-native-web"</span><span class="token punctuation">,</span>
+    <span class="token property">"^.+\\.module\\.(css|sass|scss)$"</span><span class="token operator">:</span> <span class="token string">"identity-obj-proxy"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  moduleFileExtensions<span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token comment">// 文件的扩展名</span>
+    <span class="token string">"web.js"</span><span class="token punctuation">,</span>
+    <span class="token string">"js"</span><span class="token punctuation">,</span>
+    <span class="token string">"web.ts"</span><span class="token punctuation">,</span>
+    <span class="token string">"ts"</span><span class="token punctuation">,</span>
+    <span class="token string">"web.tsx"</span><span class="token punctuation">,</span>
+    <span class="token string">"tsx"</span><span class="token punctuation">,</span>
+    <span class="token string">"json"</span><span class="token punctuation">,</span>
+    <span class="token string">"web.jsx"</span><span class="token punctuation">,</span>
+    <span class="token string">"jsx"</span><span class="token punctuation">,</span>
+    <span class="token string">"node"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  watchPlugins<span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token comment">// watch相关的插件</span>
+    <span class="token string">"jest-watch-typeahead/filename"</span><span class="token punctuation">,</span>
+    <span class="token string">"jest-watch-typeahead/testname"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  resetMocks<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span>;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 使 enzyme 适配 react16 版本</span>
+<span class="token keyword">import</span> Enzyme <span class="token keyword">from</span> <span class="token string">"enzyme"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> Adapter <span class="token keyword">from</span> <span class="token string">"enzyme-adapter-react-16"</span><span class="token punctuation">;</span>
+
+Enzyme<span class="token punctuation">.</span><span class="token function">configure</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> <span class="token literal-property property">adapter</span><span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">Adapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在 package.json 文件中配置测试命令</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"node scripts/start.js"</span><span class="token punctuation">,</span>
+  <span class="token property">"build"</span><span class="token operator">:</span> <span class="token string">"node scripts/build.js"</span><span class="token punctuation">,</span>
+  <span class="token property">"test"</span><span class="token operator">:</span> <span class="token string">"jest"</span>  <span class="token comment">// 或 "jest --watch" 开启监听</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="4-项目目录设计"><a href="#4-项目目录设计" class="headerlink" title="4. 项目目录设计"></a>4. 项目目录设计</h3><p>根据 TDD（单元测试）、BDD（集成测试）的相关模式，建议目录设计如下：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">├── components             组件
+|   ├──__tests__           单元测试相关
+├── src                    源码目录
+|   ├── pages              页面文件目录
+|   |   ├── index          index 页面目录
+|   |   |   ├── __tests__  集成测试相关
+└── package.json<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://github.com/DamnTime/pluto">拾壹baby</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://github.com/DamnTime/pluto/2022/08/10/jest/">https://github.com/DamnTime/pluto/2022/08/10/jest/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://github.com/DamnTime/pluto" target="_blank">Pluto</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="http://cdn.pluto1811.com/goodsImage/1619772970467/1619772941918.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/DamnTime/pluto/2022/08/10/babel01/"><img class="prev-cover" src="http://cdn.pluto1811.com/goodsImage/1626858229328/1626858211842.jpg" onerror="onerror=null;src='/DamnTime/pluto/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">babel 探秘系列-基础篇</div></div></a></div><div class="next-post pull-right"><a href="/DamnTime/pluto/2022/08/10/vue3-01/"><img class="next-cover" src="http://cdn.pluto1811.com/goodsImage/1654484986665/1654484958862.jpg" onerror="onerror=null;src='/DamnTime/pluto/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">从零实现Vue3.x-工程&amp;架构篇</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">拾壹baby</div><div class="author-info__description">个人博客</div></div><div class="card-info-data site-data is-center"><a href="/DamnTime/pluto/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/DamnTime/pluto/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/DamnTime/pluto/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8-react-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%BF%90%E7%94%A8-jest-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E6%8E%A2%E7%B4%A2"><span class="toc-number">1.</span> <span class="toc-text">在 react 项目中运用 jest 自动化测试框架的探索</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%A1%B9%E7%9B%AE%E6%97%A5%E7%9B%8A%E5%BA%9E%E5%A4%A7%E5%90%8E%E7%9A%84%E7%97%9B%E7%82%B9%EF%BC%9A"><span class="toc-number">1.0.1.</span> <span class="toc-text">1. 项目日益庞大后的痛点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%BC%96%E5%86%99%E7%9A%84%E4%BB%A3%E7%A0%81%E6%97%A0%E7%90%86%E5%8F%AF%E4%BE%9D"><span class="toc-number">1.0.2.</span> <span class="toc-text">2. 编写的代码无理可依</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%AE%E5%89%8D%E6%B5%81%E8%A1%8C%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">2.</span> <span class="toc-text">目前流行的自动化测试框架的对比</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%AC%E6%96%87%E4%B8%BB%E8%A6%81%E4%BB%8B%E7%BB%8D-jest"><span class="toc-number">3.</span> <span class="toc-text">本文主要介绍 jest</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85"><span class="toc-number">3.0.1.</span> <span class="toc-text">1. 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A6%82%E6%9E%9C%E6%98%AF-react-%E9%A1%B9%E7%9B%AE%E5%BB%BA%E8%AE%AE%E9%9B%86%E6%88%90-enzyme%EF%BC%88airbnb-%E5%87%BA%E5%93%81-%E4%B8%8E-react-%E9%A1%B9%E7%9B%AE%E9%85%8D%E5%90%88%E5%A4%A9%E8%A1%A3%E6%97%A0%E7%BC%9D%EF%BC%89"><span class="toc-number">3.0.2.</span> <span class="toc-text">2. 如果是 react 项目建议集成 enzyme（airbnb 出品 与 react 项目配合天衣无缝）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE"><span class="toc-number">3.0.3.</span> <span class="toc-text">3. 项目配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.0.4.</span> <span class="toc-text">4. 项目目录设计</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/25/me2022-10/" title="嗯，这两三年...2022年中总结"><img src="http://cdn.pluto1811.com/goodsImage/1650448154299/1650448126499.jpg" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="嗯，这两三年...2022年中总结"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/25/me2022-10/" title="嗯，这两三年...2022年中总结">嗯，这两三年...2022年中总结</a><time datetime="2022-10-25T05:20:55.000Z" title="发表于 2022-10-25 13:20:55">2022-10-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/25/promise/" title="Promise里的代码为什么比setTimeout先执行？"><img src="http://cdn.pluto1811.com/goodsImage/1615188358809/376997778.jpg" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="Promise里的代码为什么比setTimeout先执行？"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/25/promise/" title="Promise里的代码为什么比setTimeout先执行？">Promise里的代码为什么比setTimeout先执行？</a><time datetime="2022-10-25T05:20:55.000Z" title="发表于 2022-10-25 13:20:55">2022-10-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/23/jsobject/" title="JavaScript对象：啥？对象还有分类？"><img src="http://cdn.pluto1811.com/goodsImage/1615184906664/374751567.jpg" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="JavaScript对象：啥？对象还有分类？"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/23/jsobject/" title="JavaScript对象：啥？对象还有分类？">JavaScript对象：啥？对象还有分类？</a><time datetime="2022-10-23T05:20:55.000Z" title="发表于 2022-10-23 13:20:55">2022-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/19/hexo-ci/" title="【超实用】完美实现基于hexo的博客网站自动化部署"><img src="http://cdn.pluto1811.com/20221020140348.png" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="【超实用】完美实现基于hexo的博客网站自动化部署"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/19/hexo-ci/" title="【超实用】完美实现基于hexo的博客网站自动化部署">【超实用】完美实现基于hexo的博客网站自动化部署</a><time datetime="2022-10-19T06:20:58.000Z" title="发表于 2022-10-19 14:20:58">2022-10-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/DamnTime/pluto/2022/10/16/jstyping/" title="JavaScript类型，有可能你不知道这些细节"><img src="http://cdn.pluto1811.com/20221020140348.png" onerror="this.onerror=null;this.src='/DamnTime/pluto/img/404.jpg'" alt="JavaScript类型，有可能你不知道这些细节"/></a><div class="content"><a class="title" href="/DamnTime/pluto/2022/10/16/jstyping/" title="JavaScript类型，有可能你不知道这些细节">JavaScript类型，有可能你不知道这些细节</a><time datetime="2022-10-16T05:20:55.000Z" title="发表于 2022-10-16 13:20:55">2022-10-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 拾壹baby</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/DamnTime/pluto/js/utils.js"></script><script src="/DamnTime/pluto/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
