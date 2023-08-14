@@ -1005,7 +1005,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 </blockquote>
 <h4 id="技术-x2F-架构"><a href="#技术-x2F-架构" class="headerlink" title="技术&#x2F;架构"></a>技术&#x2F;架构</h4><p>刚来公司时，跟现在大多数程序员一样，没日没夜的进行业务代码的开发，<strong>crud</strong>，巴拉巴拉的…，<strong>react、umi、vue2&#x2F;3、js&#x2F;ts、taro</strong>… 都是我们常用的技术栈，但随着项目代码量不断增多，维护成本不断增大，与我们的“工头”几经讨论，决定开发出一系列具有公司特色的工具链，按使用顺序做了如下安排并一一实现：</p>
 <center>
-    <img src="https://article.biliimg.com/bfs/article/6131305b29d701257ffd2bfdeca167b976e118cf.jpg" >
+    <img src="/images/me2022-10/1691999258848.jpg" >
 </center>
 
 <blockquote>
@@ -3123,7 +3123,7 @@ postinstall<span aria-hidden="true" class="line-numbers-rows"><span></span><span
 <span class="token property">"@vue/runtime-dom"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p>在 pnpm 模式下 package.json 有一种特殊的写法：”workspace:*“，为了指明这是工作区的依赖，防止自动去 npm 上寻找导致混乱，当使用此协议时，pnpm 将拒绝解析除本地 workspace 包含的 package 之外的任何内容。</p>
-<p>例如，如果 bar 中有 “foo”：”^1.0.0” 的这个依赖项，则 <a href="mailto:&#x66;&#x6f;&#x6f;&#64;&#49;&#x2e;&#48;&#46;&#48;">&#x66;&#x6f;&#x6f;&#64;&#49;&#x2e;&#48;&#46;&#48;</a> 链接到 bar。 但是，如果 bar 的依赖项中有 “foo”: “2.0.0”，而 <a href="mailto:&#x66;&#x6f;&#111;&#x40;&#50;&#x2e;&#x30;&#x2e;&#48;">&#x66;&#x6f;&#111;&#x40;&#50;&#x2e;&#x30;&#x2e;&#48;</a> 在工作空间中并不存在，此时会从 npm registry 上安装<a href="mailto:&#102;&#x6f;&#x6f;&#64;&#x32;&#x2e;&#x30;&#46;&#x30;">&#102;&#x6f;&#x6f;&#64;&#x32;&#x2e;&#x30;&#46;&#x30;</a>，如果设置为 “foo”: “workspace:2.0.0” 时，安装将会失败，因为 “<a href="mailto:&#x66;&#111;&#x6f;&#x40;&#50;&#46;&#x30;&#46;&#x30;">&#x66;&#111;&#x6f;&#x40;&#50;&#46;&#x30;&#46;&#x30;</a>“ 不存在于此 workspace 中</p>
+<p>例如，如果 bar 中有 “foo”：”^1.0.0” 的这个依赖项，则 <a href="mailto:&#x66;&#111;&#111;&#x40;&#49;&#46;&#x30;&#x2e;&#x30;">&#x66;&#111;&#111;&#x40;&#49;&#46;&#x30;&#x2e;&#x30;</a> 链接到 bar。 但是，如果 bar 的依赖项中有 “foo”: “2.0.0”，而 <a href="mailto:&#x66;&#x6f;&#x6f;&#64;&#50;&#x2e;&#x30;&#46;&#x30;">&#x66;&#x6f;&#x6f;&#64;&#50;&#x2e;&#x30;&#46;&#x30;</a> 在工作空间中并不存在，此时会从 npm registry 上安装<a href="mailto:&#x66;&#111;&#x6f;&#x40;&#50;&#x2e;&#48;&#x2e;&#x30;">&#x66;&#111;&#x6f;&#x40;&#50;&#x2e;&#48;&#x2e;&#x30;</a>，如果设置为 “foo”: “workspace:2.0.0” 时，安装将会失败，因为 “<a href="mailto:&#102;&#x6f;&#x6f;&#64;&#x32;&#46;&#x30;&#46;&#48;">&#102;&#x6f;&#x6f;&#64;&#x32;&#46;&#x30;&#46;&#48;</a>“ 不存在于此 workspace 中</p>
 <ol start="4">
 <li>packages 中每个模块中都有一个 json 文件</li>
 </ol>
