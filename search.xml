@@ -353,9 +353,9 @@ obj<span class="token punctuation">.</span><span class="token function">say</spa
 <pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token atrule"><span class="token rule">@import</span> <span class="token string">"mystyle.css"</span><span class="token punctuation">;</span></span>
 <span class="token atrule"><span class="token rule">@import</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">"mystyle.css"</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token atrule"><span class="token rule">@import</span> [ &lt;url> | &lt;string> ] [ <span class="token function">supports</span><span class="token punctuation">(</span>
-    [ &lt;supports-condition> | &lt;declaration> ]
-  <span class="token punctuation">)</span> ]? &lt;media-query-list>?<span class="token punctuation">;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token atrule"><span class="token rule">@import</span> [ &lt;url> | &lt;string>] [ <span class="token function">supports</span><span class="token punctuation">(</span>
+    [ &lt;supports-condition> | &lt;declaration>]
+  <span class="token punctuation">)</span>]? &lt;media-query-list>?<span class="token punctuation">;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p>通过代码，我们可以看出，import 还支持 supports 和 media query 形式。</p>
 <h3 id="media"><a href="#media" class="headerlink" title="@media"></a>@media</h3><p>media 就是大名鼎鼎的 media query 使用的规则了，它能够对设备的类型进行一些判断。在 media 的区块内，是普通规则列表。</p>
@@ -840,8 +840,7 @@ Enzyme<span class="token punctuation">.</span><span class="token function">confi
   <entry>
     <title>JavaScript对象：啥？对象还有分类？</title>
     <url>/pluto/2022/10/23/jsobject/</url>
-    <content><![CDATA[<p><img src="http://cdn.pluto1811.com/forEditor/1615185161742/551bc581-28f0-4827-989c-287048566569.jpeg" alt="551bc581-28f0-4827-989c-287048566569.jpeg"></p>
-<p>在浏览器环境中，我们也无法单纯依靠 JavaScript 代码实现 div 对象，只能靠 document.createElement 来创建。这也说明了 JavaScript 的对象机制并非简单的属性集合 + 原型。</p>
+    <content><![CDATA[<p>在浏览器环境中，我们也无法单纯依靠 JavaScript 代码实现 div 对象，只能靠 document.createElement 来创建。这也说明了 JavaScript 的对象机制并非简单的属性集合 + 原型。</p>
 <h3 id="JavaScript-中的对象分类"><a href="#JavaScript-中的对象分类" class="headerlink" title="JavaScript 中的对象分类"></a>JavaScript 中的对象分类</h3><ul>
 <li>宿主对象（host Objects）：由 JavaScript 宿主环境提供的对象，它们的行为完全由宿主环境决定。</li>
 <li>内置对象（Built-in Objects）：由 JavaScript 语言提供的对象。</li>
@@ -920,8 +919,7 @@ o<span class="token punctuation">.</span><span class="token function">getValue</
   <entry>
     <title>JavaScript类型，有可能你不知道这些细节</title>
     <url>/pluto/2022/10/16/jstyping/</url>
-    <content><![CDATA[<p><img src="http://cdn.pluto1811.com/forEditor/1615174445221/article-5.png" alt="article-5.png"></p>
-<h1 id="JavaScript-类型，有可能你不知道这些细节"><a href="#JavaScript-类型，有可能你不知道这些细节" class="headerlink" title="JavaScript 类型，有可能你不知道这些细节"></a>JavaScript 类型，有可能你不知道这些细节</h1><h3 id="1-为什么有的编程规范要求用-void-0-代替-undefined？"><a href="#1-为什么有的编程规范要求用-void-0-代替-undefined？" class="headerlink" title="1. 为什么有的编程规范要求用 void 0 代替 undefined？"></a>1. 为什么有的编程规范要求用 void 0 代替 undefined？</h3><p>Undefined 类型表示未定义，它的类型只有一个值，就是 undefined。任何变量在赋值前是 Undefined 类型、值为 undefined，一般我们可以用全局变量 undefined（就是名为运行时类型是代码实际执行过程中我们用到的类型。</p>
+    <content><![CDATA[<h1 id="JavaScript-类型，有可能你不知道这些细节"><a href="#JavaScript-类型，有可能你不知道这些细节" class="headerlink" title="JavaScript 类型，有可能你不知道这些细节"></a>JavaScript 类型，有可能你不知道这些细节</h1><h3 id="1-为什么有的编程规范要求用-void-0-代替-undefined？"><a href="#1-为什么有的编程规范要求用-void-0-代替-undefined？" class="headerlink" title="1. 为什么有的编程规范要求用 void 0 代替 undefined？"></a>1. 为什么有的编程规范要求用 void 0 代替 undefined？</h3><p>Undefined 类型表示未定义，它的类型只有一个值，就是 undefined。任何变量在赋值前是 Undefined 类型、值为 undefined，一般我们可以用全局变量 undefined（就是名为运行时类型是代码实际执行过程中我们用到的类型。</p>
 <p>JavaScript 的代码 <strong>undefined 是一个变量，而并非是一个关键字</strong>。undefined 在 ES5 中已经是全局对象的一个只读（read-only）属性了，它不能被重写。但是在局部作用域中，还是可以被重写的。</p>
 <pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
   <span class="token keyword">var</span> <span class="token keyword">undefined</span> <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
@@ -993,90 +991,6 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Object</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>symbolObject<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//[object Symbol]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p>在 JavaScript 中，没有任何方法可以更改私有的 Class 属性，因此 Object.prototype.toString 是可以准确识别对象对应的基本类型的方法，它比 instanceof 更加准确。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>嗯，这两三年...2022年中总结</title>
-    <url>/pluto/2022/10/25/me2022-10/</url>
-    <content><![CDATA[<h3 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h3><p>四川人，慢热型，喜欢吃辣，一个非典型程序员，喜欢跟 bug 死缠烂打。^o^</p>
-<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>平时技术性的文章写得比较多，很少写这种总结或叫杂谈类的文章。虽很久之前盘算着写一篇这两三年的总结，但在真正要敲下键盘时，脑袋竟有些空白。巧了，这篇总结的时间跨度恰好是在现在的这家公司的任职时间，在这里渡过了一段快乐的时光：</p>
-<blockquote>
-<p>第一次正儿八经的做一条产品线的前端负责人，第一次参加公司级共创会，体验了一把一个通宵出一个项目设计方案（真快搞死人了…），第一次为了产品的使用情况去用户那里沉浸式的体验两天，每天都在叫他点点点，再说说使用感受，估计客户都快被我整疯了，在这里 say sorry 啦~， 渡过了自己 30 岁的生日（离传说中的 35 岁定律没几年了，我滴妈呀…）</p>
-</blockquote>
-<h4 id="技术-x2F-架构"><a href="#技术-x2F-架构" class="headerlink" title="技术&#x2F;架构"></a>技术&#x2F;架构</h4><p>刚来公司时，跟现在大多数程序员一样，没日没夜的进行业务代码的开发，<strong>crud</strong>，巴拉巴拉的…，<strong>react、umi、vue2&#x2F;3、js&#x2F;ts、taro</strong>… 都是我们常用的技术栈，但随着项目代码量不断增多，维护成本不断增大，与我们的“工头”几经讨论，决定开发出一系列具有公司特色的工具链，按使用顺序做了如下安排并一一实现：</p>
-<center>
-    <img src="/images/me2022-10/1691999258848.jpg" >
-</center>
-
-<blockquote>
-<ul>
-<li>基于 <strong>verdaccio、lerna、dumi</strong> 搭建私有组件库：bingo；</li>
-<li>CI&#x2F;CD；<br>web 项目&#x2F;h5 项目： <strong>jenkins</strong> 自动化构建，一键发布；<br>微信小程序：<strong>jenkins</strong> 自动化构建打包、上传、提审；</li>
-<li>代码规范：自定义 <strong>eslint&#x2F;prettier、husky&#x2F;lint-staged</strong>；<br><strong>@bingo&#x2F;qc-menber</strong> 一键生成符合公司标准的 eslint、prettier 配置（后集成到 cli 脚手架中了）</li>
-<li>babel 工具；<br><strong>@bingo&#x2F;taro2-to-taro3</strong>，基于 gogocode 将 taro2.x 一键升级至 taro3.x；<br><strong>@bingo&#x2F;page-inject-decorator</strong>，为每个页面注入装饰器，解决为每个页面都引入公共组件这一繁琐的操作；</li>
-<li><strong>taro</strong> 超级组件；<br><strong>@bingo&#x2F;ammo</strong>，目前已集成多个基于 taro 的组件：分片加载、图片懒加载、<br>列表组件 <strong>page-scroll-view</strong>，集成常见分页需求、元素吸顶、虚拟列表、分片加载、css 按需引入，虚拟列表性能比 taro 官方提供的虚拟列表组件性能高出 30%</li>
-<li>cli 脚手架工具；<br><strong>@bingo&#x2F;cli</strong>，一键生成符合公司项目规范标准初始化项目模板：集成公共请求机制、常用组件、代码规范、打包配置。支持选择 js&#x2F;ts、scss&#x2F;less、web&#x2F;小程序&#x2F;h5</li>
-<li>其他:<br>个人博客-<a href="http://pluto1811.com/">冥王星</a>, 后端：<strong>egg.js + mysql</strong>；后台管理系统：<strong>React + antd</strong>；客户端：<strong>nuxt.js + iview</strong>；说一个比较尴尬的事，当初计划的是整个系统都用 <strong>jenkins + docker</strong> 自动化部署。但由于囊中羞涩，只买了一台最低配置的云服务器（根本就扛不住 webpack 打包）&#x3D;。&#x3D; 最后只把后端做了自动化构建发布，管理系统和客户端用 <strong>node-ssh</strong> 做了一个简易的上传工具，也算做到了一键打包发布 &#x3D;。&#x3D;</li>
-</ul>
-</blockquote>
-<p>技术分享：<br>一月一次技术分享，目前分享了《babel 探秘》《react hooks 解密》</p>
-<p>我常常怀疑自己到了“懒癌晚期”（这大概也是程序员的通病），特排斥重复劳动，比如在一些时候要配合后端做微服务拆分，需要在所有项目中搜索接口，并逐一替换成拆服后的新地址，一次就是好几百个接口（眼冒金星^o^），索性写了一个 babel 插件，让程序去跑吧，既可以替换新接口同时还可以作下统计，拿着这个光明正大找后端同学索要“辛苦费”，反正跑的是代码累的也不是我（此处应该有鼓掌~）</p>
-<h4 id="管理-x2F-业务"><a href="#管理-x2F-业务" class="headerlink" title="管理&#x2F;业务"></a>管理&#x2F;业务</h4><p>在公司呆了大半年后，原以为会一直当一条专搞技术的“咸鱼”，但由于公司的组织结构的调整，按业务归属不同划分了三条产品线：买家线、卖家线、基础线。在某天部门老大的“威逼利诱”之下，我去了卖家业务线做了前端组的小 Leader，至此日常工作也发生了翻天覆地的变化。</p>
-<h5 id="从思维方式转变开始"><a href="#从思维方式转变开始" class="headerlink" title="从思维方式转变开始"></a>从思维方式转变开始</h5><p>之前的工作状态是“两耳不闻窗外事，一心只把代码敲”，我只需要对我的功能和代码负责。坦白来讲，现在也多少能体会有些人为什么愿意一心只扑在技术上，而对于与人打交道的事总是望而却步。代码是工具，不同人写出来也只是精致与粗糙的区别，代码好坏完全在于个人技术水平高低。而管理需要的是同理心，责任与担当，更关注的是工作的结果和价值，但现在需要对整个小团队所产生的价值负责。</p>
-<h5 id="管理工具助我一臂之力"><a href="#管理工具助我一臂之力" class="headerlink" title="管理工具助我一臂之力"></a>管理工具助我一臂之力</h5><p>我们的 codereview 工具是基于 reviewboard ，会对变量、函数的命名、组件的组织与划分、业务逻辑处理的合理性等等方面进行代码审查，我自己也从最开始的不习惯到现在渐渐爱上了 review，一方面倒逼自己在日常开发中更加谨慎和注意规范与逻辑，另一方面也可以从同事的代码体会到不一样的思考方式。另外在此安利一下飞书，我们的项目是基于飞书管理的，飞书的在线文档支持多人编辑、飞书项目管理机制进程的高度定制化、甘特图轻松看到需求的人日分布等等，这些东西用起来简直不要太爽。</p>
-<h5 id="不得不面对的绩效考核"><a href="#不得不面对的绩效考核" class="headerlink" title="不得不面对的绩效考核"></a>不得不面对的绩效考核</h5><p>我们公司在推行“271”（20%优秀，70%良好，10%待改进）绩效打分时，其实是都受到了很大阻力的，特别是每条产品线每个月都必须要有一个 1 时，都是一个艰难的抉择。同时也给自己提出了更高的要求，如何保证相对公平的情况下，组员坦然接受最后结果？我有一个不对外公开的飞书文档，里面按如下几个维度对组员进行一周一次的盘点：</p>
-<blockquote>
-<ul>
-<li>个人技术：技术是否能满足需求和对应 level</li>
-<li>代码质量：是否符合公司前端代码规范前端代码规范</li>
-<li>对人对事态度：对事是否积极主动、有责任心，对人是否保持谦逊、善纳建议</li>
-<li>任务完成度：是否因个人问题导致任务延期</li>
-<li>线上 BUG：是否存在线上 BUG</li>
-<li>沟通协作：是否与产品、测试、后端高效沟通</li>
-<li>主观能动性（自驱）：是否积极主动学习技术和业务</li>
-<li>业务理解程度：对迭代或自己负责的模块相关业务的理解</li>
-</ul>
-</blockquote>
-<p>另有一个挑战性任务，作为本周工作是否有超预期的指标，当然不是必须要有的，只是会把这个作为一个加分项。月终会对这些数据作一次汇总算出各组员的平均值，作为当月绩效考核的依据。</p>
-<h5 id="前端同样需要关注业务"><a href="#前端同样需要关注业务" class="headerlink" title="前端同样需要关注业务"></a>前端同样需要关注业务</h5><p>前端这个岗位有个天然的优势，只要给我设计稿、接口，就能把一个功能基本实现，但这是一柄双刃剑，前端的劣势也就凸显出来了 - 离业务太远。所以我们经常能看到在开需求评审会的时候，测试、后端、产品在那互相 battle，但前端却好像在神游，参与感不强，自然对项目就失去了主导权。如何破局？</p>
-<blockquote>
-<ul>
-<li>请产品经理隔三差五在群里发一些用户使用后的效果截图或聊天记录，称赞的、吐槽的都接受；</li>
-<li>需求评审的时候请产品经理说下为什么需要有这个功能，用户实际使用场景是什么，这个功能上线后能给业务带来的价值有多少；</li>
-<li>鼓励组员多参加测试同学组织的业务讲解；</li>
-</ul>
-</blockquote>
-<h4 id="生活-x2F-爱好"><a href="#生活-x2F-爱好" class="headerlink" title="生活&#x2F;爱好"></a>生活&#x2F;爱好</h4><blockquote>
-<p>我的大小 baby</p>
-</blockquote>
-<p>早上准备上班的时候，我两岁半的女儿经常会说：“爸爸，上班是你的工作，上学是我的工作，我们都要把自己的工作做好”。于是元气满满的一天便从此刻开始；<br>晚上下班回家，不管有多晚总有一盏灯是为我留的，我的大 baby，谢谢你（狠狠的撒一把狗粮，啊哈哈）。这些大概就是卷的最好理由了 &#x3D;。&#x3D;</p>
-<blockquote>
-<p>看书</p>
-</blockquote>
-<p>针对这个话题可能有很多同学会说：看过的书第二天就忘了，有什么用呢？我来说说我的解法吧：</p>
-<blockquote>
-<ul>
-<li>思想的转变，与其仅仅是看书，不如说是把一本好书当作与一个高手的对话，程序员圈子大多简单，如果平时社交不多，看书不失为是一种增长见识的方式，</li>
-<li>看书是有技巧的，写读后感， 不用写长篇大论，2、3 百字就可以，关键是把看书过程中自己觉得最有启发或印象最深的部分，用自己话写下来。再有就是强制回忆，利用碎片时间：坐地铁、走路，快速回忆下看过的章节；</li>
-</ul>
-</blockquote>
-<p>长期霸榜，也有可能朋友圈的人都不在电子设备上看书&#x3D;。&#x3D;</p>
-<center>
-    <img src="http://cdn.pluto1811.com/WechatIMG50.jpeg#pic_center" width="30%">
-</center>
-
-<h4 id="投资理财"><a href="#投资理财" class="headerlink" title="投资理财"></a>投资理财</h4><p>俗话说你不理财，财不理你；目前为止我觉得最后悔的事就是理财意识觉醒得太迟了。刚参加工作那会儿，消费没节制，基本都是月光，真正要用钱的时候，也只能是心有余而力不足。</p>
-<p><strong>理财的初级：</strong></p>
-<blockquote>
-<p>-记账、强制存储；</p>
-</blockquote>
-<p>我说存钱会上瘾你相信吗？养成先结余再消费的习惯，可以有一个自己的小金库，每个月固定存一点，这种方式注定是一个漫长的过程，但本质是要我们养成储蓄的习惯，当有消费欲望时，能想到这钱我存了好久啊 ^o^，学会延迟满足；</p>
-<p><strong>理财进阶：</strong></p>
-<blockquote>
-<p>-基金&#x2F;股票</p>
-</blockquote>
-<p>这里记住一定是闲钱投资，切勿融资加杠杆，那不是普通人玩的。有人一听到基金&#x2F;股票，就认为是不务正业或者是在赌博。确实，投资是一件专业性非常强的事，需要学习的东西非常多，常常听人说的“七亏二平一赚”是真实存在的。既然投资这么可怕，那我这里为什么还要建议去尝试呢？第一、在投资过程中，不可避免的要去学习一些经济、金融等等方面的知识，这对我们了解日常经济常识大有裨益；第二、能懂公司股权结构有助于我们在某天技术入股或合伙创业时了解股权的分配状况。市场有风险，入市需谨慎，那么作为普通人应该如何选择投资工具呢？ 推荐一个懒人投资方法：定投指数基金，既然采用定投的方式，那么就是一种以时间换空间、赚取市场平均收益的理财方式，忽略市场的短期波动，切记：止盈不止损。</p>
-<h4 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h4><p>而立之年，依然需要保持对技术的热爱，同样也希望尝试不同的领域，以此来拓宽自己的边界。这些年最大的收获是冲动之前，先冷静十秒；<br>“35 岁中年危机”这个问题也会困扰我，但这反而会让我常常自省，尝试找到并发掘自己的不可替代性。平衡工作和家庭，是一种重要的生活能力， 学会与自己和解，承认自己的普通与不完美未尝不是一种成熟的表现，可以很笨，可以走得很慢，但绝不能停下脚步<br>前端老鸟 祝自己出走半生归来仍是少年。</p>
 ]]></content>
   </entry>
   <entry>
@@ -1201,6 +1115,90 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>这里 foo2 用 await 调用了两次异步函数 foo，可以看到，如果我们把 sleep 这样的异步操作放入某一个框架或者库中，使用者几乎不需要了解 Promise 的概念即可进行异步编程了。</p>
 <p>此外，generator&#x2F;iterator 也常常被跟异步一起来讲，我们必须说明 generator&#x2F;iterator 并非异步代码，只是在缺少 async&#x2F;await 的时候，一些框架（最著名的要数 co）使用这样的特性来模拟 async&#x2F;await。</p>
 <p>但是 generator 并非被设计成实现异步，所以有了 async&#x2F;await 之后，generator&#x2F;iterator 来模拟异步的方法应该被废弃。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>嗯，这两三年...2022年中总结</title>
+    <url>/pluto/2022/10/25/me2022-10/</url>
+    <content><![CDATA[<h3 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h3><p>四川人，慢热型，喜欢吃辣，一个非典型程序员，喜欢跟 bug 死缠烂打。^o^</p>
+<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>平时技术性的文章写得比较多，很少写这种总结或叫杂谈类的文章。虽很久之前盘算着写一篇这两三年的总结，但在真正要敲下键盘时，脑袋竟有些空白。巧了，这篇总结的时间跨度恰好是在现在的这家公司的任职时间，在这里渡过了一段快乐的时光：</p>
+<blockquote>
+<p>第一次正儿八经的做一条产品线的前端负责人，第一次参加公司级共创会，体验了一把一个通宵出一个项目设计方案（真快搞死人了…），第一次为了产品的使用情况去用户那里沉浸式的体验两天，每天都在叫他点点点，再说说使用感受，估计客户都快被我整疯了，在这里 say sorry 啦~， 渡过了自己 30 岁的生日（离传说中的 35 岁定律没几年了，我滴妈呀…）</p>
+</blockquote>
+<h4 id="技术-x2F-架构"><a href="#技术-x2F-架构" class="headerlink" title="技术&#x2F;架构"></a>技术&#x2F;架构</h4><p>刚来公司时，跟现在大多数程序员一样，没日没夜的进行业务代码的开发，<strong>crud</strong>，巴拉巴拉的…，<strong>react、umi、vue2&#x2F;3、js&#x2F;ts、taro</strong>… 都是我们常用的技术栈，但随着项目代码量不断增多，维护成本不断增大，与我们的“工头”几经讨论，决定开发出一系列具有公司特色的工具链，按使用顺序做了如下安排并一一实现：</p>
+<center>
+    <img src="/images/me2022-10/1691999258848.jpg" >
+</center>
+
+<blockquote>
+<ul>
+<li>基于 <strong>verdaccio、lerna、dumi</strong> 搭建私有组件库：bingo；</li>
+<li>CI&#x2F;CD；<br>web 项目&#x2F;h5 项目： <strong>jenkins</strong> 自动化构建，一键发布；<br>微信小程序：<strong>jenkins</strong> 自动化构建打包、上传、提审；</li>
+<li>代码规范：自定义 <strong>eslint&#x2F;prettier、husky&#x2F;lint-staged</strong>；<br><strong>@bingo&#x2F;qc-menber</strong> 一键生成符合公司标准的 eslint、prettier 配置（后集成到 cli 脚手架中了）</li>
+<li>babel 工具；<br><strong>@bingo&#x2F;taro2-to-taro3</strong>，基于 gogocode 将 taro2.x 一键升级至 taro3.x；<br><strong>@bingo&#x2F;page-inject-decorator</strong>，为每个页面注入装饰器，解决为每个页面都引入公共组件这一繁琐的操作；</li>
+<li><strong>taro</strong> 超级组件；<br><strong>@bingo&#x2F;ammo</strong>，目前已集成多个基于 taro 的组件：分片加载、图片懒加载、<br>列表组件 <strong>page-scroll-view</strong>，集成常见分页需求、元素吸顶、虚拟列表、分片加载、css 按需引入，虚拟列表性能比 taro 官方提供的虚拟列表组件性能高出 30%</li>
+<li>cli 脚手架工具；<br><strong>@bingo&#x2F;cli</strong>，一键生成符合公司项目规范标准初始化项目模板：集成公共请求机制、常用组件、代码规范、打包配置。支持选择 js&#x2F;ts、scss&#x2F;less、web&#x2F;小程序&#x2F;h5</li>
+<li>其他:<br>个人博客-<a href="http://pluto1811.com/">冥王星</a>, 后端：<strong>egg.js + mysql</strong>；后台管理系统：<strong>React + antd</strong>；客户端：<strong>nuxt.js + iview</strong>；说一个比较尴尬的事，当初计划的是整个系统都用 <strong>jenkins + docker</strong> 自动化部署。但由于囊中羞涩，只买了一台最低配置的云服务器（根本就扛不住 webpack 打包）&#x3D;。&#x3D; 最后只把后端做了自动化构建发布，管理系统和客户端用 <strong>node-ssh</strong> 做了一个简易的上传工具，也算做到了一键打包发布 &#x3D;。&#x3D;</li>
+</ul>
+</blockquote>
+<p>技术分享：<br>一月一次技术分享，目前分享了《babel 探秘》《react hooks 解密》</p>
+<p>我常常怀疑自己到了“懒癌晚期”（这大概也是程序员的通病），特排斥重复劳动，比如在一些时候要配合后端做微服务拆分，需要在所有项目中搜索接口，并逐一替换成拆服后的新地址，一次就是好几百个接口（眼冒金星^o^），索性写了一个 babel 插件，让程序去跑吧，既可以替换新接口同时还可以作下统计，拿着这个光明正大找后端同学索要“辛苦费”，反正跑的是代码累的也不是我（此处应该有鼓掌~）</p>
+<h4 id="管理-x2F-业务"><a href="#管理-x2F-业务" class="headerlink" title="管理&#x2F;业务"></a>管理&#x2F;业务</h4><p>在公司呆了大半年后，原以为会一直当一条专搞技术的“咸鱼”，但由于公司的组织结构的调整，按业务归属不同划分了三条产品线：买家线、卖家线、基础线。在某天部门老大的“威逼利诱”之下，我去了卖家业务线做了前端组的小 Leader，至此日常工作也发生了翻天覆地的变化。</p>
+<h5 id="从思维方式转变开始"><a href="#从思维方式转变开始" class="headerlink" title="从思维方式转变开始"></a>从思维方式转变开始</h5><p>之前的工作状态是“两耳不闻窗外事，一心只把代码敲”，我只需要对我的功能和代码负责。坦白来讲，现在也多少能体会有些人为什么愿意一心只扑在技术上，而对于与人打交道的事总是望而却步。代码是工具，不同人写出来也只是精致与粗糙的区别，代码好坏完全在于个人技术水平高低。而管理需要的是同理心，责任与担当，更关注的是工作的结果和价值，但现在需要对整个小团队所产生的价值负责。</p>
+<h5 id="管理工具助我一臂之力"><a href="#管理工具助我一臂之力" class="headerlink" title="管理工具助我一臂之力"></a>管理工具助我一臂之力</h5><p>我们的 codereview 工具是基于 reviewboard ，会对变量、函数的命名、组件的组织与划分、业务逻辑处理的合理性等等方面进行代码审查，我自己也从最开始的不习惯到现在渐渐爱上了 review，一方面倒逼自己在日常开发中更加谨慎和注意规范与逻辑，另一方面也可以从同事的代码体会到不一样的思考方式。另外在此安利一下飞书，我们的项目是基于飞书管理的，飞书的在线文档支持多人编辑、飞书项目管理机制进程的高度定制化、甘特图轻松看到需求的人日分布等等，这些东西用起来简直不要太爽。</p>
+<h5 id="不得不面对的绩效考核"><a href="#不得不面对的绩效考核" class="headerlink" title="不得不面对的绩效考核"></a>不得不面对的绩效考核</h5><p>我们公司在推行“271”（20%优秀，70%良好，10%待改进）绩效打分时，其实是都受到了很大阻力的，特别是每条产品线每个月都必须要有一个 1 时，都是一个艰难的抉择。同时也给自己提出了更高的要求，如何保证相对公平的情况下，组员坦然接受最后结果？我有一个不对外公开的飞书文档，里面按如下几个维度对组员进行一周一次的盘点：</p>
+<blockquote>
+<ul>
+<li>个人技术：技术是否能满足需求和对应 level</li>
+<li>代码质量：是否符合公司前端代码规范前端代码规范</li>
+<li>对人对事态度：对事是否积极主动、有责任心，对人是否保持谦逊、善纳建议</li>
+<li>任务完成度：是否因个人问题导致任务延期</li>
+<li>线上 BUG：是否存在线上 BUG</li>
+<li>沟通协作：是否与产品、测试、后端高效沟通</li>
+<li>主观能动性（自驱）：是否积极主动学习技术和业务</li>
+<li>业务理解程度：对迭代或自己负责的模块相关业务的理解</li>
+</ul>
+</blockquote>
+<p>另有一个挑战性任务，作为本周工作是否有超预期的指标，当然不是必须要有的，只是会把这个作为一个加分项。月终会对这些数据作一次汇总算出各组员的平均值，作为当月绩效考核的依据。</p>
+<h5 id="前端同样需要关注业务"><a href="#前端同样需要关注业务" class="headerlink" title="前端同样需要关注业务"></a>前端同样需要关注业务</h5><p>前端这个岗位有个天然的优势，只要给我设计稿、接口，就能把一个功能基本实现，但这是一柄双刃剑，前端的劣势也就凸显出来了 - 离业务太远。所以我们经常能看到在开需求评审会的时候，测试、后端、产品在那互相 battle，但前端却好像在神游，参与感不强，自然对项目就失去了主导权。如何破局？</p>
+<blockquote>
+<ul>
+<li>请产品经理隔三差五在群里发一些用户使用后的效果截图或聊天记录，称赞的、吐槽的都接受；</li>
+<li>需求评审的时候请产品经理说下为什么需要有这个功能，用户实际使用场景是什么，这个功能上线后能给业务带来的价值有多少；</li>
+<li>鼓励组员多参加测试同学组织的业务讲解；</li>
+</ul>
+</blockquote>
+<h4 id="生活-x2F-爱好"><a href="#生活-x2F-爱好" class="headerlink" title="生活&#x2F;爱好"></a>生活&#x2F;爱好</h4><blockquote>
+<p>我的大小 baby</p>
+</blockquote>
+<p>早上准备上班的时候，我两岁半的女儿经常会说：“爸爸，上班是你的工作，上学是我的工作，我们都要把自己的工作做好”。于是元气满满的一天便从此刻开始；<br>晚上下班回家，不管有多晚总有一盏灯是为我留的，我的大 baby，谢谢你（狠狠的撒一把狗粮，啊哈哈）。这些大概就是卷的最好理由了 &#x3D;。&#x3D;</p>
+<blockquote>
+<p>看书</p>
+</blockquote>
+<p>针对这个话题可能有很多同学会说：看过的书第二天就忘了，有什么用呢？我来说说我的解法吧：</p>
+<blockquote>
+<ul>
+<li>思想的转变，与其仅仅是看书，不如说是把一本好书当作与一个高手的对话，程序员圈子大多简单，如果平时社交不多，看书不失为是一种增长见识的方式，</li>
+<li>看书是有技巧的，写读后感， 不用写长篇大论，2、3 百字就可以，关键是把看书过程中自己觉得最有启发或印象最深的部分，用自己话写下来。再有就是强制回忆，利用碎片时间：坐地铁、走路，快速回忆下看过的章节；</li>
+</ul>
+</blockquote>
+<p>长期霸榜，也有可能朋友圈的人都不在电子设备上看书&#x3D;。&#x3D;</p>
+<center>
+    <img src="http://cdn.pluto1811.com/WechatIMG50.jpeg#pic_center" width="30%">
+</center>
+
+<h4 id="投资理财"><a href="#投资理财" class="headerlink" title="投资理财"></a>投资理财</h4><p>俗话说你不理财，财不理你；目前为止我觉得最后悔的事就是理财意识觉醒得太迟了。刚参加工作那会儿，消费没节制，基本都是月光，真正要用钱的时候，也只能是心有余而力不足。</p>
+<p><strong>理财的初级：</strong></p>
+<blockquote>
+<p>-记账、强制存储；</p>
+</blockquote>
+<p>我说存钱会上瘾你相信吗？养成先结余再消费的习惯，可以有一个自己的小金库，每个月固定存一点，这种方式注定是一个漫长的过程，但本质是要我们养成储蓄的习惯，当有消费欲望时，能想到这钱我存了好久啊 ^o^，学会延迟满足；</p>
+<p><strong>理财进阶：</strong></p>
+<blockquote>
+<p>-基金&#x2F;股票</p>
+</blockquote>
+<p>这里记住一定是闲钱投资，切勿融资加杠杆，那不是普通人玩的。有人一听到基金&#x2F;股票，就认为是不务正业或者是在赌博。确实，投资是一件专业性非常强的事，需要学习的东西非常多，常常听人说的“七亏二平一赚”是真实存在的。既然投资这么可怕，那我这里为什么还要建议去尝试呢？第一、在投资过程中，不可避免的要去学习一些经济、金融等等方面的知识，这对我们了解日常经济常识大有裨益；第二、能懂公司股权结构有助于我们在某天技术入股或合伙创业时了解股权的分配状况。市场有风险，入市需谨慎，那么作为普通人应该如何选择投资工具呢？ 推荐一个懒人投资方法：定投指数基金，既然采用定投的方式，那么就是一种以时间换空间、赚取市场平均收益的理财方式，忽略市场的短期波动，切记：止盈不止损。</p>
+<h4 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h4><p>而立之年，依然需要保持对技术的热爱，同样也希望尝试不同的领域，以此来拓宽自己的边界。这些年最大的收获是冲动之前，先冷静十秒；<br>“35 岁中年危机”这个问题也会困扰我，但这反而会让我常常自省，尝试找到并发掘自己的不可替代性。平衡工作和家庭，是一种重要的生活能力， 学会与自己和解，承认自己的普通与不完美未尝不是一种成熟的表现，可以很笨，可以走得很慢，但绝不能停下脚步<br>前端老鸟 祝自己出走半生归来仍是少年。</p>
 ]]></content>
   </entry>
   <entry>
@@ -3068,120 +3066,6 @@ console<span class="token punctuation">.</span><span class="token function">log<
 ]]></content>
   </entry>
   <entry>
-    <title>从零实现Vue3.x-工程&amp;架构篇</title>
-    <url>/pluto/2022/08/10/vue3-01/</url>
-    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>温故而知新，虽然 vue3.x 已经发布很久了，但对于源码的分析总能让我们每次都有收获，因此决定写一个 vue3.x 的源码分析的系列文章，vue 版本是 3.2.26。主要从以下几个方面展开分析：</p>
-<ol>
-<li>工程&amp;架构</li>
-<li>响应式系统</li>
-<li>渲染器 &amp; diff 算法</li>
-<li>内置组件</li>
-</ol>
-<h3 id="目录划分："><a href="#目录划分：" class="headerlink" title="目录划分："></a>目录划分：</h3><img src="http://cdn.pluto1811.com/1654418177792.jpg">
-采用 monorepo 架构，做到了模块的统一管理与单独发布，相比于vue2.x尽可能的做到了模块之间的解耦.
-
-<h4 id="项目的起点：package-json"><a href="#项目的起点：package-json" class="headerlink" title="项目的起点：package.json"></a>项目的起点：package.json</h4><ol>
-<li>npm 的钩子函数</li>
-</ol>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
-  <span class="token property">"private"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"3.2.22"</span><span class="token punctuation">,</span>
-  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
-    <span class="token property">"preinstall"</span><span class="token operator">:</span> <span class="token string">"node ./scripts/preinstall.js"</span><span class="token punctuation">,</span>
-  <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token comment">// 相关的钩子：依次执行</span>
-# install 之前执行这个脚本
-preinstall
-# 执行 install 脚本
-install
-# install 之后执行这个脚本
-postinstall<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ol start="2">
-<li>代码风格检查与提交规范</li>
-</ol>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"gitHooks"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
-  <span class="token property">"pre-commit"</span><span class="token operator">:</span> <span class="token string">"lint-staged"</span><span class="token punctuation">,</span>
-  <span class="token property">"commit-msg"</span><span class="token operator">:</span> <span class="token string">"node scripts/verifyCommit.js"</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-<span class="token property">"lint-staged"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
-  <span class="token property">"*.js"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-    <span class="token string">"prettier --write"</span>
-  <span class="token punctuation">]</span><span class="token punctuation">,</span>
-  <span class="token property">"*.ts?(x)"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-    <span class="token string">"eslint"</span><span class="token punctuation">,</span>
-    <span class="token string">"prettier --parser=typescript --write"</span>
-  <span class="token punctuation">]</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ol start="3">
-<li>workspace:*</li>
-</ol>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"@vue/reactivity"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span>
-<span class="token property">"@vue/runtime-core"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span>
-<span class="token property">"@vue/runtime-dom"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<p>在 pnpm 模式下 package.json 有一种特殊的写法：”workspace:*“，为了指明这是工作区的依赖，防止自动去 npm 上寻找导致混乱，当使用此协议时，pnpm 将拒绝解析除本地 workspace 包含的 package 之外的任何内容。</p>
-<p>例如，如果 bar 中有 “foo”：”^1.0.0” 的这个依赖项，则 <a href="mailto:&#x66;&#111;&#111;&#x40;&#49;&#46;&#x30;&#x2e;&#x30;">&#x66;&#111;&#111;&#x40;&#49;&#46;&#x30;&#x2e;&#x30;</a> 链接到 bar。 但是，如果 bar 的依赖项中有 “foo”: “2.0.0”，而 <a href="mailto:&#x66;&#x6f;&#x6f;&#64;&#50;&#x2e;&#x30;&#46;&#x30;">&#x66;&#x6f;&#x6f;&#64;&#50;&#x2e;&#x30;&#46;&#x30;</a> 在工作空间中并不存在，此时会从 npm registry 上安装<a href="mailto:&#x66;&#111;&#x6f;&#x40;&#50;&#x2e;&#48;&#x2e;&#x30;">&#x66;&#111;&#x6f;&#x40;&#50;&#x2e;&#48;&#x2e;&#x30;</a>，如果设置为 “foo”: “workspace:2.0.0” 时，安装将会失败，因为 “<a href="mailto:&#102;&#x6f;&#x6f;&#64;&#x32;&#46;&#x30;&#46;&#48;">&#102;&#x6f;&#x6f;&#64;&#x32;&#46;&#x30;&#46;&#48;</a>“ 不存在于此 workspace 中</p>
-<ol start="4">
-<li>packages 中每个模块中都有一个 json 文件</li>
-</ol>
-<p>这个文件主要是与<a href="https://www.npmjs.com/package/@microsoft/api-extractor">@microsoft&#x2F;api-extractor</a>这个插件配合使用</p>
-<ul>
-<li><p>可以产生三种不同的输出类型:</p>
-</li>
-<li><p>API Report —API Extractor 可以跟踪项目主入口点的所有导出，并生成一个报告作为 API 审查工作流的基础。</p>
-</li>
-<li><p>.d.ts Rollups—类似于 Webpack 可以将所有 JavaScript 文件“卷起”到一个包中进行分发，API Extractor 可以将你的 TypeScript 声明卷成一个单独的.d。ts 文件。</p>
-</li>
-<li><p>API Documentation—API Extractor 可以为每个项目生成“doc model”JSON 文件。这个 JSON 文件包含提取的类型签名和文档注释。API -documenter 配套工具可以使用这些文件生成 API 参考网站，也可以使用它们作为自定义文档管道的输入。</p>
-</li>
-</ul>
-<p>这是为了指明这是工作区的依赖，防止自动去 npm 上寻找导致混乱。当使用此协议时，pnpm 将拒绝解析除本地 workspace 包含的 package 之外的任何内容。</p>
-<h4 id="为什么是-pnpm？"><a href="#为什么是-pnpm？" class="headerlink" title="为什么是 pnpm？"></a>为什么是 pnpm？</h4><p>pnpm 是一个包管理器，本质上与 npm&#x2F;yarn 是一样的，但它却有几个优势：</p>
-<ol>
-<li>依赖安装速度极快；</li>
-<li>磁盘空间利用高；<br>同一个包不会重复安装，比如 10 个项目都依赖了 lodash，在 npm&#x2F;yarn 中，lodash 可能会被安装 10 次；极大程度地复用之前版本的代码，</li>
-<li>天然支持 monorepo<br>只需要在项目更目录新增一个 pnpm-workspace.yaml</li>
-</ol>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text">packages:
-  - 'packages/*'<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<ol start="4">
-<li>避免依赖包的非法访问<br>比如在 a 包中依赖了 lodash，那么我们在项目的 package.json 文件中不用显式的声明 lodash 依赖；这样不是很好吗？但我们考虑一下场景：<br>如果有天 a 包中移除了 lodash 依赖，那么可能会导致我们自己的项目异常；</li>
-</ol>
-<h4 id="开发语言：摈弃-flow，全面采用-ts"><a href="#开发语言：摈弃-flow，全面采用-ts" class="headerlink" title="开发语言：摈弃 flow，全面采用 ts"></a>开发语言：摈弃 flow，全面采用 ts</h4><p>在 vue2.x 时代，尤大更中意的是 Facebook（现在应该叫 Meta 了）开源的 flow，但没想到 flow 最后烂尾了，而 typescript 生态则越来越丰富，其他的正如<a href="https://vuejs.org/guide/typescript/overview.html" >Vue 官方说的</a>：<br>构建时通过静态分析检测许多常见错误。这减少了生产中出现运行时错误的机会，也使我们能够更自信地重构大规模应用程序中的代码。TypeScript 还通过 ide 中基于类型的自动补全改进了开发者的体验。</p>
-<h4 id="开发环境采用-esbuild-构建代码"><a href="#开发环境采用-esbuild-构建代码" class="headerlink" title="开发环境采用 esbuild 构建代码"></a>开发环境采用 esbuild 构建代码</h4><p>Esbuild 是由 Figma 的 CTO 「Evan Wallace」基于 Golang 开发的一款打包工具，相比传统的打包工具，主打性能优势，在构建速度上可以快 10~100 倍。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
-  <span class="token literal-property property">entryPoints</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">../packages/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>target<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/src/index.ts</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 入口文件</span>
-  outfile<span class="token punctuation">,</span> <span class="token comment">// 打包生成的产物路径</span>
-  <span class="token literal-property property">bundle</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-  external<span class="token punctuation">,</span>
-  <span class="token literal-property property">sourcemap</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">// 开启sourcemap</span>
-  <span class="token literal-property property">format</span><span class="token operator">:</span> outputFormat<span class="token punctuation">,</span> <span class="token comment">// 生成产物的格式 目前支持 iife 自执行函数、cjs 主要是node环境、esm 以es6语法产出 支持 &lt;script type="mudule"></span>
-  <span class="token literal-property property">globalName</span><span class="token operator">:</span> pkg<span class="token punctuation">.</span>buildOptions<span class="token operator">?.</span>name<span class="token punctuation">,</span> <span class="token comment">// 自执行函数的全局名</span>
-  <span class="token literal-property property">platform</span><span class="token operator">:</span> format <span class="token operator">===</span> <span class="token string">'cjs'</span> <span class="token operator">?</span> <span class="token string">'node'</span> <span class="token operator">:</span> <span class="token string">'browser'</span><span class="token punctuation">,</span> <span class="token comment">// 针对的平台</span>
-  <span class="token literal-property property">plugins</span><span class="token operator">:</span>
-    format <span class="token operator">===</span> <span class="token string">'cjs'</span> <span class="token operator">||</span> pkg<span class="token punctuation">.</span>buildOptions<span class="token operator">?.</span>enableNonBrowserBranches
-      <span class="token operator">?</span> <span class="token punctuation">[</span>nodePolyfills<span class="token punctuation">.</span><span class="token function">default</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
-      <span class="token operator">:</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">define</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 全局变量 类似于 webpack.defineplugin</span>
-    <span class="token literal-property property">__COMMIT__</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">"dev"</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
-    <span class="token literal-property property">__VERSION__</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>pkg<span class="token punctuation">.</span>version<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">"</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
-    <span class="token literal-property property">__DEV__</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">true</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
-    <span class="token operator">...</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">watch</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 文件变动的监听函数</span>
-    <span class="token function">onRebuild</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>error<span class="token punctuation">)</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">rebuilt: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>relativeOutfile<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#125;</span>
-  <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-]]></content>
-  </entry>
-  <entry>
     <title>从零实现Vue3.x-项目搭建</title>
     <url>/pluto/2022/07/20/vue3-02/</url>
     <content><![CDATA[<p>这是从零实现 Vue3.x 系列的第二篇—<strong>项目的搭建</strong></p>
@@ -3290,6 +3174,120 @@ esbuild
 
 <p>接下来运行<br><img src="http://cdn.pluto1811.com/forEditor/1654500181395/1654500145806.jpg" alt="1654500145806.jpg"><br>此时在 reactivity 目录下会生成一个 dist 文件，这个就是打包后的产物<br><img src="http://cdn.pluto1811.com/forEditor/1654500334946/1654500325823.jpg" alt="1654500325823.jpg"></p>
 <p>大功告成，我们可以安心的正式开始编码阶段了!</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>从零实现Vue3.x-工程&amp;架构篇</title>
+    <url>/pluto/2022/08/10/vue3-01/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>温故而知新，虽然 vue3.x 已经发布很久了，但对于源码的分析总能让我们每次都有收获，因此决定写一个 vue3.x 的源码分析的系列文章，vue 版本是 3.2.26。主要从以下几个方面展开分析：</p>
+<ol>
+<li>工程&amp;架构</li>
+<li>响应式系统</li>
+<li>渲染器 &amp; diff 算法</li>
+<li>内置组件</li>
+</ol>
+<h3 id="目录划分："><a href="#目录划分：" class="headerlink" title="目录划分："></a>目录划分：</h3><img src="http://cdn.pluto1811.com/1654418177792.jpg">
+采用 monorepo 架构，做到了模块的统一管理与单独发布，相比于vue2.x尽可能的做到了模块之间的解耦.
+
+<h4 id="项目的起点：package-json"><a href="#项目的起点：package-json" class="headerlink" title="项目的起点：package.json"></a>项目的起点：package.json</h4><ol>
+<li>npm 的钩子函数</li>
+</ol>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"private"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"3.2.22"</span><span class="token punctuation">,</span>
+  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"preinstall"</span><span class="token operator">:</span> <span class="token string">"node ./scripts/preinstall.js"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">// 相关的钩子：依次执行</span>
+# install 之前执行这个脚本
+preinstall
+# 执行 install 脚本
+install
+# install 之后执行这个脚本
+postinstall<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li>代码风格检查与提交规范</li>
+</ol>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"gitHooks"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">"pre-commit"</span><span class="token operator">:</span> <span class="token string">"lint-staged"</span><span class="token punctuation">,</span>
+  <span class="token property">"commit-msg"</span><span class="token operator">:</span> <span class="token string">"node scripts/verifyCommit.js"</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+<span class="token property">"lint-staged"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">"*.js"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"prettier --write"</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"*.ts?(x)"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"eslint"</span><span class="token punctuation">,</span>
+    <span class="token string">"prettier --parser=typescript --write"</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol start="3">
+<li>workspace:*</li>
+</ol>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"@vue/reactivity"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span>
+<span class="token property">"@vue/runtime-core"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span>
+<span class="token property">"@vue/runtime-dom"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>在 pnpm 模式下 package.json 有一种特殊的写法：”workspace:*“，为了指明这是工作区的依赖，防止自动去 npm 上寻找导致混乱，当使用此协议时，pnpm 将拒绝解析除本地 workspace 包含的 package 之外的任何内容。</p>
+<p>例如，如果 bar 中有 “foo”：”^1.0.0” 的这个依赖项，则 <a href="mailto:&#x66;&#111;&#x6f;&#x40;&#49;&#46;&#48;&#x2e;&#x30;">&#x66;&#111;&#x6f;&#x40;&#49;&#46;&#48;&#x2e;&#x30;</a> 链接到 bar。 但是，如果 bar 的依赖项中有 “foo”: “2.0.0”，而 <a href="mailto:&#x66;&#x6f;&#x6f;&#x40;&#50;&#46;&#x30;&#x2e;&#48;">&#x66;&#x6f;&#x6f;&#x40;&#50;&#46;&#x30;&#x2e;&#48;</a> 在工作空间中并不存在，此时会从 npm registry 上安装<a href="mailto:&#102;&#x6f;&#111;&#x40;&#50;&#x2e;&#48;&#x2e;&#48;">&#102;&#x6f;&#111;&#x40;&#50;&#x2e;&#48;&#x2e;&#48;</a>，如果设置为 “foo”: “workspace:2.0.0” 时，安装将会失败，因为 “<a href="mailto:&#102;&#x6f;&#111;&#64;&#50;&#46;&#48;&#x2e;&#48;">&#102;&#x6f;&#111;&#64;&#50;&#46;&#48;&#x2e;&#48;</a>“ 不存在于此 workspace 中</p>
+<ol start="4">
+<li>packages 中每个模块中都有一个 json 文件</li>
+</ol>
+<p>这个文件主要是与<a href="https://www.npmjs.com/package/@microsoft/api-extractor">@microsoft&#x2F;api-extractor</a>这个插件配合使用</p>
+<ul>
+<li><p>可以产生三种不同的输出类型:</p>
+</li>
+<li><p>API Report —API Extractor 可以跟踪项目主入口点的所有导出，并生成一个报告作为 API 审查工作流的基础。</p>
+</li>
+<li><p>.d.ts Rollups—类似于 Webpack 可以将所有 JavaScript 文件“卷起”到一个包中进行分发，API Extractor 可以将你的 TypeScript 声明卷成一个单独的.d。ts 文件。</p>
+</li>
+<li><p>API Documentation—API Extractor 可以为每个项目生成“doc model”JSON 文件。这个 JSON 文件包含提取的类型签名和文档注释。API -documenter 配套工具可以使用这些文件生成 API 参考网站，也可以使用它们作为自定义文档管道的输入。</p>
+</li>
+</ul>
+<p>这是为了指明这是工作区的依赖，防止自动去 npm 上寻找导致混乱。当使用此协议时，pnpm 将拒绝解析除本地 workspace 包含的 package 之外的任何内容。</p>
+<h4 id="为什么是-pnpm？"><a href="#为什么是-pnpm？" class="headerlink" title="为什么是 pnpm？"></a>为什么是 pnpm？</h4><p>pnpm 是一个包管理器，本质上与 npm&#x2F;yarn 是一样的，但它却有几个优势：</p>
+<ol>
+<li>依赖安装速度极快；</li>
+<li>磁盘空间利用高；<br>同一个包不会重复安装，比如 10 个项目都依赖了 lodash，在 npm&#x2F;yarn 中，lodash 可能会被安装 10 次；极大程度地复用之前版本的代码，</li>
+<li>天然支持 monorepo<br>只需要在项目更目录新增一个 pnpm-workspace.yaml</li>
+</ol>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">packages:
+  - 'packages/*'<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<ol start="4">
+<li>避免依赖包的非法访问<br>比如在 a 包中依赖了 lodash，那么我们在项目的 package.json 文件中不用显式的声明 lodash 依赖；这样不是很好吗？但我们考虑一下场景：<br>如果有天 a 包中移除了 lodash 依赖，那么可能会导致我们自己的项目异常；</li>
+</ol>
+<h4 id="开发语言：摈弃-flow，全面采用-ts"><a href="#开发语言：摈弃-flow，全面采用-ts" class="headerlink" title="开发语言：摈弃 flow，全面采用 ts"></a>开发语言：摈弃 flow，全面采用 ts</h4><p>在 vue2.x 时代，尤大更中意的是 Facebook（现在应该叫 Meta 了）开源的 flow，但没想到 flow 最后烂尾了，而 typescript 生态则越来越丰富，其他的正如<a href="https://vuejs.org/guide/typescript/overview.html" >Vue 官方说的</a>：<br>构建时通过静态分析检测许多常见错误。这减少了生产中出现运行时错误的机会，也使我们能够更自信地重构大规模应用程序中的代码。TypeScript 还通过 ide 中基于类型的自动补全改进了开发者的体验。</p>
+<h4 id="开发环境采用-esbuild-构建代码"><a href="#开发环境采用-esbuild-构建代码" class="headerlink" title="开发环境采用 esbuild 构建代码"></a>开发环境采用 esbuild 构建代码</h4><p>Esbuild 是由 Figma 的 CTO 「Evan Wallace」基于 Golang 开发的一款打包工具，相比传统的打包工具，主打性能优势，在构建速度上可以快 10~100 倍。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">entryPoints</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">../packages/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>target<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/src/index.ts</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">// 入口文件</span>
+  outfile<span class="token punctuation">,</span> <span class="token comment">// 打包生成的产物路径</span>
+  <span class="token literal-property property">bundle</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  external<span class="token punctuation">,</span>
+  <span class="token literal-property property">sourcemap</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">// 开启sourcemap</span>
+  <span class="token literal-property property">format</span><span class="token operator">:</span> outputFormat<span class="token punctuation">,</span> <span class="token comment">// 生成产物的格式 目前支持 iife 自执行函数、cjs 主要是node环境、esm 以es6语法产出 支持 &lt;script type="mudule"></span>
+  <span class="token literal-property property">globalName</span><span class="token operator">:</span> pkg<span class="token punctuation">.</span>buildOptions<span class="token operator">?.</span>name<span class="token punctuation">,</span> <span class="token comment">// 自执行函数的全局名</span>
+  <span class="token literal-property property">platform</span><span class="token operator">:</span> format <span class="token operator">===</span> <span class="token string">'cjs'</span> <span class="token operator">?</span> <span class="token string">'node'</span> <span class="token operator">:</span> <span class="token string">'browser'</span><span class="token punctuation">,</span> <span class="token comment">// 针对的平台</span>
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span>
+    format <span class="token operator">===</span> <span class="token string">'cjs'</span> <span class="token operator">||</span> pkg<span class="token punctuation">.</span>buildOptions<span class="token operator">?.</span>enableNonBrowserBranches
+      <span class="token operator">?</span> <span class="token punctuation">[</span>nodePolyfills<span class="token punctuation">.</span><span class="token function">default</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+      <span class="token operator">:</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">define</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 全局变量 类似于 webpack.defineplugin</span>
+    <span class="token literal-property property">__COMMIT__</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">"dev"</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+    <span class="token literal-property property">__VERSION__</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">"</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>pkg<span class="token punctuation">.</span>version<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">"</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+    <span class="token literal-property property">__DEV__</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">true</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+    <span class="token operator">...</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">watch</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 文件变动的监听函数</span>
+    <span class="token function">onRebuild</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>error<span class="token punctuation">)</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">rebuilt: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>relativeOutfile<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 ]]></content>
   </entry>
   <entry>
