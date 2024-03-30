@@ -2,7 +2,7 @@
 title: qiankun源码解读-示例篇
 date: 2022-09-05 13:10:55
 tags:
-cover: http://cdn.pluto1811.com/goodsImage/1615966170678/1615966002577.jpg
+cover: /images/qiankun01/cover.png
 ---
 
 ## 介绍

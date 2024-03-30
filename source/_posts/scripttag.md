@@ -2,7 +2,7 @@
 title: 在script标签写export为什么会抛错？
 date: 2022-09-21 13:20:55
 tags:
-cover: http://cdn.pluto1811.com/goodsImage/1615289042307/1615289019850.jpg
+cover: /images/scripttag/cover.png
 ---
 
 # 脚本和模块

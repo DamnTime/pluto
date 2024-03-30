@@ -2,7 +2,7 @@
 title: 关于jest的TDD与BDD开发模式
 date: 2022-08-10 13:20:55
 tags:
-cover: http://cdn.pluto1811.com/goodsImage/1619772970467/1619772941918.jpg
+cover: /images/jest/cover.png
 ---
 
 # 在 react 项目中运用 jest 自动化测试框架的探索

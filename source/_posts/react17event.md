@@ -2,7 +2,7 @@
 title: react17 合成事件
 date: 2022-07-11 16:20:55
 tags:
-cover: http://cdn.pluto1811.com/goodsImage/1656148764863/pure-logo.png
+cover: /images/react17event/cover.png
 ---
 
 事件绑定

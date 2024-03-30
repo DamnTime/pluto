@@ -2,10 +2,8 @@
 title: JavaScript对象：啥？对象还有分类？
 date: 2022-10-23 13:20:55
 tags:
-cover: http://cdn.pluto1811.com/goodsImage/1615184906664/374751567.jpg
+cover: /images/jsobject/cover.png
 ---
-
-![551bc581-28f0-4827-989c-287048566569.jpeg](http://cdn.pluto1811.com/forEditor/1615185161742/551bc581-28f0-4827-989c-287048566569.jpeg)
 
 在浏览器环境中，我们也无法单纯依靠 JavaScript 代码实现 div 对象，只能靠 document.createElement 来创建。这也说明了 JavaScript 的对象机制并非简单的属性集合 + 原型。
 

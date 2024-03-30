@@ -2,7 +2,7 @@
 title: qiankun源码解读-框架源码篇
 date: 2022-09-02 10:10:55
 tags:
-cover: http://cdn.pluto1811.com/goodsImage/1615971759919/1615971739665.jpg
+cover: /images/qiankun02/cover.png
 ---
 
 # 框架源码

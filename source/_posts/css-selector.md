@@ -2,7 +2,7 @@
 title: 除了属性和选择器，你还需要知道这些带@的规则
 date: 2022-09-15 13:20:55
 tags:
-cover: http://cdn.pluto1811.com/goodsImage/1615430191758/1615430172196.jpg
+cover: /images/css-selector/cover.png
 ---
 
 CSS 是前端工程师几乎每天都要用的技术了，不过 CSS 的学习资料却是最糟糕的，这是因为 CSS 并没有像 HTML 和 JavaScript 那样的一份标准文档。
@@ -59,9 +59,9 @@ at-rule 由一个 @ 关键字和后续的一个区块组成，如果没有区块
 ```
 
 ```css
-@import [ <url> | <string> ] [ supports(
-    [ <supports-condition> | <declaration> ]
-  ) ]? <media-query-list>?;
+@import [ <url> | <string>] [ supports(
+    [ <supports-condition> | <declaration>]
+  )]? <media-query-list>?;
 ```
 
 通过代码，我们可以看出，import 还支持 supports 和 media query 形式。

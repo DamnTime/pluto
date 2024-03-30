@@ -2,7 +2,7 @@
 title: 闭包和执行上下文到底是怎么回事？
 date: 2022-09-22 13:20:55
 tags:
-cover: http://cdn.pluto1811.com/goodsImage/1615190740385/316773783.jpg
+cover: /images/clusure/cover.png
 ---
 
 # show me the code：

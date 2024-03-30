@@ -2,10 +2,8 @@
 title: JavaScript类型，有可能你不知道这些细节
 date: 2022-10-16 13:20:55
 tags:
-cover: http://cdn.pluto1811.com/20221020140348.png
+cover: /images/jstyping/cover.png
 ---
-
-![article-5.png](http://cdn.pluto1811.com/forEditor/1615174445221/article-5.png)
 
 # JavaScript 类型，有可能你不知道这些细节
 
