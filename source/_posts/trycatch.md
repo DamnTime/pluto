@@ -2,7 +2,7 @@
 title: 一个细节：try里面放return，finally还会执行吗？
 date: 2022-09-24 13:20:55
 tags:
-cover: /images/trycatch/cover.png
+cover: https://cdn.JsDelivr.net/gh/DamnTime/pluto-img-bed@main/img/202405221530197.png
 ---
 
 ![1615281460255.jpg](http://cdn.pluto1811.com/forEditor/1615281494461/1615281460255.jpg)

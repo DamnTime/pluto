@@ -2,7 +2,7 @@
 title: gerrit代码审查工具
 date: 2022-10-15 14:20:55
 tags:
-cover: /images/gerrit/cover.png
+cover: https://cdn.JsDelivr.net/gh/DamnTime/pluto-img-bed@main/img/202405221528886.png
 ---
 
 <img src="http://cdn.pluto1811.com/20221027100713.png"/>

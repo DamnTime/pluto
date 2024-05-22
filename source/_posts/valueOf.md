@@ -2,7 +2,7 @@
 title: 浅析 valueOf & toString & toPrimitive
 date: 2022-10-08 17:18:26
 tags:
-cover: /images/valueOf/cover.png
+cover: https://cdn.JsDelivr.net/gh/DamnTime/pluto-img-bed@main/img/202405221529011.png
 ---
 
 ### 基本概念

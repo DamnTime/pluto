@@ -2,7 +2,7 @@
 title: 浅析 webpack5 重点是联邦模块实现微前端
 date: 2022-10-08 17:26:58
 tags:
-cover: /images/webpack5/cover.png
+cover: https://cdn.JsDelivr.net/gh/DamnTime/pluto-img-bed@main/img/202405221529870.png
 ---
 
 ### webpack5 新特性：

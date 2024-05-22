@@ -2,7 +2,7 @@
 title: 【超实用】完美实现基于hexo的博客网站自动化部署
 date: 2022-10-19 14:20:58
 tags:
-cover: /images/hexo-cli/cover.png
+cover: https://cdn.JsDelivr.net/gh/DamnTime/pluto-img-bed@main/img/202405221527279.png
 ---
 
 ### 前言

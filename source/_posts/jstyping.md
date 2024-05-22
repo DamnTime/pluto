@@ -2,7 +2,7 @@
 title: JavaScript类型，有可能你不知道这些细节
 date: 2022-10-16 13:20:55
 tags:
-cover: /images/jstyping/cover.png
+cover: https://cdn.JsDelivr.net/gh/DamnTime/pluto-img-bed@main/img/202405221527597.png
 ---
 
 # JavaScript 类型，有可能你不知道这些细节
