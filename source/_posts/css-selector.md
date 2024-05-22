@@ -2,7 +2,7 @@
 title: 除了属性和选择器，你还需要知道这些带@的规则
 date: 2022-09-15 13:20:55
 tags:
-cover: /images/css-selector/cover.png
+cover: https://cdn.JsDelivr.net/gh/DamnTime/pluto-img-bed@main/img/202405221541004.png
 ---
 
 CSS 是前端工程师几乎每天都要用的技术了，不过 CSS 的学习资料却是最糟糕的，这是因为 CSS 并没有像 HTML 和 JavaScript 那样的一份标准文档。

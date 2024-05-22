@@ -2,7 +2,7 @@
 title: 你知道head里一共能写哪几种标签吗？
 date: 2022-09-09 13:20:55
 tags:
-cover: /images/headtag/cover.png
+cover: https://cdn.JsDelivr.net/gh/DamnTime/pluto-img-bed@main/img/202405221541325.png
 ---
 
 先来了解一下什么是元信息类标签。所谓元信息，是指描述自身的信息，元信息类标签，就是 HTML 用于描述文档自身的一类标签，它们通常出现在 head 标签中，一般都不会在页面被显示出来（与此相对，其它标签，如语义类标签，描述的是业务）。

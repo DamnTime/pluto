@@ -2,7 +2,7 @@
 title: react17 合成事件
 date: 2022-07-11 16:20:55
 tags:
-cover: /images/react17event/cover.png
+cover: https://cdn.JsDelivr.net/gh/DamnTime/pluto-img-bed@main/img/202405221546172.png
 ---
 
 事件绑定

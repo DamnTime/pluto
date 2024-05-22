@@ -2,7 +2,7 @@
 title: babel 探秘系列-基础篇
 date: 2022-08-10 13:20:55
 tags:
-cover: /images/babel01/cover.png
+cover: https://cdn.JsDelivr.net/gh/DamnTime/pluto-img-bed@main/img/202405221543690.png
 ---
 
 # babel 探秘-基础篇
