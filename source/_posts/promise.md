@@ -2,7 +2,7 @@
 title: Promise里的代码为什么比setTimeout先执行？
 date: 2022-10-25 13:20:55
 tags:
-cover: /images/promise/cover.png
+cover: https://cdn.JsDelivr.net/gh/DamnTime/pluto-img-bed@main/img/202405221502736.png
 ---
 
 首先我们考虑一下，如果我们是浏览器或者 Node 的开发者，我们该如何使用 JavaScript 引擎。
