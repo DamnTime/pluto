@@ -1078,130 +1078,6 @@ console<span class="token punctuation">.</span><span class="token function">log<
 ]]></content>
   </entry>
   <entry>
-    <title>Promise里的代码为什么比setTimeout先执行？</title>
-    <url>/pluto/2022/10/25/promise/</url>
-    <content><![CDATA[<p>首先我们考虑一下，如果我们是浏览器或者 Node 的开发者，我们该如何使用 JavaScript 引擎。</p>
-<p>当拿到一段 JavaScript 代码时，浏览器或者 Node 环境首先要做的就是；传递给 JavaScript 引擎，并且要求它去执行。</p>
-<p>然而，执行 JavaScript 并非一锤子买卖，宿主环境当遇到一些事件时，会继续把一段代码传递给 JavaScript 引擎去执行，此外，我们可能还会提供 API 给 JavaScript 引擎，比如 setTimeout 这样的 API，它会允许 JavaScript 在特定的时机执行。</p>
-<p>所以，我们首先应该形成一个感性的认知：一个 JavaScript 引擎会常驻于内存中，它等待着我们（宿主）把 JavaScript 代码或者函数传递给它执行。</p>
-<p>在 ES3 和更早的版本中，JavaScript 本身还没有异步执行代码的能力，这也就意味着，宿主环境传递给 JavaScript 引擎一段代码，引擎就把代码直接顺次执行了，这个任务也就是宿主发起的任务。</p>
-<p>但是，在 ES5 之后，JavaScript 引入了 Promise，这样，不需要浏览器的安排，JavaScript 引擎本身也可以发起任务了。</p>
-<p>由于我们这里主要讲 JavaScript 语言，那么采纳 JSC 引擎的术语，我们把宿主发起的任务称为宏观任务，把 JavaScript 引擎发起的任务称为微观任务。</p>
-<h3 id="宏观和微观任务"><a href="#宏观和微观任务" class="headerlink" title="宏观和微观任务"></a>宏观和微观任务</h3><p>JavaScript 引擎等待宿主环境分配宏观任务，在操作系统中，通常等待的行为都是一个事件循环，所以在 Node 术语中，也会把这个部分称为事件循环。</p>
-<p>一段伪代码：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token constant">TRUE</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  r <span class="token operator">=</span> <span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token function">execute</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>我们可以看到，整个循环做的事情基本上就是反复“等待 - 执行”。当然，实际的代码中并没有这么简单，还有要判断循环是否结束、宏观任务队列等逻辑，这里为了方便你理解，我就把这些都省略掉了。</p>
-<p>这里每次的执行过程，其实都是一个宏观任务。我们可以大概理解：宏观任务的队列就相当于事件循环。</p>
-<p>在宏观任务中，JavaScript 的 Promise 还会产生异步代码，JavaScript 必须保证这些异步代码在一个宏观任务中完成，因此，每个宏观任务中又包含了一个微观任务队列：<br><img src="http://cdn.pluto1811.com/forEditor/1615188660187/event-loop.jpeg" alt="event-loop.jpeg"></p>
-<p>有了宏观任务和微观任务机制，我们就可以实现 JS 引擎级和宿主级的任务了，例如：Promise 永远在队列尾部添加微观任务。setTimeout 等宿主 API，则会添加宏观任务。</p>
-<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><p>Promise 是 JavaScript 语言提供的一种标准化的异步管理方式，它的总体思想是，需要进行 io、等待或者其它异步操作的函数，不返回真实结果，而返回一个“承诺”，函数的调用方可以在合适的时机，选择等待这个承诺兑现（通过 Promise 的 then 方法的回调）。</p>
-<p>Promise 的基本用法示例如下：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token parameter">duration</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> duration<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"finished"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这段代码定义了一个函数 sleep，它的作用是等候传入参数指定的时长。</p>
-<p>Promise 的 then 回调是一个异步的执行过程，下面我们就来研究一下 Promise 函数中的执行顺序，我们来看一段代码示例：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> r <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-r<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>我们执行这段代码后，注意输出的顺序是 a b c。在进入 console.log(“b”) 之前，毫无疑问 r 已经得到了 resolve，但是 Promise 的 resolve 始终是异步操作，所以 c 无法出现在 b 之前。</p>
-<p>接下来我们试试跟 setTimeout 混用的 Promise。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> r <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"d"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-r<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>我们发现，不论代码顺序如何，d 必定发生在 c 之后，因为 Promise 产生的是 JavaScript 引擎内部的微任务，而 setTimeout 是浏览器 API，它产生宏任务。</p>
-<p>为了理解微任务始终先于宏任务，我们设计一个实验：执行一个耗时 1 秒的 Promise。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"d"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> r <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-r<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">var</span> begin <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">while</span> <span class="token punctuation">(</span>Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> begin <span class="token operator">&lt;</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"c2"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这里我们强制了 1 秒的执行耗时，这样，我们可以确保任务 c2 是在 d 之后被添加到任务队列。</p>
-<p>我们可以看到，即使耗时一秒的 c1 执行完毕，再 enque 的 c2，仍然先于 d 执行了，这很好地解释了微任务优先的原理。</p>
-<p>通过一系列的实验，我们可以总结一下如何分析异步执行的顺序：</p>
-<ul>
-<li>首先我们分析有多少个宏任务；</li>
-<li>在每个宏任务中，分析有多少个微任务；</li>
-<li>根据调用次序，确定宏任务中的微任务执行次序；</li>
-<li>根据宏任务的触发规则和调用次序，确定宏任务的执行次序；</li>
-<li>确定整个顺序。</li>
-</ul>
-<p>再来看一个稍微复杂的例子：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token parameter">duration</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> duration<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">5000</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这是一段非常常用的封装方法，利用 Promise 把 setTimeout 封装成可以用于异步的函数。</p>
-<p>我们首先来看，setTimeout 把整个代码分割成了 2 个宏观任务，这里不论是 5 秒还是 0 秒，都是一样的。</p>
-<p>第一个宏观任务中，包含了先后同步执行的 console.log(“a”); 和 console.log(“b”);。</p>
-<p>setTimeout 后，第二个宏观任务执行调用了 resolve，然后 then 中的代码异步得到执行，所以调用了 console.log(“c”)，最终输出的顺序才是： a b c。</p>
-<p>Promise 是 JavaScript 中的一个定义，但是实际编写代码时，我们可以发现，它似乎并不比回调的方式书写更简单，但是从 ES6 开始，我们有了 async&#x2F;await，这个语法改进跟 Promise 配合，能够有效地改善代码结构。</p>
-<h3 id="新特性：async-x2F-await"><a href="#新特性：async-x2F-await" class="headerlink" title="新特性：async&#x2F;await"></a>新特性：async&#x2F;await</h3><p>async&#x2F;await 是 ES2016 新加入的特性，它提供了用 for、if 等代码结构来编写异步的方式。它的运行时基础是 Promise，面对这种比较新的特性，我们先来看一下基本用法。</p>
-<p>async 函数必定返回 Promise，我们把所有返回 Promise 的函数都可以认为是异步函数。</p>
-<p>async 函数是一种特殊语法，特征是在 function 关键字之前加上 async 关键字，这样，就定义了一个 async 函数，我们可以在其中使用 await 来等待一个 Promise。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token parameter">duration</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> duration<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这段代码利用了我们之前定义的 sleep 函数。在异步函数 foo 中，我们调用 sleep。</p>
-<p>async 函数强大之处在于，它是可以嵌套的。我们在定义了一批原子操作的情况下，可以利用 async 函数组合出新的 async 函数。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token parameter">duration</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> duration<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">foo2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">await</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">await</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这里 foo2 用 await 调用了两次异步函数 foo，可以看到，如果我们把 sleep 这样的异步操作放入某一个框架或者库中，使用者几乎不需要了解 Promise 的概念即可进行异步编程了。</p>
-<p>此外，generator&#x2F;iterator 也常常被跟异步一起来讲，我们必须说明 generator&#x2F;iterator 并非异步代码，只是在缺少 async&#x2F;await 的时候，一些框架（最著名的要数 co）使用这样的特性来模拟 async&#x2F;await。</p>
-<p>但是 generator 并非被设计成实现异步，所以有了 async&#x2F;await 之后，generator&#x2F;iterator 来模拟异步的方法应该被废弃。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>qiankun源码解读-示例篇</title>
     <url>/pluto/2022/09/05/qiankun01/</url>
     <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><font color="#ec5d3" bgcolor="#fdf5f5">qiankun</font> 是基于 single-spa 做了二次封装的微前端框架，既然是二次封装，那么少不了在此基础上解决了一些 single-spa 的缺陷和不足。</p>
@@ -1575,6 +1451,130 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续 ~"></a>未完待续 ~</h2>]]></content>
+  </entry>
+  <entry>
+    <title>Promise里的代码为什么比setTimeout先执行？</title>
+    <url>/pluto/2022/10/25/promise/</url>
+    <content><![CDATA[<p>首先我们考虑一下，如果我们是浏览器或者 Node 的开发者，我们该如何使用 JavaScript 引擎。</p>
+<p>当拿到一段 JavaScript 代码时，浏览器或者 Node 环境首先要做的就是；传递给 JavaScript 引擎，并且要求它去执行。</p>
+<p>然而，执行 JavaScript 并非一锤子买卖，宿主环境当遇到一些事件时，会继续把一段代码传递给 JavaScript 引擎去执行，此外，我们可能还会提供 API 给 JavaScript 引擎，比如 setTimeout 这样的 API，它会允许 JavaScript 在特定的时机执行。</p>
+<p>所以，我们首先应该形成一个感性的认知：一个 JavaScript 引擎会常驻于内存中，它等待着我们（宿主）把 JavaScript 代码或者函数传递给它执行。</p>
+<p>在 ES3 和更早的版本中，JavaScript 本身还没有异步执行代码的能力，这也就意味着，宿主环境传递给 JavaScript 引擎一段代码，引擎就把代码直接顺次执行了，这个任务也就是宿主发起的任务。</p>
+<p>但是，在 ES5 之后，JavaScript 引入了 Promise，这样，不需要浏览器的安排，JavaScript 引擎本身也可以发起任务了。</p>
+<p>由于我们这里主要讲 JavaScript 语言，那么采纳 JSC 引擎的术语，我们把宿主发起的任务称为宏观任务，把 JavaScript 引擎发起的任务称为微观任务。</p>
+<h3 id="宏观和微观任务"><a href="#宏观和微观任务" class="headerlink" title="宏观和微观任务"></a>宏观和微观任务</h3><p>JavaScript 引擎等待宿主环境分配宏观任务，在操作系统中，通常等待的行为都是一个事件循环，所以在 Node 术语中，也会把这个部分称为事件循环。</p>
+<p>一段伪代码：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token constant">TRUE</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  r <span class="token operator">=</span> <span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">execute</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们可以看到，整个循环做的事情基本上就是反复“等待 - 执行”。当然，实际的代码中并没有这么简单，还有要判断循环是否结束、宏观任务队列等逻辑，这里为了方便你理解，我就把这些都省略掉了。</p>
+<p>这里每次的执行过程，其实都是一个宏观任务。我们可以大概理解：宏观任务的队列就相当于事件循环。</p>
+<p>在宏观任务中，JavaScript 的 Promise 还会产生异步代码，JavaScript 必须保证这些异步代码在一个宏观任务中完成，因此，每个宏观任务中又包含了一个微观任务队列：<br><img src="http://cdn.pluto1811.com/forEditor/1615188660187/event-loop.jpeg" alt="event-loop.jpeg"></p>
+<p>有了宏观任务和微观任务机制，我们就可以实现 JS 引擎级和宿主级的任务了，例如：Promise 永远在队列尾部添加微观任务。setTimeout 等宿主 API，则会添加宏观任务。</p>
+<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><p>Promise 是 JavaScript 语言提供的一种标准化的异步管理方式，它的总体思想是，需要进行 io、等待或者其它异步操作的函数，不返回真实结果，而返回一个“承诺”，函数的调用方可以在合适的时机，选择等待这个承诺兑现（通过 Promise 的 then 方法的回调）。</p>
+<p>Promise 的基本用法示例如下：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token parameter">duration</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> duration<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"finished"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码定义了一个函数 sleep，它的作用是等候传入参数指定的时长。</p>
+<p>Promise 的 then 回调是一个异步的执行过程，下面我们就来研究一下 Promise 函数中的执行顺序，我们来看一段代码示例：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> r <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+r<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们执行这段代码后，注意输出的顺序是 a b c。在进入 console.log(“b”) 之前，毫无疑问 r 已经得到了 resolve，但是 Promise 的 resolve 始终是异步操作，所以 c 无法出现在 b 之前。</p>
+<p>接下来我们试试跟 setTimeout 混用的 Promise。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> r <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"d"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+r<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们发现，不论代码顺序如何，d 必定发生在 c 之后，因为 Promise 产生的是 JavaScript 引擎内部的微任务，而 setTimeout 是浏览器 API，它产生宏任务。</p>
+<p>为了理解微任务始终先于宏任务，我们设计一个实验：执行一个耗时 1 秒的 Promise。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"d"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> r <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+r<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">var</span> begin <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">while</span> <span class="token punctuation">(</span>Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> begin <span class="token operator">&lt;</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"c2"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里我们强制了 1 秒的执行耗时，这样，我们可以确保任务 c2 是在 d 之后被添加到任务队列。</p>
+<p>我们可以看到，即使耗时一秒的 c1 执行完毕，再 enque 的 c2，仍然先于 d 执行了，这很好地解释了微任务优先的原理。</p>
+<p>通过一系列的实验，我们可以总结一下如何分析异步执行的顺序：</p>
+<ul>
+<li>首先我们分析有多少个宏任务；</li>
+<li>在每个宏任务中，分析有多少个微任务；</li>
+<li>根据调用次序，确定宏任务中的微任务执行次序；</li>
+<li>根据宏任务的触发规则和调用次序，确定宏任务的执行次序；</li>
+<li>确定整个顺序。</li>
+</ul>
+<p>再来看一个稍微复杂的例子：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token parameter">duration</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> duration<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">5000</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这是一段非常常用的封装方法，利用 Promise 把 setTimeout 封装成可以用于异步的函数。</p>
+<p>我们首先来看，setTimeout 把整个代码分割成了 2 个宏观任务，这里不论是 5 秒还是 0 秒，都是一样的。</p>
+<p>第一个宏观任务中，包含了先后同步执行的 console.log(“a”); 和 console.log(“b”);。</p>
+<p>setTimeout 后，第二个宏观任务执行调用了 resolve，然后 then 中的代码异步得到执行，所以调用了 console.log(“c”)，最终输出的顺序才是： a b c。</p>
+<p>Promise 是 JavaScript 中的一个定义，但是实际编写代码时，我们可以发现，它似乎并不比回调的方式书写更简单，但是从 ES6 开始，我们有了 async&#x2F;await，这个语法改进跟 Promise 配合，能够有效地改善代码结构。</p>
+<h3 id="新特性：async-x2F-await"><a href="#新特性：async-x2F-await" class="headerlink" title="新特性：async&#x2F;await"></a>新特性：async&#x2F;await</h3><p>async&#x2F;await 是 ES2016 新加入的特性，它提供了用 for、if 等代码结构来编写异步的方式。它的运行时基础是 Promise，面对这种比较新的特性，我们先来看一下基本用法。</p>
+<p>async 函数必定返回 Promise，我们把所有返回 Promise 的函数都可以认为是异步函数。</p>
+<p>async 函数是一种特殊语法，特征是在 function 关键字之前加上 async 关键字，这样，就定义了一个 async 函数，我们可以在其中使用 await 来等待一个 Promise。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token parameter">duration</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> duration<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码利用了我们之前定义的 sleep 函数。在异步函数 foo 中，我们调用 sleep。</p>
+<p>async 函数强大之处在于，它是可以嵌套的。我们在定义了一批原子操作的情况下，可以利用 async 函数组合出新的 async 函数。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token parameter">duration</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> duration<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">await</span> <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">foo2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">await</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">await</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里 foo2 用 await 调用了两次异步函数 foo，可以看到，如果我们把 sleep 这样的异步操作放入某一个框架或者库中，使用者几乎不需要了解 Promise 的概念即可进行异步编程了。</p>
+<p>此外，generator&#x2F;iterator 也常常被跟异步一起来讲，我们必须说明 generator&#x2F;iterator 并非异步代码，只是在缺少 async&#x2F;await 的时候，一些框架（最著名的要数 co）使用这样的特性来模拟 async&#x2F;await。</p>
+<p>但是 generator 并非被设计成实现异步，所以有了 async&#x2F;await 之后，generator&#x2F;iterator 来模拟异步的方法应该被废弃。</p>
+]]></content>
   </entry>
   <entry>
     <title>qiankun源码解读-框架源码篇</title>
@@ -2320,6 +2320,212 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 ]]></content>
   </entry>
   <entry>
+    <title>在script标签写export为什么会抛错？</title>
+    <url>/pluto/2022/09/21/scripttag/</url>
+    <content><![CDATA[<h1 id="脚本和模块"><a href="#脚本和模块" class="headerlink" title="脚本和模块"></a>脚本和模块</h1><p>首先，JavaScript 有两种源文件，一种叫做脚本，一种叫做模块。这个区分是在 ES6 引入了模块机制开始的，在 ES5 和之前的版本中，就只有一种源文件类型（就只有脚本）。</p>
+<p>脚本是可以由浏览器或者 node 环境引入执行的，而模块只能由 JavaScript 代码用 import 引入执行。</p>
+<p>从概念上，我们可以认为脚本具有主动性的 JavaScript 代码段，是控制宿主完成一定任务的代码；而模块是被动性的 JavaScript 代码段，是等待被调用的库。</p>
+<p>我们对标准中的语法产生式做一些对比，不难发现，实际上模块和脚本之间的区别仅仅在于是否包含 import 和 export。</p>
+<p>脚本是一种兼容之前的版本的定义，在这个模式下，没有 import 就不需要处理加载“.js”文件问题。</p>
+<p>现代浏览器可以支持用 script 标签引入模块或者脚本，如果要引入模块，必须给 script 标签添加 type&#x3D;“module”。如果引入脚本，则不需要 type。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"module"</span> src<span class="token operator">=</span><span class="token string">"xxxxx.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这样，就回答了我们标题中的问题，script 标签如果不加 type&#x3D;“module”，默认认为我们加载的文件是脚本而非模块，如果我们在脚本中写了 export，当然会抛错。</p>
+<p>脚本中可以包含语句。模块中可以包含三种内容：import 声明，export 声明和语句。先聊聊 import 声明和 export 声明吧。<br><img src="http://cdn.pluto1811.com/forEditor/1615289889189/article-15.jpeg" alt="article-15.jpeg"></p>
+<h3 id="import-声明"><a href="#import-声明" class="headerlink" title="import 声明"></a>import 声明</h3><p>我们首先来介绍一下 import 声明，import 声明有两种用法，一个是直接 import 一个模块，另一个是带 from 的 import，它能引入模块里的一些信息。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token string">"mod"</span><span class="token punctuation">;</span> <span class="token comment">// 引入一个模块</span>
+<span class="token keyword">import</span> v <span class="token keyword">from</span> <span class="token string">"mod"</span><span class="token punctuation">;</span> <span class="token comment">// 把模块默认的导出值放入变量 v</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>直接 import 一个模块，只是保证了这个模块代码被执行，引用它的模块是无法获得它的任何信息的。</p>
+<p>带 from 的 import 意思是引入模块中的一部分信息，可以把它们变成本地的变量。</p>
+<p>带 from 的 import 细分又有三种用法，可以分别看下例子：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> x <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span> <span class="token comment">// 引入模块中导出的默认值。</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> a <span class="token keyword">as</span> x<span class="token punctuation">,</span> modify <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span> <span class="token comment">// 引入模块中的变量。</span>
+<span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> x <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span> <span class="token comment">// 把模块中所有的变量以类似对象属性的方式引入。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>第一种方式还可以跟后两种组合使用。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> d<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span> a <span class="token keyword">as</span> x<span class="token punctuation">,</span> modify <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> d<span class="token punctuation">,</span> <span class="token operator">*</span> <span class="token keyword">as</span> x <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>语法要求不带 as 的默认值永远在最前。注意，这里的变量实际上仍然可以受到原来模块的控制。</p>
+<p>我们看一个例子，假设有两个模块 a 和 b。我们在模块 a 中声明了变量和一个修改变量的函数，并且把它们导出。我们用 b 模块导入了变量和修改变量的函数。</p>
+<h4 id="模块-a："><a href="#模块-a：" class="headerlink" title="模块 a："></a>模块 a：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">export</span> <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">modify</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="模块-b："><a href="#模块-b：" class="headerlink" title="模块 b："></a>模块 b：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span> a<span class="token punctuation">,</span> modify <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">modify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>当我们调用修改变量的函数后，b 模块变量也跟着发生了改变。这说明导入与一般的赋值不同，导入后的变量只是改变了名字，它仍然与原来的变量是同一个。</p>
+<h3 id="export-声明"><a href="#export-声明" class="headerlink" title="export 声明"></a>export 声明</h3><p>我们再来说说 export 声明。与 import 相对，export 声明承担的是导出的任务。</p>
+<p>模块中导出变量的方式有两种，一种是独立使用 export 声明，另一种是直接在声明型语句前添加 export 关键字。</p>
+<p>独立使用 export 声明就是一个 export 关键字加上变量名列表，例如：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">export</span> <span class="token punctuation">&#123;</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>我们也可以直接在声明型语句前添加 export 关键字，这里的 export 可以加在任何声明性质的语句之前，整理如下：</p>
+<ul>
+<li>var</li>
+<li>function (含 async 和 generator)</li>
+<li>class</li>
+<li>let</li>
+<li>const</li>
+</ul>
+<p>export 还有一种特殊的用法，就是跟 default 联合使用。export default 表示导出一个默认变量值，它可以用于 function 和 class。这里导出的变量是没有名称的，可以使用 import x from “.&#x2F;a.js”这样的语法，在模块中引入。</p>
+<p>export default 还支持一种语法，后面跟一个表达式，例如：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> a<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>但是，这里的行为跟导出变量是不一致的，这里导出的是值，导出的就是普通变量 a 的值，以后 a 的变化与导出的值就无关了，修改变量 a，<strong>不会使得其他模块中引入的 default 值发生改变</strong>。</p>
+<p>在 import 语句前无法加入 export，但是我们可以直接使用 export from 语法。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">export</span> a <span class="token keyword">from</span> <span class="token string">"a.js"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>JavaScript 引擎除了执行脚本和模块之外，还可以执行函数。而函数体跟脚本和模块有一定的相似之处。</p>
+<h3 id="函数体"><a href="#函数体" class="headerlink" title="函数体"></a>函数体</h3><p>执行函数的行为通常是在 JavaScript 代码执行时，注册宿主环境的某些事件触发的，而执行的过程，就是执行函数体（函数的花括号中间的部分）。</p>
+<p>我们先看一个例子，感性地理解一下：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"go go go"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码通过 setTimeout 函数注册了一个函数给宿主，当一定时间之后，宿主就会执行这个函数。宿主会为这样的函数创建宏任务。</p>
+<p>当我们学习了语法之后，我们可以认为，宏任务中可能会执行的代码包括“脚本 (script)”“模块（module）”和“函数体（function body）”。</p>
+<p>函数体其实也是一个语句的列表。跟脚本和模块比起来，函数体中的语句列表中多了 return 语句可以用。</p>
+<p>函数体实际上有四种：</p>
+<h4 id="1-普通函数体，例如："><a href="#1-普通函数体，例如：" class="headerlink" title="1. 普通函数体，例如："></a>1. 普通函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//Function body</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="2-异步函数体，例如："><a href="#2-异步函数体，例如：" class="headerlink" title="2. 异步函数体，例如："></a>2. 异步函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//Function body</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="3-生成器函数体，例如："><a href="#3-生成器函数体，例如：" class="headerlink" title="3. 生成器函数体，例如："></a>3. 生成器函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span><span class="token operator">*</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//Function body</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="4-异步生成器函数体，例如："><a href="#4-异步生成器函数体，例如：" class="headerlink" title="4. 异步生成器函数体，例如："></a>4. 异步生成器函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">async</span> <span class="token keyword">function</span><span class="token operator">*</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//Function body</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>上面四种函数体的区别在于：能否使用 await 或者 yield 语句。<br><img src="http://cdn.pluto1811.com/forEditor/1615290998961/article-17.jpeg" alt="article-17.jpeg"></p>
+<p>下面聊聊两个 JavaScript 语法的全局机制：预处理（变量提升）和指令序言。</p>
+<h4 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h4><p>JavaScript 执行前，会对脚本、模块和函数体中的语句进行预处理。预处理过程将会提前处理 var、函数声明、class、const 和 let 这些语句，以确定其中变量的意义。</p>
+<p>因为一些历史包袱，这一部分内容非常复杂，首先我们看一下 var 声明。</p>
+<h4 id="var-声明"><a href="#var-声明" class="headerlink" title="var 声明"></a>var 声明</h4><p>var 声明永远作用于脚本、模块和函数体这个级别，在预处理阶段，不关心赋值的部分，只管在当前作用域声明这个变量。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码声明了一个脚本级别的 a，又声明了 foo 函数体级别的 a，我们注意到，函数体级的 var 出现在 console.log 语句之后。</p>
+<p>但是预处理过程在执行之前，<strong>所以有函数体级的变量 a，就不会去访问外层作用域中的变量 a 了，而函数体级的变量 a 此时还没有赋值，所以是 undefined</strong>。我们再看一个情况：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码比上一段代码在 var a &#x3D; 2 之外多了一段 if，我们知道 if(false) 中的代码永远不会被执行，但是预处理阶段并不管这个，var 的作用能够穿透一切语句结构，它只认脚本、模块和函数体三种语法结构。所以这里结果跟前一段代码完全一样，我们会得到 undefined。</p>
+<p>因为早年 JavaScript 没有 let 和 const，只能用 var，又因为 var 除了脚本和函数体都会穿透，人民群众发明了“立即执行的函数表达式（IIFE）”这一用法，用来产生作用域，例如：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">i</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> div <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"div"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    div<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> i<span class="token punctuation">;</span>
+    div<span class="token punctuation">.</span><span class="token function-variable function">onclick</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>div<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="function-声明"><a href="#function-声明" class="headerlink" title="function 声明"></a>function 声明</h4><p>function 声明的行为原本跟 var 非常相似，但是在最新的 JavaScript 标准中，对它进行了一定的修改，这让情况变得更加复杂了。</p>
+<p>在全局（脚本、模块和函数体），function 声明表现跟 var 相似，不同之处在于，function 声明不但在作用域中加入变量，还会给它赋值。</p>
+<p>我们看一下 function 声明的例子</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这里声明了函数 foo，在声明之前，我们用 console.log 打印函数 foo，我们可以发现，已经是函数 foo 的值了。</p>
+<p>function 声明出现在 if 等语句中的情况有点复杂，它仍然作用于脚本、模块和函数体级别，在预处理阶段，仍然会产生变量，它不再被提前赋值：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码得到 undefined。如果没有函数声明，则会抛出错误。</p>
+<p>这说明 function 在预处理阶段仍然发生了作用，在作用域中产生了变量，没有产生赋值，赋值行为发生在了执行阶段。</p>
+<p>出现在 if 等语句中的 function，在 if 创建的作用域中仍然会被提前，产生赋值效果。</p>
+<h4 id="class-声明"><a href="#class-声明" class="headerlink" title="class 声明"></a>class 声明</h4><p>class 声明在全局的行为跟 function 和 var 都不一样。</p>
+<p>在 class 声明之前使用 class 名，会抛错：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name">c</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这段代码我们试图在 class 前打印变量 c，我们得到了个错误，这个行为很像是 class 没有预处理，但是实际上并非如此。</p>
+<p>我们看个复杂一点的例子：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> c <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">class</span> <span class="token class-name">c</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这个例子中，我们把 class 放进了一个函数体中，在外层作用域中有变量 c。然后试图在 class 之前打印 c。</p>
+<p>执行后，我们看到，仍然抛出了错误，如果去掉 class 声明，则会正常打印出 1，也就是说，出现在后面的 class 声明影响了前面语句的结果。</p>
+<p>这说明，class 声明也是会被预处理的，它会在作用域中创建变量，并且要求访问它时抛出错误。</p>
+<p>class 的声明作用不会穿透 if 等语句结构，所以只有写在全局环境才会有声明作用。</p>
+<p>这样的 class 设计比 function 和 var 更符合直觉，而且在遇到一些比较奇怪的用法时，倾向于抛出错误。</p>
+<p>按照现代语言设计的评价标准，及早抛错是好事，它能够帮助我们尽量在开发阶段就发现代码的可能问题。</p>
+<h3 id="指令序言机制"><a href="#指令序言机制" class="headerlink" title="指令序言机制"></a>指令序言机制</h3><p>脚本和模块都支持一种特别的语法，叫做指令序言（Directive Prologs）。</p>
+<p>这里的指令序言最早是为了 use strict 设计的，它规定了一种给 JavaScript 代码添加元信息的方式。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token string">"use strict"</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">f</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码展示了严格模式的用法，我这里定义了函数 f，f 中打印 this 值，然后用 call 的方法调用 f，传入 null 作为 this 值，我们可以看到最终结果是 null 原封不动地被当做 this 值打印了出来，这是严格模式的特征。</p>
+<p>如果我们去掉严格模式的指令需要，打印的结果将会变成 global。</p>
+<p>“use strict”是 JavaScript 标准中规定的唯一一种指令序言，但是设计指令序言的目的是，留给 JS 的引擎和实现者一些统一的表达方式，在静态扫描时指定 JS 代码的一些特性。</p>
+<p>例如，假设我们要设计一种声明本文件不需要进行 lint 检查的指令，我们可以这样设计：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token string">"no lint"</span><span class="token punctuation">;</span>
+<span class="token string">"use strict"</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">doSth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//......</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//......</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>JavaScript 的指令序言是只有一个字符串直接量的表达式语句，它只能出现在脚本、模块和函数体的最前面。</p>
+<p>我们看两个例子：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">doSth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//......</span>
+<span class="token punctuation">&#125;</span>
+<span class="token punctuation">(</span><span class="token string">"use strict"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token comment">//......</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这个例子中，”use strict”没有出现在最前，所以不是指令序言。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token string">"use strict"</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">doSth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">//......</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token comment">//......</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这个例子中，’use strict’是单引号，这不妨碍它仍然是指令序言。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>react17 合成事件</title>
     <url>/pluto/2022/07/11/react17event/</url>
     <content><![CDATA[<p>事件绑定</p>
@@ -2574,212 +2780,6 @@ child<span class="token punctuation">.</span><span class="token function-variabl
 <p>终极解决办法是：按钮点击时添加 e.stopImmediatePropagation();</p>
 <p>当然这个问题放在 React17 版本就不会存在了，因为在 17 版本事件的委托对象变成了根节点，与 document 不在同级，因此使用 e.stopPropagation()是可以生效的。</p>
 <p>以上。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>在script标签写export为什么会抛错？</title>
-    <url>/pluto/2022/09/21/scripttag/</url>
-    <content><![CDATA[<h1 id="脚本和模块"><a href="#脚本和模块" class="headerlink" title="脚本和模块"></a>脚本和模块</h1><p>首先，JavaScript 有两种源文件，一种叫做脚本，一种叫做模块。这个区分是在 ES6 引入了模块机制开始的，在 ES5 和之前的版本中，就只有一种源文件类型（就只有脚本）。</p>
-<p>脚本是可以由浏览器或者 node 环境引入执行的，而模块只能由 JavaScript 代码用 import 引入执行。</p>
-<p>从概念上，我们可以认为脚本具有主动性的 JavaScript 代码段，是控制宿主完成一定任务的代码；而模块是被动性的 JavaScript 代码段，是等待被调用的库。</p>
-<p>我们对标准中的语法产生式做一些对比，不难发现，实际上模块和脚本之间的区别仅仅在于是否包含 import 和 export。</p>
-<p>脚本是一种兼容之前的版本的定义，在这个模式下，没有 import 就不需要处理加载“.js”文件问题。</p>
-<p>现代浏览器可以支持用 script 标签引入模块或者脚本，如果要引入模块，必须给 script 标签添加 type&#x3D;“module”。如果引入脚本，则不需要 type。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"module"</span> src<span class="token operator">=</span><span class="token string">"xxxxx.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>这样，就回答了我们标题中的问题，script 标签如果不加 type&#x3D;“module”，默认认为我们加载的文件是脚本而非模块，如果我们在脚本中写了 export，当然会抛错。</p>
-<p>脚本中可以包含语句。模块中可以包含三种内容：import 声明，export 声明和语句。先聊聊 import 声明和 export 声明吧。<br><img src="http://cdn.pluto1811.com/forEditor/1615289889189/article-15.jpeg" alt="article-15.jpeg"></p>
-<h3 id="import-声明"><a href="#import-声明" class="headerlink" title="import 声明"></a>import 声明</h3><p>我们首先来介绍一下 import 声明，import 声明有两种用法，一个是直接 import 一个模块，另一个是带 from 的 import，它能引入模块里的一些信息。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token string">"mod"</span><span class="token punctuation">;</span> <span class="token comment">// 引入一个模块</span>
-<span class="token keyword">import</span> v <span class="token keyword">from</span> <span class="token string">"mod"</span><span class="token punctuation">;</span> <span class="token comment">// 把模块默认的导出值放入变量 v</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>直接 import 一个模块，只是保证了这个模块代码被执行，引用它的模块是无法获得它的任何信息的。</p>
-<p>带 from 的 import 意思是引入模块中的一部分信息，可以把它们变成本地的变量。</p>
-<p>带 from 的 import 细分又有三种用法，可以分别看下例子：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> x <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span> <span class="token comment">// 引入模块中导出的默认值。</span>
-<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> a <span class="token keyword">as</span> x<span class="token punctuation">,</span> modify <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span> <span class="token comment">// 引入模块中的变量。</span>
-<span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> x <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span> <span class="token comment">// 把模块中所有的变量以类似对象属性的方式引入。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<p>第一种方式还可以跟后两种组合使用。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> d<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span> a <span class="token keyword">as</span> x<span class="token punctuation">,</span> modify <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> d<span class="token punctuation">,</span> <span class="token operator">*</span> <span class="token keyword">as</span> x <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>语法要求不带 as 的默认值永远在最前。注意，这里的变量实际上仍然可以受到原来模块的控制。</p>
-<p>我们看一个例子，假设有两个模块 a 和 b。我们在模块 a 中声明了变量和一个修改变量的函数，并且把它们导出。我们用 b 模块导入了变量和修改变量的函数。</p>
-<h4 id="模块-a："><a href="#模块-a：" class="headerlink" title="模块 a："></a>模块 a：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">export</span> <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-
-<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">modify</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="模块-b："><a href="#模块-b：" class="headerlink" title="模块 b："></a>模块 b：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span> a<span class="token punctuation">,</span> modify <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./a.js"</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">modify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>当我们调用修改变量的函数后，b 模块变量也跟着发生了改变。这说明导入与一般的赋值不同，导入后的变量只是改变了名字，它仍然与原来的变量是同一个。</p>
-<h3 id="export-声明"><a href="#export-声明" class="headerlink" title="export 声明"></a>export 声明</h3><p>我们再来说说 export 声明。与 import 相对，export 声明承担的是导出的任务。</p>
-<p>模块中导出变量的方式有两种，一种是独立使用 export 声明，另一种是直接在声明型语句前添加 export 关键字。</p>
-<p>独立使用 export 声明就是一个 export 关键字加上变量名列表，例如：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">export</span> <span class="token punctuation">&#123;</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>我们也可以直接在声明型语句前添加 export 关键字，这里的 export 可以加在任何声明性质的语句之前，整理如下：</p>
-<ul>
-<li>var</li>
-<li>function (含 async 和 generator)</li>
-<li>class</li>
-<li>let</li>
-<li>const</li>
-</ul>
-<p>export 还有一种特殊的用法，就是跟 default 联合使用。export default 表示导出一个默认变量值，它可以用于 function 和 class。这里导出的变量是没有名称的，可以使用 import x from “.&#x2F;a.js”这样的语法，在模块中引入。</p>
-<p>export default 还支持一种语法，后面跟一个表达式，例如：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> a<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>但是，这里的行为跟导出变量是不一致的，这里导出的是值，导出的就是普通变量 a 的值，以后 a 的变化与导出的值就无关了，修改变量 a，<strong>不会使得其他模块中引入的 default 值发生改变</strong>。</p>
-<p>在 import 语句前无法加入 export，但是我们可以直接使用 export from 语法。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">export</span> a <span class="token keyword">from</span> <span class="token string">"a.js"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>JavaScript 引擎除了执行脚本和模块之外，还可以执行函数。而函数体跟脚本和模块有一定的相似之处。</p>
-<h3 id="函数体"><a href="#函数体" class="headerlink" title="函数体"></a>函数体</h3><p>执行函数的行为通常是在 JavaScript 代码执行时，注册宿主环境的某些事件触发的，而执行的过程，就是执行函数体（函数的花括号中间的部分）。</p>
-<p>我们先看一个例子，感性地理解一下：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"go go go"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<p>这段代码通过 setTimeout 函数注册了一个函数给宿主，当一定时间之后，宿主就会执行这个函数。宿主会为这样的函数创建宏任务。</p>
-<p>当我们学习了语法之后，我们可以认为，宏任务中可能会执行的代码包括“脚本 (script)”“模块（module）”和“函数体（function body）”。</p>
-<p>函数体其实也是一个语句的列表。跟脚本和模块比起来，函数体中的语句列表中多了 return 语句可以用。</p>
-<p>函数体实际上有四种：</p>
-<h4 id="1-普通函数体，例如："><a href="#1-普通函数体，例如：" class="headerlink" title="1. 普通函数体，例如："></a>1. 普通函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token comment">//Function body</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="2-异步函数体，例如："><a href="#2-异步函数体，例如：" class="headerlink" title="2. 异步函数体，例如："></a>2. 异步函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token comment">//Function body</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="3-生成器函数体，例如："><a href="#3-生成器函数体，例如：" class="headerlink" title="3. 生成器函数体，例如："></a>3. 生成器函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span><span class="token operator">*</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token comment">//Function body</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="4-异步生成器函数体，例如："><a href="#4-异步生成器函数体，例如：" class="headerlink" title="4. 异步生成器函数体，例如："></a>4. 异步生成器函数体，例如：</h4><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">async</span> <span class="token keyword">function</span><span class="token operator">*</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token comment">//Function body</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<p>上面四种函数体的区别在于：能否使用 await 或者 yield 语句。<br><img src="http://cdn.pluto1811.com/forEditor/1615290998961/article-17.jpeg" alt="article-17.jpeg"></p>
-<p>下面聊聊两个 JavaScript 语法的全局机制：预处理（变量提升）和指令序言。</p>
-<h4 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h4><p>JavaScript 执行前，会对脚本、模块和函数体中的语句进行预处理。预处理过程将会提前处理 var、函数声明、class、const 和 let 这些语句，以确定其中变量的意义。</p>
-<p>因为一些历史包袱，这一部分内容非常复杂，首先我们看一下 var 声明。</p>
-<h4 id="var-声明"><a href="#var-声明" class="headerlink" title="var 声明"></a>var 声明</h4><p>var 声明永远作用于脚本、模块和函数体这个级别，在预处理阶段，不关心赋值的部分，只管在当前作用域声明这个变量。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-
-<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这段代码声明了一个脚本级别的 a，又声明了 foo 函数体级别的 a，我们注意到，函数体级的 var 出现在 console.log 语句之后。</p>
-<p>但是预处理过程在执行之前，<strong>所以有函数体级的变量 a，就不会去访问外层作用域中的变量 a 了，而函数体级的变量 a 此时还没有赋值，所以是 undefined</strong>。我们再看一个情况：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-
-<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这段代码比上一段代码在 var a &#x3D; 2 之外多了一段 if，我们知道 if(false) 中的代码永远不会被执行，但是预处理阶段并不管这个，var 的作用能够穿透一切语句结构，它只认脚本、模块和函数体三种语法结构。所以这里结果跟前一段代码完全一样，我们会得到 undefined。</p>
-<p>因为早年 JavaScript 没有 let 和 const，只能用 var，又因为 var 除了脚本和函数体都会穿透，人民群众发明了“立即执行的函数表达式（IIFE）”这一用法，用来产生作用域，例如：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">i</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">var</span> div <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"div"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    div<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> i<span class="token punctuation">;</span>
-    div<span class="token punctuation">.</span><span class="token function-variable function">onclick</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>div<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="function-声明"><a href="#function-声明" class="headerlink" title="function 声明"></a>function 声明</h4><p>function 声明的行为原本跟 var 非常相似，但是在最新的 JavaScript 标准中，对它进行了一定的修改，这让情况变得更加复杂了。</p>
-<p>在全局（脚本、模块和函数体），function 声明表现跟 var 相似，不同之处在于，function 声明不但在作用域中加入变量，还会给它赋值。</p>
-<p>我们看一下 function 声明的例子</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>这里声明了函数 foo，在声明之前，我们用 console.log 打印函数 foo，我们可以发现，已经是函数 foo 的值了。</p>
-<p>function 声明出现在 if 等语句中的情况有点复杂，它仍然作用于脚本、模块和函数体级别，在预处理阶段，仍然会产生变量，它不再被提前赋值：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这段代码得到 undefined。如果没有函数声明，则会抛出错误。</p>
-<p>这说明 function 在预处理阶段仍然发生了作用，在作用域中产生了变量，没有产生赋值，赋值行为发生在了执行阶段。</p>
-<p>出现在 if 等语句中的 function，在 if 创建的作用域中仍然会被提前，产生赋值效果。</p>
-<h4 id="class-声明"><a href="#class-声明" class="headerlink" title="class 声明"></a>class 声明</h4><p>class 声明在全局的行为跟 function 和 var 都不一样。</p>
-<p>在 class 声明之前使用 class 名，会抛错：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">class</span> <span class="token class-name">c</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>这段代码我们试图在 class 前打印变量 c，我们得到了个错误，这个行为很像是 class 没有预处理，但是实际上并非如此。</p>
-<p>我们看个复杂一点的例子：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> c <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">class</span> <span class="token class-name">c</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这个例子中，我们把 class 放进了一个函数体中，在外层作用域中有变量 c。然后试图在 class 之前打印 c。</p>
-<p>执行后，我们看到，仍然抛出了错误，如果去掉 class 声明，则会正常打印出 1，也就是说，出现在后面的 class 声明影响了前面语句的结果。</p>
-<p>这说明，class 声明也是会被预处理的，它会在作用域中创建变量，并且要求访问它时抛出错误。</p>
-<p>class 的声明作用不会穿透 if 等语句结构，所以只有写在全局环境才会有声明作用。</p>
-<p>这样的 class 设计比 function 和 var 更符合直觉，而且在遇到一些比较奇怪的用法时，倾向于抛出错误。</p>
-<p>按照现代语言设计的评价标准，及早抛错是好事，它能够帮助我们尽量在开发阶段就发现代码的可能问题。</p>
-<h3 id="指令序言机制"><a href="#指令序言机制" class="headerlink" title="指令序言机制"></a>指令序言机制</h3><p>脚本和模块都支持一种特别的语法，叫做指令序言（Directive Prologs）。</p>
-<p>这里的指令序言最早是为了 use strict 设计的，它规定了一种给 JavaScript 代码添加元信息的方式。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token string">"use strict"</span><span class="token punctuation">;</span>
-<span class="token keyword">function</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token function">f</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这段代码展示了严格模式的用法，我这里定义了函数 f，f 中打印 this 值，然后用 call 的方法调用 f，传入 null 作为 this 值，我们可以看到最终结果是 null 原封不动地被当做 this 值打印了出来，这是严格模式的特征。</p>
-<p>如果我们去掉严格模式的指令需要，打印的结果将会变成 global。</p>
-<p>“use strict”是 JavaScript 标准中规定的唯一一种指令序言，但是设计指令序言的目的是，留给 JS 的引擎和实现者一些统一的表达方式，在静态扫描时指定 JS 代码的一些特性。</p>
-<p>例如，假设我们要设计一种声明本文件不需要进行 lint 检查的指令，我们可以这样设计：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token string">"no lint"</span><span class="token punctuation">;</span>
-<span class="token string">"use strict"</span><span class="token punctuation">;</span>
-<span class="token keyword">function</span> <span class="token function">doSth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token comment">//......</span>
-<span class="token punctuation">&#125;</span>
-<span class="token comment">//......</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>JavaScript 的指令序言是只有一个字符串直接量的表达式语句，它只能出现在脚本、模块和函数体的最前面。</p>
-<p>我们看两个例子：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">doSth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token comment">//......</span>
-<span class="token punctuation">&#125;</span>
-<span class="token punctuation">(</span><span class="token string">"use strict"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token comment">//......</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这个例子中，”use strict”没有出现在最前，所以不是指令序言。</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token string">"use strict"</span><span class="token punctuation">;</span>
-<span class="token keyword">function</span> <span class="token function">doSth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token comment">//......</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token comment">//......</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这个例子中，’use strict’是单引号，这不妨碍它仍然是指令序言。</p>
 ]]></content>
   </entry>
   <entry>
@@ -3121,7 +3121,7 @@ postinstall<span aria-hidden="true" class="line-numbers-rows"><span></span><span
 <span class="token property">"@vue/runtime-dom"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p>在 pnpm 模式下 package.json 有一种特殊的写法：”workspace:*“，为了指明这是工作区的依赖，防止自动去 npm 上寻找导致混乱，当使用此协议时，pnpm 将拒绝解析除本地 workspace 包含的 package 之外的任何内容。</p>
-<p>例如，如果 bar 中有 “foo”：”^1.0.0” 的这个依赖项，则 <a href="mailto:&#102;&#111;&#x6f;&#64;&#x31;&#x2e;&#x30;&#x2e;&#x30;">&#102;&#111;&#x6f;&#64;&#x31;&#x2e;&#x30;&#x2e;&#x30;</a> 链接到 bar。 但是，如果 bar 的依赖项中有 “foo”: “2.0.0”，而 <a href="mailto:&#x66;&#x6f;&#111;&#64;&#50;&#46;&#x30;&#x2e;&#x30;">&#x66;&#x6f;&#111;&#64;&#50;&#46;&#x30;&#x2e;&#x30;</a> 在工作空间中并不存在，此时会从 npm registry 上安装<a href="mailto:&#102;&#x6f;&#111;&#x40;&#x32;&#x2e;&#48;&#x2e;&#x30;">&#102;&#x6f;&#111;&#x40;&#x32;&#x2e;&#48;&#x2e;&#x30;</a>，如果设置为 “foo”: “workspace:2.0.0” 时，安装将会失败，因为 “<a href="mailto:&#102;&#x6f;&#x6f;&#x40;&#x32;&#46;&#x30;&#x2e;&#x30;">&#102;&#x6f;&#x6f;&#x40;&#x32;&#46;&#x30;&#x2e;&#x30;</a>“ 不存在于此 workspace 中</p>
+<p>例如，如果 bar 中有 “foo”：”^1.0.0” 的这个依赖项，则 <a href="mailto:&#x66;&#111;&#111;&#64;&#49;&#x2e;&#x30;&#x2e;&#x30;">&#x66;&#111;&#111;&#64;&#49;&#x2e;&#x30;&#x2e;&#x30;</a> 链接到 bar。 但是，如果 bar 的依赖项中有 “foo”: “2.0.0”，而 <a href="mailto:&#102;&#111;&#x6f;&#x40;&#x32;&#46;&#x30;&#x2e;&#x30;">&#102;&#111;&#x6f;&#x40;&#x32;&#46;&#x30;&#x2e;&#x30;</a> 在工作空间中并不存在，此时会从 npm registry 上安装<a href="mailto:&#x66;&#x6f;&#x6f;&#x40;&#50;&#x2e;&#48;&#x2e;&#48;">&#x66;&#x6f;&#x6f;&#x40;&#50;&#x2e;&#48;&#x2e;&#48;</a>，如果设置为 “foo”: “workspace:2.0.0” 时，安装将会失败，因为 “<a href="mailto:&#x66;&#111;&#111;&#x40;&#x32;&#46;&#48;&#x2e;&#x30;">&#x66;&#111;&#111;&#x40;&#x32;&#46;&#48;&#x2e;&#x30;</a>“ 不存在于此 workspace 中</p>
 <ol start="4">
 <li>packages 中每个模块中都有一个 json 文件</li>
 </ol>
@@ -3177,117 +3177,6 @@ postinstall<span aria-hidden="true" class="line-numbers-rows"><span></span><span
   <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-]]></content>
-  </entry>
-  <entry>
-    <title>从零实现Vue3.x-项目搭建</title>
-    <url>/pluto/2022/07/20/vue3-02/</url>
-    <content><![CDATA[<p>这是从零实现 Vue3.x 系列的第二篇—<strong>项目的搭建</strong></p>
-<h3 id="一、初始化-pnpm-环境"><a href="#一、初始化-pnpm-环境" class="headerlink" title="一、初始化 pnpm 环境"></a>一、初始化 pnpm 环境</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">npm install <span class="token operator">-</span>g pnpm@<span class="token number">6</span><span class="token punctuation">.</span>x <span class="token comment">// 为什么选择pnpm请移步上一篇</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">pnpm init <span class="token operator">-</span>y<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="二、构建-monorepo-环境"><a href="#二、构建-monorepo-环境" class="headerlink" title="二、构建 monorepo 环境"></a>二、构建 monorepo 环境</h3><p>在项目根目录新建 pnpm-workspace.yaml 文件</p>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text"> packages
-- 'packages/*'<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h3 id="三、必需的几个-npm-包"><a href="#三、必需的几个-npm-包" class="headerlink" title="三、必需的几个 npm 包"></a>三、必需的几个 npm 包</h3><ol>
-<li>minimist 解析 node 命令参数；</li>
-<li>esbuild 用于开发环境的打包；</li>
-<li>typescript</li>
-</ol>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text">pnpm install  -w minimist esbuild typescript // -w 是--workspace-root的缩写 代表根目录中启动 pnpm ，而不是当前的工作目录<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="四、初始化-ts-环境"><a href="#四、初始化-ts-环境" class="headerlink" title="四、初始化 ts 环境"></a>四、初始化 ts 环境</h3><pre class="line-numbers language-text" data-language="text"><code class="language-text">tsc init<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>在生成的 tsconfig.json 文件中添加</p>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
-  <span class="token property">"baseUrl"</span><span class="token operator">:</span> <span class="token string">"."</span><span class="token punctuation">,</span>
-  <span class="token property">"paths"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
-    <span class="token property">"@mini-vue/*"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"packages/*/src/"</span><span class="token punctuation">]</span> <span class="token comment">// 这里的@mini-vue是我们自定义的包名</span>
-  <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="五、编写运行命令"><a href="#五、编写运行命令" class="headerlink" title="五、编写运行命令"></a>五、编写运行命令</h3><p>在 package.json，scripts 下新增命令</p>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"node scripts/dev.js reactivity -f global"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>reactivity 表示需要打包的目录<br>-f 表示打包输入的文件格式（支持三种：cjs、esm、iife）</p>
-<h3 id="六、搭建开发环境"><a href="#六、搭建开发环境" class="headerlink" title="六、搭建开发环境"></a>六、搭建开发环境</h3><p>在项目根目录创建 scripts 目录，专门存放脚本文件</p>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text">|-scripts                    -- 专门存放脚本文件
-    |--dev.js                   -- 开发环境<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>在 dev.js 文件中</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> minimist <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"minimist"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> esbuild <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"esbuild"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> args <span class="token operator">=</span> <span class="token function">minimist</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>argv<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> pkgName <span class="token operator">=</span> args<span class="token punctuation">.</span>_<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// 获取命令行中指定的包名</span>
-
-<span class="token keyword">const</span> f <span class="token operator">=</span> args<span class="token punctuation">.</span>f <span class="token operator">||</span> <span class="token string">"global"</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> pkg <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>
-  __dirname<span class="token punctuation">,</span>
-  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">../packages/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>pkgName<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/package.json</span><span class="token template-punctuation string">`</span></span>
-<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> entry <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">../packages/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>pkgName<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/src/index.ts</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> outfile <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>
-  __dirname<span class="token punctuation">,</span>
-  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">../packages/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>pkgName<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/dist/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>pkgName<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">.</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>f<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">.js</span><span class="token template-punctuation string">`</span></span>
-<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> format <span class="token operator">=</span> f<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"global"</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">"iife"</span> <span class="token operator">:</span> f<span class="token punctuation">;</span>
-
-esbuild
-  <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
-    <span class="token literal-property property">entryPoints</span><span class="token operator">:</span> <span class="token punctuation">[</span>entry<span class="token punctuation">]</span><span class="token punctuation">,</span>
-    outfile<span class="token punctuation">,</span>
-    <span class="token literal-property property">bundle</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-    <span class="token literal-property property">sourcemap</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-    format<span class="token punctuation">,</span> <span class="token comment">// 打包输出的文件格式</span>
-    <span class="token literal-property property">globalName</span><span class="token operator">:</span> pkg<span class="token punctuation">.</span>buildOptions<span class="token punctuation">.</span>name<span class="token punctuation">,</span> <span class="token comment">// iife格式的文件定义的全局变量</span>
-    <span class="token literal-property property">platform</span><span class="token operator">:</span> f<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"cjs"</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">"node"</span> <span class="token operator">:</span> <span class="token string">"browser"</span><span class="token punctuation">,</span>
-    <span class="token literal-property property">watch</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
-      <span class="token function">onRebuild</span><span class="token punctuation">(</span><span class="token parameter">error<span class="token punctuation">,</span> result</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"watch build failed:"</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">else</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"watch build succeeded:"</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"watch..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> process<span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="七、测试项目是否能正常运行"><a href="#七、测试项目是否能正常运行" class="headerlink" title="七、测试项目是否能正常运行"></a>七、测试项目是否能正常运行</h3><p>在根目录下新建</p>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text">|-packages                    -- 模块集合
-    |--reactivity                  -- vue的响应式模块
-        |--src
-            |--index.ts                        -- reactivity模块入口文件
-            |--reactive.ts                     -- 响应式模块
-    |--shared                      -- vue的共享工具类函数
-        |--src
-            |--index.ts                        -- shared模块源码部分<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// shared-index.ts</span>
-<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">isObject</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">obj</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">return</span> <span class="token keyword">typeof</span> obj <span class="token operator">===</span> <span class="token string">"object"</span> <span class="token operator">&amp;&amp;</span> obj <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-<span class="token comment">// reactivity-index.ts</span>
-<span class="token keyword">export</span> <span class="token punctuation">&#123;</span> reactive <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./reactive"</span><span class="token punctuation">;</span>
-<span class="token comment">// reactive.ts</span>
-<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> isObject <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"@mini-vue/shared"</span><span class="token punctuation">;</span>
-<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">reactive</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">obj</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">isObject</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>接下来运行<br><img src="http://cdn.pluto1811.com/forEditor/1654500181395/1654500145806.jpg" alt="1654500145806.jpg"><br>此时在 reactivity 目录下会生成一个 dist 文件，这个就是打包后的产物<br><img src="http://cdn.pluto1811.com/forEditor/1654500334946/1654500325823.jpg" alt="1654500325823.jpg"></p>
-<p>大功告成，我们可以安心的正式开始编码阶段了!</p>
 ]]></content>
   </entry>
   <entry>
@@ -3531,6 +3420,117 @@ export const trigger &#x3D; (target, type, key) &#x3D;&gt; &#123;
   triggerEffects(effects);
 &#125;;
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
+  </entry>
+  <entry>
+    <title>从零实现Vue3.x-项目搭建</title>
+    <url>/pluto/2022/07/20/vue3-02/</url>
+    <content><![CDATA[<p>这是从零实现 Vue3.x 系列的第二篇—<strong>项目的搭建</strong></p>
+<h3 id="一、初始化-pnpm-环境"><a href="#一、初始化-pnpm-环境" class="headerlink" title="一、初始化 pnpm 环境"></a>一、初始化 pnpm 环境</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">npm install <span class="token operator">-</span>g pnpm@<span class="token number">6</span><span class="token punctuation">.</span>x <span class="token comment">// 为什么选择pnpm请移步上一篇</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">pnpm init <span class="token operator">-</span>y<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="二、构建-monorepo-环境"><a href="#二、构建-monorepo-环境" class="headerlink" title="二、构建 monorepo 环境"></a>二、构建 monorepo 环境</h3><p>在项目根目录新建 pnpm-workspace.yaml 文件</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text"> packages
+- 'packages/*'<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="三、必需的几个-npm-包"><a href="#三、必需的几个-npm-包" class="headerlink" title="三、必需的几个 npm 包"></a>三、必需的几个 npm 包</h3><ol>
+<li>minimist 解析 node 命令参数；</li>
+<li>esbuild 用于开发环境的打包；</li>
+<li>typescript</li>
+</ol>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">pnpm install  -w minimist esbuild typescript // -w 是--workspace-root的缩写 代表根目录中启动 pnpm ，而不是当前的工作目录<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="四、初始化-ts-环境"><a href="#四、初始化-ts-环境" class="headerlink" title="四、初始化 ts 环境"></a>四、初始化 ts 环境</h3><pre class="line-numbers language-text" data-language="text"><code class="language-text">tsc init<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在生成的 tsconfig.json 文件中添加</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"baseUrl"</span><span class="token operator">:</span> <span class="token string">"."</span><span class="token punctuation">,</span>
+  <span class="token property">"paths"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"@mini-vue/*"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"packages/*/src/"</span><span class="token punctuation">]</span> <span class="token comment">// 这里的@mini-vue是我们自定义的包名</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="五、编写运行命令"><a href="#五、编写运行命令" class="headerlink" title="五、编写运行命令"></a>五、编写运行命令</h3><p>在 package.json，scripts 下新增命令</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"node scripts/dev.js reactivity -f global"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>reactivity 表示需要打包的目录<br>-f 表示打包输入的文件格式（支持三种：cjs、esm、iife）</p>
+<h3 id="六、搭建开发环境"><a href="#六、搭建开发环境" class="headerlink" title="六、搭建开发环境"></a>六、搭建开发环境</h3><p>在项目根目录创建 scripts 目录，专门存放脚本文件</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">|-scripts                    -- 专门存放脚本文件
+    |--dev.js                   -- 开发环境<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>在 dev.js 文件中</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> minimist <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"minimist"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> esbuild <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"esbuild"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> args <span class="token operator">=</span> <span class="token function">minimist</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>argv<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> pkgName <span class="token operator">=</span> args<span class="token punctuation">.</span>_<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// 获取命令行中指定的包名</span>
+
+<span class="token keyword">const</span> f <span class="token operator">=</span> args<span class="token punctuation">.</span>f <span class="token operator">||</span> <span class="token string">"global"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> pkg <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>
+  __dirname<span class="token punctuation">,</span>
+  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">../packages/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>pkgName<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/package.json</span><span class="token template-punctuation string">`</span></span>
+<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> entry <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">../packages/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>pkgName<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/src/index.ts</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> outfile <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>
+  __dirname<span class="token punctuation">,</span>
+  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">../packages/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>pkgName<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/dist/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>pkgName<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">.</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>f<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">.js</span><span class="token template-punctuation string">`</span></span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> format <span class="token operator">=</span> f<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"global"</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">"iife"</span> <span class="token operator">:</span> f<span class="token punctuation">;</span>
+
+esbuild
+  <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">entryPoints</span><span class="token operator">:</span> <span class="token punctuation">[</span>entry<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    outfile<span class="token punctuation">,</span>
+    <span class="token literal-property property">bundle</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">sourcemap</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">,</span> <span class="token comment">// 打包输出的文件格式</span>
+    <span class="token literal-property property">globalName</span><span class="token operator">:</span> pkg<span class="token punctuation">.</span>buildOptions<span class="token punctuation">.</span>name<span class="token punctuation">,</span> <span class="token comment">// iife格式的文件定义的全局变量</span>
+    <span class="token literal-property property">platform</span><span class="token operator">:</span> f<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"cjs"</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">"node"</span> <span class="token operator">:</span> <span class="token string">"browser"</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">watch</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+      <span class="token function">onRebuild</span><span class="token punctuation">(</span><span class="token parameter">error<span class="token punctuation">,</span> result</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"watch build failed:"</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"watch build succeeded:"</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"watch..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> process<span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="七、测试项目是否能正常运行"><a href="#七、测试项目是否能正常运行" class="headerlink" title="七、测试项目是否能正常运行"></a>七、测试项目是否能正常运行</h3><p>在根目录下新建</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">|-packages                    -- 模块集合
+    |--reactivity                  -- vue的响应式模块
+        |--src
+            |--index.ts                        -- reactivity模块入口文件
+            |--reactive.ts                     -- 响应式模块
+    |--shared                      -- vue的共享工具类函数
+        |--src
+            |--index.ts                        -- shared模块源码部分<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// shared-index.ts</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">isObject</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">obj</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">return</span> <span class="token keyword">typeof</span> obj <span class="token operator">===</span> <span class="token string">"object"</span> <span class="token operator">&amp;&amp;</span> obj <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token comment">// reactivity-index.ts</span>
+<span class="token keyword">export</span> <span class="token punctuation">&#123;</span> reactive <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./reactive"</span><span class="token punctuation">;</span>
+<span class="token comment">// reactive.ts</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> isObject <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"@mini-vue/shared"</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">reactive</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">obj</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">isObject</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>接下来运行<br><img src="http://cdn.pluto1811.com/forEditor/1654500181395/1654500145806.jpg" alt="1654500145806.jpg"><br>此时在 reactivity 目录下会生成一个 dist 文件，这个就是打包后的产物<br><img src="http://cdn.pluto1811.com/forEditor/1654500334946/1654500325823.jpg" alt="1654500325823.jpg"></p>
+<p>大功告成，我们可以安心的正式开始编码阶段了!</p>
 ]]></content>
   </entry>
   <entry>
