@@ -3156,7 +3156,7 @@ postinstall<span aria-hidden="true" class="line-numbers-rows"><span></span><span
 <span class="token property">"@vue/runtime-dom"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p>在 pnpm 模式下 package.json 有一种特殊的写法：”workspace:*“，为了指明这是工作区的依赖，防止自动去 npm 上寻找导致混乱，当使用此协议时，pnpm 将拒绝解析除本地 workspace 包含的 package 之外的任何内容。</p>
-<p>例如，如果 bar 中有 “foo”：”^1.0.0” 的这个依赖项，则 <a href="mailto:&#102;&#x6f;&#111;&#64;&#x31;&#x2e;&#48;&#46;&#x30;">&#102;&#x6f;&#111;&#64;&#x31;&#x2e;&#48;&#46;&#x30;</a> 链接到 bar。 但是，如果 bar 的依赖项中有 “foo”: “2.0.0”，而 <a href="mailto:&#102;&#x6f;&#x6f;&#64;&#x32;&#x2e;&#x30;&#46;&#48;">&#102;&#x6f;&#x6f;&#64;&#x32;&#x2e;&#x30;&#46;&#48;</a> 在工作空间中并不存在，此时会从 npm registry 上安装<a href="mailto:&#102;&#x6f;&#111;&#x40;&#50;&#46;&#x30;&#x2e;&#48;">&#102;&#x6f;&#111;&#x40;&#50;&#46;&#x30;&#x2e;&#48;</a>，如果设置为 “foo”: “workspace:2.0.0” 时，安装将会失败，因为 “<a href="mailto:&#x66;&#111;&#x6f;&#x40;&#50;&#46;&#48;&#x2e;&#48;">&#x66;&#111;&#x6f;&#x40;&#50;&#46;&#48;&#x2e;&#48;</a>“ 不存在于此 workspace 中</p>
+<p>例如，如果 bar 中有 “foo”：”^1.0.0” 的这个依赖项，则 <a href="mailto:&#x66;&#111;&#x6f;&#x40;&#49;&#x2e;&#48;&#x2e;&#48;">&#x66;&#111;&#x6f;&#x40;&#49;&#x2e;&#48;&#x2e;&#48;</a> 链接到 bar。 但是，如果 bar 的依赖项中有 “foo”: “2.0.0”，而 <a href="mailto:&#102;&#111;&#x6f;&#x40;&#x32;&#x2e;&#48;&#x2e;&#48;">&#102;&#111;&#x6f;&#x40;&#x32;&#x2e;&#48;&#x2e;&#48;</a> 在工作空间中并不存在，此时会从 npm registry 上安装<a href="mailto:&#x66;&#111;&#111;&#x40;&#x32;&#x2e;&#48;&#x2e;&#x30;">&#x66;&#111;&#111;&#x40;&#x32;&#x2e;&#48;&#x2e;&#x30;</a>，如果设置为 “foo”: “workspace:2.0.0” 时，安装将会失败，因为 “<a href="mailto:&#x66;&#111;&#111;&#64;&#50;&#46;&#48;&#x2e;&#x30;">&#x66;&#111;&#111;&#64;&#50;&#46;&#48;&#x2e;&#x30;</a>“ 不存在于此 workspace 中</p>
 <ol start="4">
 <li>packages 中每个模块中都有一个 json 文件</li>
 </ol>
@@ -3859,6 +3859,58 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <span class="token function">loadComponent</span><span class="token punctuation">(</span><span class="token string">"provider"</span><span class="token punctuation">,</span> <span class="token string">"utils"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>至此，一个完整的联邦模块配置就搭建完成了。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>深入理解 Web Workers：异步执行与多线程编程</title>
+    <url>/pluto/2024/06/16/webwork/</url>
+    <content><![CDATA[<h1 id="深入理解-Web-Workers：异步执行与多线程编程"><a href="#深入理解-Web-Workers：异步执行与多线程编程" class="headerlink" title="深入理解 Web Workers：异步执行与多线程编程"></a>深入理解 Web Workers：异步执行与多线程编程</h1><p>在现代 Web 应用中, 性能优化是一个永恒的话题。而 Web Workers 提供了一种在浏览器后台独立于主线程运行脚本的方式，这对于避免长时间运行的脚本阻塞用户界面，以及实现复杂计算和数据处理任务非常有帮助。</p>
+<h2 id="什么是-Web-Workers？"><a href="#什么是-Web-Workers？" class="headerlink" title="什么是 Web Workers？"></a>什么是 Web Workers？</h2><p>Web Workers 是一种允许在浏览器中进行多线程编程的技术。它通过创建 Worker 对象来实现，这个对象可以在后台线程上执行脚本，而不会影响页面的性能。这使得开发者能够在不影响用户体验的情况下执行复杂的计算或耗时的任务。</p>
+<h2 id="创建-Web-Worker"><a href="#创建-Web-Worker" class="headerlink" title="创建 Web Worker"></a>创建 Web Worker</h2><p>创建一个 Web Worker 相对简单，只需要使用<code>Worker</code>构造函数，并传入 Worker 脚本的 URL 即可：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> worker <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Worker</span><span class="token punctuation">(</span><span class="token string">"worker.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在上述代码中，<code>worker.js</code>是 Worker 脚本的路径，它将在新的线程中执行。</p>
+<h2 id="通信机制"><a href="#通信机制" class="headerlink" title="通信机制"></a>通信机制</h2><p>虽然 Worker 在独立的线程中运行，但它仍然需要与主线程进行通信。这种通信是基于消息传递的，通过<code>postMessage</code>和<code>onmessage</code>事件来实现。</p>
+<h3 id="发送消息到-Worker"><a href="#发送消息到-Worker" class="headerlink" title="发送消息到 Worker"></a>发送消息到 Worker</h3><p>主线程可以使用<code>worker.postMessage()</code>方法向 Worker 发送消息：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">worker<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> <span class="token literal-property property">data</span><span class="token operator">:</span> <span class="token string">"Hello from main thread!"</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="接收消息"><a href="#接收消息" class="headerlink" title="接收消息"></a>接收消息</h3><p>在 Worker 脚本中，可以监听<code>message</code>事件来接收从主线程发送的消息：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">self<span class="token punctuation">.</span><span class="token function-variable function">onmessage</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Received message:"</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="发送响应"><a href="#发送响应" class="headerlink" title="发送响应"></a>发送响应</h3><p>Worker 也可以使用<code>postMessage</code>方法向主线程发送消息：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">self<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token string">"Hello from worker!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在主线程中，可以通过监听<code>worker</code>对象的<code>message</code>事件来接收响应：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">worker<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"message"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Received response:"</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="示例：使用-Web-Worker-进行异步数据处理"><a href="#示例：使用-Web-Worker-进行异步数据处理" class="headerlink" title="示例：使用 Web Worker 进行异步数据处理"></a>示例：使用 Web Worker 进行异步数据处理</h2><p>假设我们需要对大量数据进行处理，但又不希望阻塞 UI 线程。我们可以创建一个 Worker 来执行这些任务：</p>
+<p><strong>worker.js</strong></p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">self<span class="token punctuation">.</span><span class="token function-variable function">onmessage</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">const</span> data <span class="token operator">=</span> event<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> processedData <span class="token operator">=</span> <span class="token function">processData</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 假设这是一个复杂的数据处理函数</span>
+  self<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span>processedData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>main.js</strong></p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> worker <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Worker</span><span class="token punctuation">(</span><span class="token string">"worker.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">processData</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">// 复杂的处理逻辑</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 向Worker发送数据</span>
+worker<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span>someData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 监听Worker的响应</span>
+worker<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"message"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Processed data:"</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Web Workers 为 Web 开发带来了真正的多线程编程能力，使我们能够构建更加高效、响应迅速的应用。通过合理地利用 Worker，我们可以将耗时的任务移出主线程，从而提升用户体验。</p>
 ]]></content>
   </entry>
 </search>
