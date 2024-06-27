@@ -125,41 +125,6 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 ]]></content>
   </entry>
   <entry>
-    <title>与技术有关的业务理解</title>
-    <url>/pluto/2024/05/27/business/</url>
-    <content><![CDATA[<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>工作多年，一直想写一篇与技术无关的文章。当敲下这篇文章的标题，却突然感觉无从下手。作为一名程序员，要想写一篇关于业务的文章，不亚于让一名业务部门的同学敲一行代码。</p>
-<p>但我还是决定写一篇，因为我觉得这是一个很有意思的领域，业务理解是每个程序员都应该有的能力。业务理解可以帮助我们更好的理解业务，更好的做产品，更好的做决策。</p>
-<h3 id="技术怪圈"><a href="#技术怪圈" class="headerlink" title="技术怪圈"></a>技术怪圈</h3><p>长时间 coding 的同学往往会陷进一个怪圈，技术的学习和应用，被当成了技术的救星，而忽略了业务的理解。这一点在我经历无数次的需求评审后体会尤为深刻。技术同学在接到一个需求后，常常是从技术角度去揣摩需求，甚至于会跟产品经理在会上 battle 技术，就差搬电脑过来当场敲代码了。当接受一个新项目时，老想着将当前最时髦的技术全用上，例如 React Native、Flutter、WebGL 等，但这些更多地是赋予你切换技术栈的能力而非增加你个人总体的技术实力，如果你公司不用 React Native、Flutter、WebGL，那么你会这些也没多大用，也没人会关心。</p>
-<p>如果你公司真的就用这些技术了呢？不好意思，这些又不是什么很难的东西，并不存在技术上的循序渐进，给一个应届生一段时间，他也能学会，一般情况下，一个部门或者团队也不可能用很多种技术栈，技术广度到达一定程度之后，再继续往上增加的意义只会越来越小。</p>
-<p>而无论是技术水平、技术广度、工作经验，它们之所以有价值，归根结底，还是因为它们都有服务业务的能力，所以一切都是围绕着业务展开的，既然无法避免，那么自然是越早学会游戏规则越好。</p>
-<h4 id="什么是业务"><a href="#什么是业务" class="headerlink" title="什么是业务"></a>什么是业务</h4><p>经常有资历更高的同事跟我提起业务这个词，听得多了，我有时候也想去了解它，但总是发现这个东西太虚无缥缈了，编程语言的语法、关键字、设计模式、算法我都可以实实在在地看到并运用，但业务到底是什么？我怎么学？我又该怎么去关注业务？</p>
-<p>业务，简单来说，就是企业为客户提供的某种服务或产品，它是客户的核心竞争力。业务的定义，并不容易界定清晰，因为它涵盖的范围太广，从销售、服务、制造、物流、财务、人力资源、法律、市场营销、战略规划、管理咨询等等。可以说世界上 99.9%的公司都是靠业务赚钱的，或售卖产品与服务，或提供咨询、培训、法律服务等。靠一切合法的商业活动，来产生正向现金流，这是企业活下去的命脉。因此</p>
-<p>在绝大部分情况下，技术都是要为业务提供服务的，这句话蕴含着两层意思</p>
-<p>第一，技术的唯一目的就是支撑业务</p>
-<p>第二，业务并不仅由技术支撑，还包含了其他很多方面</p>
-<h4 id="技术重要吗"><a href="#技术重要吗" class="headerlink" title="技术重要吗"></a>技术重要吗</h4><p>你说一家小面馆没有一帮程序员能不能活下去呢？答案肯定的，我把味道做好照样有人排队购买。但如果我的门店扩张了，做成了一家大型连锁加盟的面馆，那么技术的重要性就体现出来了。信息的传递不能只靠吼了吧？物料的进销存不能只靠 excel 了吧？技术的价值就是体现在降本增效。</p>
-<h4 id="如何赋能业务"><a href="#如何赋能业务" class="headerlink" title="如何赋能业务"></a>如何赋能业务</h4><p>肯定有人会吐槽我说了半天还是啥都没说，没错，确实是这样，很难说清楚业务这个词到底是什么，但工作中处处是业务。下面我想通过业务发展的几个阶段来聊聊这个话题。</p>
-<h5 id="业务验证期"><a href="#业务验证期" class="headerlink" title="业务验证期"></a>业务验证期</h5><p>在这个阶段商业模式还未得到验证，处于产品的试错期。那么技术就需要快速产出，来配合业务的快速试错。别扯什么 vue、react、webpack，就是用 jquery 来实现，快速搞一个 MVP 产品出来也是行的。</p>
-<h5 id="业务成长期"><a href="#业务成长期" class="headerlink" title="业务成长期"></a>业务成长期</h5><p>这个阶段用户已经开始接受产品，访问量越来越大，产品形态已经慢慢成型。但仍然不能掉以轻心。技术需要跟上节奏，快速迭代，来满足用户的需求。随着产品的不断迭代，我们之前欠的技术债也会越积越多。这时候，我们可以逐步考虑系统架构了。</p>
-<p>1、运营页面自动搭建</p>
-<p>运营手段对于 C 端产品来说是很重要的，运营迭代的速度也是影响产品发展最直接但也是最实用的关键因素之一，比如天猫 618 盖楼活动，美团的满减活动等，这些都是很常见的运营手段，几乎任何直面 C 端用户的产品都少不了这些</p>
-<p>而这些运营活动往往是少不了各种各样前端层面的用户玩法，可以说是比较依赖前端的一个业务了，那么作为一名前端开发工程师，如果你的目标只是实现业务方提过来的具体的运营需求，当然也算是合格了，毕竟是完成了自己职责，但可能还不够</p>
-<p>来一个运营页面你就做一个运营页面，来两个你就上两次线，难度倒是没什么难度，就是避免不了要走一遍整套开发流程，于是聪明的人就想到，是否可以把这种固定路径搬砖的行为自动化，于是运营页面自动搭建的概念就出来了，以后运营页面的开发与上线都不需要研发参与了，直接让运营来搞定，又快又稳又好，以前一个运营活动需要评审、排期、开发、验收、上线等多个流程，现在简化到只有验收和上线两个节点，极大地提高了生产力，这就是对业务的成功赋能</p>
-<p>那么你能做什么呢？</p>
-<p>业内知名的运营页面自动搭建项目有很多，例如阿里云凤蝶、阿里飞冰等，但是这些不一定完全适合你的公司，因为运营页面跟具体业务是强相关的，特比是 C 端，业务场景不同，运营页面自然不可能一样，如果你公司并没有这么一套运营页面自动搭建的工具，并且业务上又高度依赖于线上运营，那么这就是你的机会</p>
-<p>2、组件库</p>
-<p>哪怕是在前端刀工火种的时代，Bootstrap 这类前端框架就已经大行其道，到现在前端组件化大行其道，各类前端组件库层出不穷，本质上都是为了提升开发效率，一些通用的 UI 与逻辑拿来即用，作为开发者只需要专心业务逻辑即可</p>
-<p>但也并不是说 iview、ant-design 这些组件库就可以横行无忌了，pc 后台项目还好，但如果是移动端 C 端的产品，对于组件库的选择就需要谨慎很多了，特别是那些知名度较高或者场景较为鲜明的产品，对于风格的要求比较高，被广泛使用的开源组件库并不一定能满足要求，比如，支付宝和微信显然都有自己独特的 UI 风格，开源组件库不可能专门去适配某一个产品的风格，否则就失去了通用性，而支付宝或微信这类具体的 app 也不可能为了省事就放弃自己的风格直接用开源组件库，所以打造专属于自己的组件库就成了一件很明显的事情</p>
-<p>实际上用户量稍微多点的 C 端产品，对于专属组件库都是存在需求的，所以如果你所在公司业务场景主要在移动端，而且你发现还没有专属于公司内部的组件库，那么不要犹豫，马上放手去做，这么明显的事情你不做，早晚有人做</p>
-<p>其他的还有很多，例如脚手架、国际化、工具函数库、性能监控、异常监控、埋点系统等，都是一些有实际需求的东西。</p>
-<h5 id="业务成熟期"><a href="#业务成熟期" class="headerlink" title="业务成熟期"></a>业务成熟期</h5><p>在这个阶段商业模式已得到市场验证，产品已经成熟，迭代不会那么频繁。对于我们技术同学通常会有几件事可以做：</p>
-<p>1、NPS 用户反馈功能，用户的各种需求和问题会通过此反馈到产品那。产品会综合领导和用户的需求做下一个版本设计。我们根据设计开发新版本。</p>
-<p>2、各种性能优化，比如首屏加载时间、页面响应速度、接口请求速度等。关键模块与可维护性低的模块进行代码重构。</p>
-<p>3、深入一线，这件事常常被忽略，但却是技术深入业务理解的关键。我们需要跟业务人员深入沟通，甚至拜访用户，最好添加几个高活用户的联系方式。还别说，我通过这种方式，还真梳理出几个用户体验上的痛点与一些神奇的 bug。</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>随着互联网增量市场见顶与 AI 技术的发展，基础的 coding 工作将会逐步被 AI 取代，单纯的编程能力将会成为历史，而业务理解则是每个程序员都应该有的能力。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>闭包和执行上下文到底是怎么回事？</title>
     <url>/pluto/2022/09/22/clusure/</url>
     <content><![CDATA[<h1 id="show-me-the-code："><a href="#show-me-the-code：" class="headerlink" title="show me the code："></a>show me the code：</h1><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span>
@@ -353,6 +318,41 @@ obj<span class="token punctuation">.</span><span class="token function">say</spa
   <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span>
 <span class="token comment">// let块级作用域，每次循环操作的其实是不同的i。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
+  </entry>
+  <entry>
+    <title>与技术有关的业务理解</title>
+    <url>/pluto/2024/05/27/business/</url>
+    <content><![CDATA[<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>工作多年，一直想写一篇与技术无关的文章。当敲下这篇文章的标题，却突然感觉无从下手。作为一名程序员，要想写一篇关于业务的文章，不亚于让一名业务部门的同学敲一行代码。</p>
+<p>但我还是决定写一篇，因为我觉得这是一个很有意思的领域，业务理解是每个程序员都应该有的能力。业务理解可以帮助我们更好的理解业务，更好的做产品，更好的做决策。</p>
+<h3 id="技术怪圈"><a href="#技术怪圈" class="headerlink" title="技术怪圈"></a>技术怪圈</h3><p>长时间 coding 的同学往往会陷进一个怪圈，技术的学习和应用，被当成了技术的救星，而忽略了业务的理解。这一点在我经历无数次的需求评审后体会尤为深刻。技术同学在接到一个需求后，常常是从技术角度去揣摩需求，甚至于会跟产品经理在会上 battle 技术，就差搬电脑过来当场敲代码了。当接受一个新项目时，老想着将当前最时髦的技术全用上，例如 React Native、Flutter、WebGL 等，但这些更多地是赋予你切换技术栈的能力而非增加你个人总体的技术实力，如果你公司不用 React Native、Flutter、WebGL，那么你会这些也没多大用，也没人会关心。</p>
+<p>如果你公司真的就用这些技术了呢？不好意思，这些又不是什么很难的东西，并不存在技术上的循序渐进，给一个应届生一段时间，他也能学会，一般情况下，一个部门或者团队也不可能用很多种技术栈，技术广度到达一定程度之后，再继续往上增加的意义只会越来越小。</p>
+<p>而无论是技术水平、技术广度、工作经验，它们之所以有价值，归根结底，还是因为它们都有服务业务的能力，所以一切都是围绕着业务展开的，既然无法避免，那么自然是越早学会游戏规则越好。</p>
+<h4 id="什么是业务"><a href="#什么是业务" class="headerlink" title="什么是业务"></a>什么是业务</h4><p>经常有资历更高的同事跟我提起业务这个词，听得多了，我有时候也想去了解它，但总是发现这个东西太虚无缥缈了，编程语言的语法、关键字、设计模式、算法我都可以实实在在地看到并运用，但业务到底是什么？我怎么学？我又该怎么去关注业务？</p>
+<p>业务，简单来说，就是企业为客户提供的某种服务或产品，它是客户的核心竞争力。业务的定义，并不容易界定清晰，因为它涵盖的范围太广，从销售、服务、制造、物流、财务、人力资源、法律、市场营销、战略规划、管理咨询等等。可以说世界上 99.9%的公司都是靠业务赚钱的，或售卖产品与服务，或提供咨询、培训、法律服务等。靠一切合法的商业活动，来产生正向现金流，这是企业活下去的命脉。因此</p>
+<p>在绝大部分情况下，技术都是要为业务提供服务的，这句话蕴含着两层意思</p>
+<p>第一，技术的唯一目的就是支撑业务</p>
+<p>第二，业务并不仅由技术支撑，还包含了其他很多方面</p>
+<h4 id="技术重要吗"><a href="#技术重要吗" class="headerlink" title="技术重要吗"></a>技术重要吗</h4><p>你说一家小面馆没有一帮程序员能不能活下去呢？答案肯定的，我把味道做好照样有人排队购买。但如果我的门店扩张了，做成了一家大型连锁加盟的面馆，那么技术的重要性就体现出来了。信息的传递不能只靠吼了吧？物料的进销存不能只靠 excel 了吧？技术的价值就是体现在降本增效。</p>
+<h4 id="如何赋能业务"><a href="#如何赋能业务" class="headerlink" title="如何赋能业务"></a>如何赋能业务</h4><p>肯定有人会吐槽我说了半天还是啥都没说，没错，确实是这样，很难说清楚业务这个词到底是什么，但工作中处处是业务。下面我想通过业务发展的几个阶段来聊聊这个话题。</p>
+<h5 id="业务验证期"><a href="#业务验证期" class="headerlink" title="业务验证期"></a>业务验证期</h5><p>在这个阶段商业模式还未得到验证，处于产品的试错期。那么技术就需要快速产出，来配合业务的快速试错。别扯什么 vue、react、webpack，就是用 jquery 来实现，快速搞一个 MVP 产品出来也是行的。</p>
+<h5 id="业务成长期"><a href="#业务成长期" class="headerlink" title="业务成长期"></a>业务成长期</h5><p>这个阶段用户已经开始接受产品，访问量越来越大，产品形态已经慢慢成型。但仍然不能掉以轻心。技术需要跟上节奏，快速迭代，来满足用户的需求。随着产品的不断迭代，我们之前欠的技术债也会越积越多。这时候，我们可以逐步考虑系统架构了。</p>
+<p>1、运营页面自动搭建</p>
+<p>运营手段对于 C 端产品来说是很重要的，运营迭代的速度也是影响产品发展最直接但也是最实用的关键因素之一，比如天猫 618 盖楼活动，美团的满减活动等，这些都是很常见的运营手段，几乎任何直面 C 端用户的产品都少不了这些</p>
+<p>而这些运营活动往往是少不了各种各样前端层面的用户玩法，可以说是比较依赖前端的一个业务了，那么作为一名前端开发工程师，如果你的目标只是实现业务方提过来的具体的运营需求，当然也算是合格了，毕竟是完成了自己职责，但可能还不够</p>
+<p>来一个运营页面你就做一个运营页面，来两个你就上两次线，难度倒是没什么难度，就是避免不了要走一遍整套开发流程，于是聪明的人就想到，是否可以把这种固定路径搬砖的行为自动化，于是运营页面自动搭建的概念就出来了，以后运营页面的开发与上线都不需要研发参与了，直接让运营来搞定，又快又稳又好，以前一个运营活动需要评审、排期、开发、验收、上线等多个流程，现在简化到只有验收和上线两个节点，极大地提高了生产力，这就是对业务的成功赋能</p>
+<p>那么你能做什么呢？</p>
+<p>业内知名的运营页面自动搭建项目有很多，例如阿里云凤蝶、阿里飞冰等，但是这些不一定完全适合你的公司，因为运营页面跟具体业务是强相关的，特比是 C 端，业务场景不同，运营页面自然不可能一样，如果你公司并没有这么一套运营页面自动搭建的工具，并且业务上又高度依赖于线上运营，那么这就是你的机会</p>
+<p>2、组件库</p>
+<p>哪怕是在前端刀工火种的时代，Bootstrap 这类前端框架就已经大行其道，到现在前端组件化大行其道，各类前端组件库层出不穷，本质上都是为了提升开发效率，一些通用的 UI 与逻辑拿来即用，作为开发者只需要专心业务逻辑即可</p>
+<p>但也并不是说 iview、ant-design 这些组件库就可以横行无忌了，pc 后台项目还好，但如果是移动端 C 端的产品，对于组件库的选择就需要谨慎很多了，特别是那些知名度较高或者场景较为鲜明的产品，对于风格的要求比较高，被广泛使用的开源组件库并不一定能满足要求，比如，支付宝和微信显然都有自己独特的 UI 风格，开源组件库不可能专门去适配某一个产品的风格，否则就失去了通用性，而支付宝或微信这类具体的 app 也不可能为了省事就放弃自己的风格直接用开源组件库，所以打造专属于自己的组件库就成了一件很明显的事情</p>
+<p>实际上用户量稍微多点的 C 端产品，对于专属组件库都是存在需求的，所以如果你所在公司业务场景主要在移动端，而且你发现还没有专属于公司内部的组件库，那么不要犹豫，马上放手去做，这么明显的事情你不做，早晚有人做</p>
+<p>其他的还有很多，例如脚手架、国际化、工具函数库、性能监控、异常监控、埋点系统等，都是一些有实际需求的东西。</p>
+<h5 id="业务成熟期"><a href="#业务成熟期" class="headerlink" title="业务成熟期"></a>业务成熟期</h5><p>在这个阶段商业模式已得到市场验证，产品已经成熟，迭代不会那么频繁。对于我们技术同学通常会有几件事可以做：</p>
+<p>1、NPS 用户反馈功能，用户的各种需求和问题会通过此反馈到产品那。产品会综合领导和用户的需求做下一个版本设计。我们根据设计开发新版本。</p>
+<p>2、各种性能优化，比如首屏加载时间、页面响应速度、接口请求速度等。关键模块与可维护性低的模块进行代码重构。</p>
+<p>3、深入一线，这件事常常被忽略，但却是技术深入业务理解的关键。我们需要跟业务人员深入沟通，甚至拜访用户，最好添加几个高活用户的联系方式。还别说，我通过这种方式，还真梳理出几个用户体验上的痛点与一些神奇的 bug。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>随着互联网增量市场见顶与 AI 技术的发展，基础的 coding 工作将会逐步被 AI 取代，单纯的编程能力将会成为历史，而业务理解则是每个程序员都应该有的能力。</p>
 ]]></content>
   </entry>
   <entry>
@@ -1234,6 +1234,101 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>这里 foo2 用 await 调用了两次异步函数 foo，可以看到，如果我们把 sleep 这样的异步操作放入某一个框架或者库中，使用者几乎不需要了解 Promise 的概念即可进行异步编程了。</p>
 <p>此外，generator&#x2F;iterator 也常常被跟异步一起来讲，我们必须说明 generator&#x2F;iterator 并非异步代码，只是在缺少 async&#x2F;await 的时候，一些框架（最著名的要数 co）使用这样的特性来模拟 async&#x2F;await。</p>
 <p>但是 generator 并非被设计成实现异步，所以有了 async&#x2F;await 之后，generator&#x2F;iterator 来模拟异步的方法应该被废弃。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>前端性能优化-01</title>
+    <url>/pluto/2024/06/27/opt01/</url>
+    <content><![CDATA[<h1 id="深入理解前端性能优化：代码分割、懒加载与监控"><a href="#深入理解前端性能优化：代码分割、懒加载与监控" class="headerlink" title="深入理解前端性能优化：代码分割、懒加载与监控"></a>深入理解前端性能优化：代码分割、懒加载与监控</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>前端性能优化是构建快速、高效 Web 应用的关键。本次分享将深入探讨代码分割、懒加载技术，以及如何使用现代浏览器 API 和工具进行性能监控。</p>
+<h2 id="代码分割-Code-Splitting"><a href="#代码分割-Code-Splitting" class="headerlink" title="代码分割(Code Splitting)"></a>代码分割(Code Splitting)</h2><p>代码分割通过将代码拆分成多个包，实现按需加载，减少初始加载时间。</p>
+<h3 id="Webpack-配置示例与关键注释"><a href="#Webpack-配置示例与关键注释" class="headerlink" title="Webpack 配置示例与关键注释"></a>Webpack 配置示例与关键注释</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// webpack.config.js</span>
+<span class="token keyword">const</span> HtmlWebpackPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"html-webpack-plugin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">entry</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">main</span><span class="token operator">:</span> <span class="token string">"./src/index.js"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token keyword">new</span> <span class="token class-name">HtmlWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+      <span class="token literal-property property">template</span><span class="token operator">:</span> <span class="token string">"./src/index.html"</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">optimization</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">splitChunks</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+      <span class="token literal-property property">chunks</span><span class="token operator">:</span> <span class="token string">"all"</span><span class="token punctuation">,</span> <span class="token comment">// 所有chunks进行分割</span>
+      <span class="token literal-property property">minSize</span><span class="token operator">:</span> <span class="token number">20000</span><span class="token punctuation">,</span> <span class="token comment">// 模块最小大小</span>
+      <span class="token literal-property property">maxSize</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token comment">// 最大大小限制</span>
+      <span class="token literal-property property">minChunks</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token comment">// 模块共享的最小chunks数</span>
+      <span class="token literal-property property">maxAsyncRequests</span><span class="token operator">:</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token comment">// 异步加载的最大请求数</span>
+      <span class="token literal-property property">maxInitialRequests</span><span class="token operator">:</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token comment">// 初始加载的最大请求数</span>
+      <span class="token literal-property property">automaticNameDelimiter</span><span class="token operator">:</span> <span class="token string">"~"</span><span class="token punctuation">,</span> <span class="token comment">// 自动生成chunks名称分隔符</span>
+      <span class="token literal-property property">cacheGroups</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">defaultVendors</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+          <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">[\\/]node_modules[\\/]</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span> <span class="token comment">// 匹配node_modules中的模块</span>
+          <span class="token literal-property property">priority</span><span class="token operator">:</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">reuseExistingChunk</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token keyword">default</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+          <span class="token literal-property property">minChunks</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">priority</span><span class="token operator">:</span> <span class="token operator">-</span><span class="token number">20</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">reuseExistingChunk</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="懒加载-Lazy-Loading"><a href="#懒加载-Lazy-Loading" class="headerlink" title="懒加载(Lazy Loading)"></a>懒加载(Lazy Loading)</h2><p>懒加载技术可以应用于路由和资源加载，减少应用的资源消耗。</p>
+<h3 id="图片懒加载：Intersection-Observer-API"><a href="#图片懒加载：Intersection-Observer-API" class="headerlink" title="图片懒加载：Intersection Observer API"></a>图片懒加载：Intersection Observer API</h3><p>使用<code>Intersection Observer API</code>实现图片懒加载，仅在图片进入可视区域时加载。</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token comment">&lt;!-- index.html --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>lazyload<span class="token punctuation">"</span></span> <span class="token attr-name">data-src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>actual-image.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Description<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// lazyload.js</span>
+document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"DOMContentLoaded"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">const</span> images <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelectorAll</span><span class="token punctuation">(</span><span class="token string">"img.lazyload"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> imageObserver <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">IntersectionObserver</span><span class="token punctuation">(</span>
+    <span class="token punctuation">(</span><span class="token parameter">entries<span class="token punctuation">,</span> observer</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+      entries<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">entry</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>entry<span class="token punctuation">.</span>isIntersecting<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+          <span class="token keyword">const</span> img <span class="token operator">=</span> entry<span class="token punctuation">.</span>target<span class="token punctuation">;</span>
+          <span class="token keyword">const</span> src <span class="token operator">=</span> img<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">"data-src"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          img<span class="token punctuation">.</span>src <span class="token operator">=</span> src<span class="token punctuation">;</span>
+          observer<span class="token punctuation">.</span><span class="token function">unobserve</span><span class="token punctuation">(</span>img<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token literal-property property">rootMargin</span><span class="token operator">:</span> <span class="token string">"0px"</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">threshold</span><span class="token operator">:</span> <span class="token number">0.01</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  images<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">image</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    imageObserver<span class="token punctuation">.</span><span class="token function">observe</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="性能监控"><a href="#性能监控" class="headerlink" title="性能监控"></a>性能监控</h2><h3 id="使用工具"><a href="#使用工具" class="headerlink" title="使用工具"></a>使用工具</h3><ol>
+<li><strong>Lighthouse</strong>: Chrome DevTools 的 Lighthouse，用于性能评估和优化建议。</li>
+<li><strong>Webpack Bundle Analyzer</strong>: 可视化分析 Webpack 输出的 bundle 内容。</li>
+</ol>
+<h3 id="Lighthouse-使用示例"><a href="#Lighthouse-使用示例" class="headerlink" title="Lighthouse 使用示例"></a>Lighthouse 使用示例</h3><p>运行 Lighthouse 测试，评估页面性能。</p>
+<h3 id="Webpack-Bundle-Analyzer-使用示例"><a href="#Webpack-Bundle-Analyzer-使用示例" class="headerlink" title="Webpack Bundle Analyzer 使用示例"></a>Webpack Bundle Analyzer 使用示例</h3><p>配置 Webpack Bundle Analyzer，分析 bundle 内容。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// webpack.config.js</span>
+<span class="token keyword">const</span> BundleAnalyzerPlugin <span class="token operator">=</span>
+  <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"webpack-bundle-analyzer"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>BundleAnalyzerPlugin<span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">// ...其他配置</span>
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token comment">// ...其他插件</span>
+    <span class="token keyword">new</span> <span class="token class-name">BundleAnalyzerPlugin</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+      <span class="token literal-property property">openAnalyzer</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>通过代码分割和懒加载技术，结合现代浏览器 API 和性能监控工具，我们可以显著提升 Web 应用的性能。这些技术不仅减少了应用的资源消耗，还提高了用户体验。</p>
 ]]></content>
   </entry>
   <entry>
@@ -3241,7 +3336,7 @@ postinstall<span aria-hidden="true" class="line-numbers-rows"><span></span><span
 <span class="token property">"@vue/runtime-dom"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p>在 pnpm 模式下 package.json 有一种特殊的写法：”workspace:*“，为了指明这是工作区的依赖，防止自动去 npm 上寻找导致混乱，当使用此协议时，pnpm 将拒绝解析除本地 workspace 包含的 package 之外的任何内容。</p>
-<p>例如，如果 bar 中有 “foo”：”^1.0.0” 的这个依赖项，则 <a href="mailto:&#102;&#111;&#x6f;&#x40;&#49;&#x2e;&#x30;&#46;&#48;">&#102;&#111;&#x6f;&#x40;&#49;&#x2e;&#x30;&#46;&#48;</a> 链接到 bar。 但是，如果 bar 的依赖项中有 “foo”: “2.0.0”，而 <a href="mailto:&#x66;&#111;&#111;&#x40;&#50;&#46;&#x30;&#46;&#48;">&#x66;&#111;&#111;&#x40;&#50;&#46;&#x30;&#46;&#48;</a> 在工作空间中并不存在，此时会从 npm registry 上安装<a href="mailto:&#x66;&#111;&#111;&#x40;&#50;&#x2e;&#x30;&#46;&#48;">&#x66;&#111;&#111;&#x40;&#50;&#x2e;&#x30;&#46;&#48;</a>，如果设置为 “foo”: “workspace:2.0.0” 时，安装将会失败，因为 “<a href="mailto:&#x66;&#x6f;&#x6f;&#x40;&#50;&#x2e;&#48;&#x2e;&#48;">&#x66;&#x6f;&#x6f;&#x40;&#50;&#x2e;&#48;&#x2e;&#48;</a>“ 不存在于此 workspace 中</p>
+<p>例如，如果 bar 中有 “foo”：”^1.0.0” 的这个依赖项，则 <a href="mailto:&#x66;&#111;&#111;&#x40;&#49;&#46;&#48;&#x2e;&#48;">&#x66;&#111;&#111;&#x40;&#49;&#46;&#48;&#x2e;&#48;</a> 链接到 bar。 但是，如果 bar 的依赖项中有 “foo”: “2.0.0”，而 <a href="mailto:&#x66;&#x6f;&#111;&#64;&#x32;&#x2e;&#x30;&#46;&#48;">&#x66;&#x6f;&#111;&#64;&#x32;&#x2e;&#x30;&#46;&#48;</a> 在工作空间中并不存在，此时会从 npm registry 上安装<a href="mailto:&#102;&#111;&#111;&#64;&#x32;&#x2e;&#48;&#46;&#x30;">&#102;&#111;&#111;&#64;&#x32;&#x2e;&#48;&#46;&#x30;</a>，如果设置为 “foo”: “workspace:2.0.0” 时，安装将会失败，因为 “<a href="mailto:&#102;&#x6f;&#x6f;&#64;&#x32;&#x2e;&#48;&#x2e;&#x30;">&#102;&#x6f;&#x6f;&#64;&#x32;&#x2e;&#48;&#x2e;&#x30;</a>“ 不存在于此 workspace 中</p>
 <ol start="4">
 <li>packages 中每个模块中都有一个 json 文件</li>
 </ol>
