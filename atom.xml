@@ -6,7 +6,7 @@
   <link href="https://damntime.github.io/pluto/atom.xml" rel="self"/>
   
   <link href="https://damntime.github.io/pluto/"/>
-  <updated>2024-06-30T07:25:18.512Z</updated>
+  <updated>2024-10-16T13:11:17.339Z</updated>
   <id>https://damntime.github.io/pluto/</id>
   
   <author>
@@ -17,11 +17,32 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Next.js 那些事儿</title>
+    <link href="https://damntime.github.io/pluto/2024/07/05/nextopt/"/>
+    <id>https://damntime.github.io/pluto/2024/07/05/nextopt/</id>
+    <published>2024-07-05T04:20:55.000Z</published>
+    <updated>2024-10-16T13:11:17.339Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Next.js 是一款基于 React 的服务端渲染框架，它可以帮助我们快速开发出具有高性能的 Web 应用。使用 Next.js</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>前端性能优化-02</title>
     <link href="https://damntime.github.io/pluto/2024/06/30/opt02/"/>
     <id>https://damntime.github.io/pluto/2024/06/30/opt02/</id>
     <published>2024-06-30T07:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -42,7 +63,7 @@
     <link href="https://damntime.github.io/pluto/2024/06/27/opt01/"/>
     <id>https://damntime.github.io/pluto/2024/06/27/opt01/</id>
     <published>2024-06-27T02:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -63,7 +84,7 @@
     <link href="https://damntime.github.io/pluto/2024/06/18/seo/"/>
     <id>https://damntime.github.io/pluto/2024/06/18/seo/</id>
     <published>2024-06-18T03:26:58.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -84,7 +105,7 @@
     <link href="https://damntime.github.io/pluto/2024/06/16/webwork/"/>
     <id>https://damntime.github.io/pluto/2024/06/16/webwork/</id>
     <published>2024-06-16T06:26:58.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.343Z</updated>
     
     
       
@@ -105,7 +126,7 @@
     <link href="https://damntime.github.io/pluto/2024/05/27/business/"/>
     <id>https://damntime.github.io/pluto/2024/05/27/business/</id>
     <published>2024-05-27T05:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -126,7 +147,7 @@
     <link href="https://damntime.github.io/pluto/2022/10/25/me2022-10/"/>
     <id>https://damntime.github.io/pluto/2022/10/25/me2022-10/</id>
     <published>2022-10-25T05:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -148,7 +169,7 @@
     <link href="https://damntime.github.io/pluto/2022/10/25/promise/"/>
     <id>https://damntime.github.io/pluto/2022/10/25/promise/</id>
     <published>2022-10-25T05:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -170,7 +191,7 @@
     <link href="https://damntime.github.io/pluto/2022/10/23/jsobject/"/>
     <id>https://damntime.github.io/pluto/2022/10/23/jsobject/</id>
     <published>2022-10-23T05:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -192,7 +213,7 @@
     <link href="https://damntime.github.io/pluto/2022/10/19/hexo-ci/"/>
     <id>https://damntime.github.io/pluto/2022/10/19/hexo-ci/</id>
     <published>2022-10-19T06:20:58.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -213,7 +234,7 @@
     <link href="https://damntime.github.io/pluto/2022/10/16/jstyping/"/>
     <id>https://damntime.github.io/pluto/2022/10/16/jstyping/</id>
     <published>2022-10-16T05:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -234,7 +255,7 @@
     <link href="https://damntime.github.io/pluto/2022/10/15/gerrit/"/>
     <id>https://damntime.github.io/pluto/2022/10/15/gerrit/</id>
     <published>2022-10-15T06:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -259,7 +280,7 @@
     <link href="https://damntime.github.io/pluto/2022/10/08/webpack5/"/>
     <id>https://damntime.github.io/pluto/2022/10/08/webpack5/</id>
     <published>2022-10-08T09:26:58.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.343Z</updated>
     
     
     <summary type="html">&lt;h3 id=&quot;webpack5-新特性：&quot;&gt;&lt;a href=&quot;#webpack5-新特性：&quot; class=&quot;headerlink&quot; title=&quot;webpack5 新特性：&quot;&gt;&lt;/a&gt;webpack5 新特性：&lt;/h3&gt;&lt;ul&gt;
@@ -277,7 +298,7 @@
     <link href="https://damntime.github.io/pluto/2022/10/08/valueOf/"/>
     <id>https://damntime.github.io/pluto/2022/10/08/valueOf/</id>
     <published>2022-10-08T09:18:26.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
     <summary type="html">&lt;h3 id=&quot;基本概念&quot;&gt;&lt;a href=&quot;#基本概念&quot; class=&quot;headerlink&quot; title=&quot;基本概念&quot;&gt;&lt;/a&gt;基本概念&lt;/h3&gt;&lt;p&gt;valueOf: 返回对象的原始值表示&lt;br&gt;toString: 返回对象的字符串表示&lt;br&gt;toPrimitive: 一个内置的 Symbol 值，它是作为对象的函数值属性存在的，如果对象中存在个属性时，当一个对象转换为对应的原始值时，会优先调用此函数&lt;/p&gt;</summary>
@@ -292,7 +313,7 @@
     <link href="https://damntime.github.io/pluto/2022/09/24/trycatch/"/>
     <id>https://damntime.github.io/pluto/2022/09/24/trycatch/</id>
     <published>2022-09-24T05:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -313,7 +334,7 @@
     <link href="https://damntime.github.io/pluto/2022/09/22/clusure/"/>
     <id>https://damntime.github.io/pluto/2022/09/22/clusure/</id>
     <published>2022-09-22T05:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -334,7 +355,7 @@
     <link href="https://damntime.github.io/pluto/2022/09/21/scripttag/"/>
     <id>https://damntime.github.io/pluto/2022/09/21/scripttag/</id>
     <published>2022-09-21T05:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -355,7 +376,7 @@
     <link href="https://damntime.github.io/pluto/2022/09/15/css-selector/"/>
     <id>https://damntime.github.io/pluto/2022/09/15/css-selector/</id>
     <published>2022-09-15T05:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -378,7 +399,7 @@
     <link href="https://damntime.github.io/pluto/2022/09/09/headtag/"/>
     <id>https://damntime.github.io/pluto/2022/09/09/headtag/</id>
     <published>2022-09-09T05:20:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -399,7 +420,7 @@
     <link href="https://damntime.github.io/pluto/2022/09/05/qiankun01/"/>
     <id>https://damntime.github.io/pluto/2022/09/05/qiankun01/</id>
     <published>2022-09-05T05:10:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
+    <updated>2024-10-16T13:11:17.339Z</updated>
     
     
       
@@ -407,27 +428,6 @@
         
         
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;&lt;font color=&quot;#ec5d3&quot; bgcolor=&quot;#fdf5f5&quot;&gt;qiankun&lt;/font&gt; 是基于 single-spa</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>qiankun源码解读-框架源码篇</title>
-    <link href="https://damntime.github.io/pluto/2022/09/02/qiankun02/"/>
-    <id>https://damntime.github.io/pluto/2022/09/02/qiankun02/</id>
-    <published>2022-09-02T02:10:55.000Z</published>
-    <updated>2024-06-30T07:25:18.512Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;框架源码&quot;&gt;&lt;a href=&quot;#框架源码&quot; class=&quot;headerlink&quot; title=&quot;框架源码&quot;&gt;&lt;/a&gt;框架源码&lt;/h1&gt;&lt;p&gt;整个框架的源码目录是 src，入口文件是 &lt;font color=&quot;#ec5d3c&quot;</summary>
         
       
     
